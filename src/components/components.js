@@ -1,0 +1,26 @@
+import Vue from 'vue'
+
+import { XHeader } from 'vux'
+import { Grid, GridItem } from 'vux'
+import { Flexbox, FlexboxItem } from 'vux'
+import { Swiper, SwiperItem } from 'vux'
+import { Scroller } from 'vux'
+import { XTable } from 'vux'
+import { Group } from 'vux'
+import { XTextarea } from 'vux'
+import { XButton } from 'vux'
+
+
+
+Vue.component('x-header', XHeader)
+Vue.component('grid', Grid)
+Vue.component('grid-item', GridItem)
+Vue.component('flexbox', Flexbox)
+Vue.component('flexbox-item', FlexboxItem)
+Vue.component('swiper', Swiper)
+Vue.component('swiper-item', SwiperItem)
+Vue.component('scroller', Scroller)
+Vue.component('x-table', XTable)
+Vue.component('group', Group)
+Vue.component('x-textarea', XTextarea)
+Vue.component('x-button', XButton)

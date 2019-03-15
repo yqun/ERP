@@ -1,0 +1,18 @@
+/* 清除浮动 */
+.clearfix::before, .clearfix::after {
+  content: '';
+  overflow: hidden;
+  display: table;
+  height: 0;
+}
+.clearfix::after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+}
+
+ul > li {
+  list-style: none;
+}
+
