@@ -9,6 +9,10 @@ import { XTable } from 'vux'
 import { Group } from 'vux'
 import { XTextarea } from 'vux'
 import { XButton } from 'vux'
+import { Tab, TabItem } from 'vux'
+import { Confirm } from 'vux'
+
+
 
 
 
@@ -24,3 +28,6 @@ Vue.component('x-table', XTable)
 Vue.component('group', Group)
 Vue.component('x-textarea', XTextarea)
 Vue.component('x-button', XButton)
+Vue.component('tab', Tab)
+Vue.component('tab-item', TabItem)
+Vue.component('confirm', Confirm)

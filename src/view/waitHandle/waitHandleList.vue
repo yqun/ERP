@@ -15,13 +15,13 @@
       <scroller lock-x height="93%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
-            <li class="listItem clearfix" v-for="i in 5" :key="i" @click="$router.push({path: '/waitHandleItem', query: {id: i}})">
+            <li class="listItem clearfix" v-for="i in 15" :key="i" @click="$router.push({path: '/waitHandleItem', query: {id: i}})">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
                 <h4 style="float: left;">北京市中关村第一小学机房建设项目</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
                 <button style="float: right;">未审核</button>
               </div>
-              <div class="clearfix">
+              <div class="clearfix p">
                 <span style="float: left;">X1234567</span>
                 <span style="float: right;">￥20000.00</span>
               </div>

@@ -18,7 +18,7 @@
             <img slot="icon" src="../assets/images/697d11c73f391af74e3bc5b31ec433f.png">
             <span slot="label">我发起的</span>
           </grid-item>
-          <grid-item class="statusItem" link="/waithandle">
+          <grid-item class="statusItem" link="waitHandle">
             <i v-if="waitHandleNum">{{waitHandleNum}}</i>
             <img slot="icon" src="../assets/images/4cdb9e3da1522ef57d3c7c61c3cae54.png">
             <span slot="label">待处理</span>
@@ -37,14 +37,20 @@
           <!-- 第一页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
-              <grid-item>
-                <img slot="icon" src="../assets/images/application/组36@2x.png" style="">
-                <span slot="label">报销(业务)</span>
+              <!-- 业务报销 -->
+              <grid-item link="/serviceExpenseList">
+                <img slot="icon" src="../assets/images/application/组36@2x.png">
+                <span slot="label">业务报销</span>
               </grid-item>
-              <grid-item>
-                <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
-                <span slot="label">报销(平台)</span>
+              <!-- 合同审批 -->
+              <grid-item link="">
+                <img slot="icon" src="../assets/images/application/组18@2x.png">
+                <span slot="label">合同审批</span>
               </grid-item>
+              <!--<grid-item>-->
+                <!--<img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">-->
+                <!--<span slot="label">平台报销</span>-->
+              <!--</grid-item>-->
             </grid>
           </swiper-item>
           <!--<swiper-item></swiper-item>-->
@@ -60,14 +66,40 @@ export default {
   name: "home",
   data() {
     return {
-      waitHandleNum: '99',
+      waitHandleNum: 0,
     }
   },
   created() {
-    console.log(this)
+    this.getUserInfo()
   },
   methods: {
-
+    // 获取 用户认证信息
+    getUserInfo() {
+      const code = this.$route.query.code || 1
+      this.axios
+        .get(`/wechatErp/initialAccreditation?code=${code}`)
+        .then(res => {
+          // console.log(res)
+          const {data} = res
+          if (data != null) {
+            window.sessionStorage.setItem('data', JSON.stringify(data))
+            this.getWaitHandle(data)
+          }
+        })
+    },
+    // 获取待处理总数
+    getWaitHandle({loginName, password}) {
+      const data = {
+        'loginName': loginName ,
+        'password': password,
+      }
+      this.axios
+        .get('wechatErp/getBacklogCount', {params:data})
+        .then(res => {
+          // console.log(res)
+          this.waitHandleNum = (res.data > 99)? '99+':res.data
+        })
+    }　
   },
 }
 </script>
@@ -122,6 +154,7 @@ export default {
   padding: 0px 0.1rem;
   border-radius: 0.15rem;
   font-size: 0.2rem;
+  color: #fff;
   position: absolute;
   top: 5%;
   left: 54%;
@@ -152,7 +185,7 @@ export default {
 .applicationItem a.weui-grid >>> .weui-grid__icon {
   padding-top: 15px;
   box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
+  /*border-bottom: 1px solid #ccc;*/
   position: relative;
 }
 .applicationItem img {

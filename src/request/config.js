@@ -2,7 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import queryString from 'querystring'
 
-const urlStr = '/'
+const urlStr = 'http://10.1.0.142:8080/platformServer/'
+
 const Http = axios.create({
   baseURL: urlStr,
   timeout: 100000,
@@ -16,8 +17,11 @@ const Http = axios.create({
 
 Http.interceptors.request.use(function (config) {
   // 设置全局token
-  const AUTH_TOKEN = window.sessionStorage.getItem('token')
-  config.headers.common['token'] = AUTH_TOKEN;
+  const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
+  if (!AUTH_TOKEN) return config;
+  config.headers.common['loginName'] = AUTH_TOKEN.loginName;
+  config.headers.common['password'] = AUTH_TOKEN.password;
+
   return config;
 }, function (error) {
 

@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/view/home'
-// 待处理
-import WaitHandle from '@/view/waitHandle/waithandle'
-import WaitHandleList from '@/view/waitHandle/waitHandleList'
-import WaitHandleItem from '@/view/waitHandle/waitHandleItem'
 
-
+// 待处理 路由配置
+import waitHandleRouter from '@/router/waitHandleRouter'
+// 业务报销
+import serviceExpense from '@/router/serviceExpenseRouter'
 
 
 Vue.use(Router)
@@ -15,16 +14,21 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {path: '/', name: 'home', component: Home},
-    {path: '/waithandle', name: 'waitHandle', component: WaitHandle},
-    {path: '/waithandlelist', name: 'waitHandleList', component: WaitHandleList},
-    {path: '/waithandleItem', name: 'waitHandleItem', component: WaitHandleItem},
+    ...waitHandleRouter,
+    ...serviceExpense,
   ]
 });
 
 
 
 router.beforeEach((to, from, next) => {
-  next()
+  // console.log(document.title)
+  if (to.path == '/') {
+    next()
+  } else {
+    // const data = JSON.parse(sessionStorage.getItem('data'))
+    next()
+  }
 
 })
 
