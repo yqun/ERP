@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  name: "waitHandleItem",
+  name: "writeContract",
   data() {
     return {
       approvalOpinion: '', // 审批意见

@@ -5,8 +5,8 @@ import FastClick from 'fastclick'
 import App from './App'
 import router from './router/index'
 import Axios from './request/config'
-// import ElementUi from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css';
+import ElementUi from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
 
 // 全局
 import '@/components/components.js'
@@ -17,7 +17,7 @@ import '@/assets/css/comment.css'
 
 
 Vue.use(Axios)
-// Vue.use(ElementUi)
+Vue.use(ElementUi)
 
 
 FastClick.attach(document.body)

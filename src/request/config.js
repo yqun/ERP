@@ -2,7 +2,9 @@ import Vue from 'vue'
 import axios from 'axios'
 import queryString from 'querystring'
 
-const urlStr = 'http://10.1.0.142:8080/platformServer/'
+// const urlStr = 'http://10.1.0.142:8080/platformServer/'
+const urlStr = 'http://10.1.0.225:8080/platformServer/'
+// const urlStr = 'http://imp.kingtop.com.cn:8080/platformServer/'
 
 const Http = axios.create({
   baseURL: urlStr,
@@ -17,10 +19,10 @@ const Http = axios.create({
 
 Http.interceptors.request.use(function (config) {
   // 设置全局token
-  const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
-  if (!AUTH_TOKEN) return config;
-  config.headers.common['loginName'] = AUTH_TOKEN.loginName;
-  config.headers.common['password'] = AUTH_TOKEN.password;
+  // const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
+  // if (!AUTH_TOKEN) return config;
+  // config.headers.common['loginName'] = AUTH_TOKEN.loginName;
+  // config.headers.common['password'] = AUTH_TOKEN.password;
 
   return config;
 }, function (error) {

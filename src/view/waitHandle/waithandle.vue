@@ -9,26 +9,26 @@
     <div class="main">
       <!-- 按钮 -->
       <ul class="clearfix">
-        <li class="waitHandleItem" @click="$router.push({path: '/waitHandleList'})">
-          <h3>11</h3>
+        <li class="waitHandleItem" @click="$router.push({path: '/contractList'})">
+          <h3>{{ContractSum}}</h3>
           <p>合同审批</p>
         </li>
-        <li class="waitHandleItem">
-          <h3>3</h3>
-          <p>采购变更</p>
-        </li>
-        <li class="waitHandleItem">
-          <h3>17</h3>
-          <p>核算</p>
-        </li>
-        <li class="waitHandleItem">
-          <h3>9</h3>
-          <p>标书购买</p>
-        </li>
-        <li class="waitHandleItem">
-          <h3>15</h3>
-          <p>标书购买</p>
-        </li>
+        <!--<li class="waitHandleItem">-->
+          <!--<h3>3</h3>-->
+          <!--<p>采购变更</p>-->
+        <!--</li>-->
+        <!--<li class="waitHandleItem">-->
+          <!--<h3>17</h3>-->
+          <!--<p>核算</p>-->
+        <!--</li>-->
+        <!--<li class="waitHandleItem">-->
+          <!--<h3>9</h3>-->
+          <!--<p>标书购买</p>-->
+        <!--</li>-->
+        <!--<li class="waitHandleItem">-->
+          <!--<h3>15</h3>-->
+          <!--<p>标书购买</p>-->
+        <!--</li>-->
       </ul>
     </div>
   </div>
@@ -39,14 +39,30 @@ export default {
   name: "waitHandle",
   data() {
     return {
-
+      data: {}, // 用户登陆账号 密码
+      ContractSum: '', // 合同审批总条数
     }
   },
   created() {
-
+    this.getUserInfo();
+    this.getContractSum();
   },
   methods: {
-
+    // 获取用户信息
+    getUserInfo () {
+      const user = JSON.parse(window.sessionStorage.getItem('data'))
+      this.data.loginName = user.loginName
+      this.data.password = user.password
+    },
+    //获取合同审批条数
+    getContractSum() {
+      this.axios
+        .get(`wechatErp/contract/getToDoForContractCount`, {params: this.data})
+        .then(res => {
+          // console.log(res)
+          this.ContractSum = res.data || 0
+        })
+    }
   }
 }
 </script>

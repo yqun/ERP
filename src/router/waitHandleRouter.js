@@ -1,13 +1,16 @@
 import WaitHandle from '@/view/waitHandle/waithandle'
-import WaitHandleList from '@/view/waitHandle/waitHandleList'
-import WaitHandleItem from '@/view/waitHandle/waitHandleItem'
+// 合同审批
+import ContractList from '@/view/waitHandle/contract/contractList'
+import ContractItem from '@/view/waitHandle/contract/contractItem'
+import WriteContract from '@/view/waitHandle/contract/writeContract'
 
 
 
 const waitHandleRouter = [
   {path: '/waithandle', name: 'waitHandle', component: WaitHandle},
-  {path: '/waithandlelist', name: 'waitHandleList', component: WaitHandleList},
-  {path: '/waithandleItem', name: 'waitHandleItem', component: WaitHandleItem},
+  {path: '/contractList', name: 'contractList', component: ContractList},
+  {path: '/contractItem', name: 'contractItem', component: ContractItem},
+  {path: '/writeContract', name: 'writeContract', component: WriteContract},
 ]
 
 

@@ -2,10 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/view/home'
 
+// 我发起的 路由配置
+import sponsoredRouter from '@/router/sponsoredRouter'
 // 待处理 路由配置
 import waitHandleRouter from '@/router/waitHandleRouter'
 // 业务报销
 import serviceExpense from '@/router/serviceExpenseRouter'
+
+
+import KeepAlive from '@/view/keepAlive'
+import ProcessedRouter from "./processedRouter";
 
 
 Vue.use(Router)
@@ -14,7 +20,10 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {path: '/', name: 'home', component: Home},
-    ...waitHandleRouter,
+    {path: '/keepAlive', name: 'keepAlive', component: KeepAlive},
+    ...sponsoredRouter,  // 我发起的
+    ...waitHandleRouter, // 待处理
+    ...ProcessedRouter,  // 已处理
     ...serviceExpense,
   ]
 });

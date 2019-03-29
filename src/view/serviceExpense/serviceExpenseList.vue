@@ -41,7 +41,7 @@
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
-            <li class="listItem clearfix" v-for="i in 15" :key="i" @click="">
+            <li class="listItem clearfix" v-for="i in 15" :key="i" @click="$router.push('/serviceExpenseItem')">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
                 <h4 style="float: left;">请业大客户吃饭</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
@@ -106,7 +106,7 @@ export default {
     },
     // 获取dropdown 信息
     dropDown(listItem) {
-      // console.log(listItem)
+      console.log(listItem)
     },
     // 获取 点击查询信息的值
     getSearchItem(listIndex, optionindex) {
@@ -117,15 +117,15 @@ export default {
       })
       option[optionindex].style.color='#6ea6ff'
       // 获取 要发送到后台的数据
-      console.log(this.option[optionindex])
+      // console.log(this.option[optionindex])
       this.sendData[listIndex] = {}
       this.sendData[listIndex].value = this.option[optionindex]
-      console.log(this.sendData)
+      // console.log(this.sendData)
     },
     // 上拉加载
     onScrollBottom () {
       if (this.scrollBottom) {
-        console.log(1)
+        // console.log(1)
         this.scrollBottom = false
         setTimeout(() => {
           this.scrollBottom = true

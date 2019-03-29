@@ -14,7 +14,7 @@
       <!-- 三个按钮 -->
       <div class="status">
         <grid :show-lr-borders="false" :show-vertical-dividers="false">
-          <grid-item class="statusItem">
+          <grid-item class="statusItem" link="sponsoredList">
             <img slot="icon" src="../assets/images/697d11c73f391af74e3bc5b31ec433f.png">
             <span slot="label">我发起的</span>
           </grid-item>
@@ -23,7 +23,7 @@
             <img slot="icon" src="../assets/images/4cdb9e3da1522ef57d3c7c61c3cae54.png">
             <span slot="label">待处理</span>
           </grid-item>
-          <grid-item class="statusItem">
+          <grid-item class="statusItem" link="processedList">
             <img slot="icon" src="../assets/images/606204896a7e1b053a0c88b601fceef.png">
             <span slot="label">已处理</span>
           </grid-item>
@@ -38,12 +38,12 @@
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
               <!-- 业务报销 -->
-              <grid-item link="/serviceExpenseList">
-                <img slot="icon" src="../assets/images/application/组36@2x.png">
-                <span slot="label">业务报销</span>
-              </grid-item>
+              <!--<grid-item link="/serviceExpenseList">-->
+                <!--<img slot="icon" src="../assets/images/application/组36@2x.png">-->
+                <!--<span slot="label">业务报销</span>-->
+              <!--</grid-item>-->
               <!-- 合同审批 -->
-              <grid-item link="">
+              <grid-item link="/contractList">
                 <img slot="icon" src="../assets/images/application/组18@2x.png">
                 <span slot="label">合同审批</span>
               </grid-item>
@@ -75,17 +75,22 @@ export default {
   methods: {
     // 获取 用户认证信息
     getUserInfo() {
-      const code = this.$route.query.code || 1
-      this.axios
-        .get(`/wechatErp/initialAccreditation?code=${code}`)
-        .then(res => {
-          // console.log(res)
-          const {data} = res
-          if (data != null) {
-            window.sessionStorage.setItem('data', JSON.stringify(data))
-            this.getWaitHandle(data)
-          }
-        })
+      const user = JSON.parse(window.sessionStorage.getItem('data'))
+      if (user) {
+        this.getWaitHandle(user);
+      } else {
+        const code = location.search.split('&')[0].split('=')[1];
+        this.axios
+          .get(`wechatErp/center/initialAccreditation?code=${code}`)
+          .then(res => {
+            // console.log(res);
+            const {data} = res
+            if (data != null) {
+              window.sessionStorage.setItem('data', JSON.stringify(data))
+              this.getWaitHandle(data)
+            }
+          })
+      }
     },
     // 获取待处理总数
     getWaitHandle({loginName, password}) {
@@ -94,7 +99,7 @@ export default {
         'password': password,
       }
       this.axios
-        .get('wechatErp/getBacklogCount', {params:data})
+        .get('wechatErp/center/getBacklogCount', {params:data})
         .then(res => {
           // console.log(res)
           this.waitHandleNum = (res.data > 99)? '99+':res.data
