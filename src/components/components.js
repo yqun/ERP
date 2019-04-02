@@ -14,7 +14,8 @@ import { Confirm } from 'vux'
 import { TransferDom } from 'vux'
 import { Toast } from 'vux'
 import { Selector } from 'vux'
-
+import { Checker, CheckerItem } from 'vux'
+import { Icon } from 'vux'
 
 
 
@@ -39,3 +40,6 @@ Vue.component('confirm', Confirm)
 Vue.directive('transfer-dom', TransferDom)
 Vue.component('toast', Toast)
 Vue.component('selector', Selector)
+Vue.component('checker', Checker)
+Vue.component('checker-item', CheckerItem)
+Vue.component('icon', Icon)

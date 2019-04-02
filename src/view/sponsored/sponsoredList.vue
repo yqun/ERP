@@ -6,30 +6,32 @@
               title="我发起的">
     </x-header>
     <!-- main -->
-    <!--<div class="main">-->
-      <!--&lt;!&ndash; 搜索框 &ndash;&gt;-->
-      <!--<div class="search">-->
-        <!--<input type="text" v-model="searchValue" placeholder="搜索" disabled>-->
-      <!--</div>-->
-      <!--&lt;!&ndash; 上拉加载 &ndash;&gt;-->
-      <!--<scroller lock-x height="93%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">-->
-        <!--<div class="list">-->
-          <!--<ul>-->
-            <!--<li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">-->
-              <!--<div class="clearfix" style="margin-bottom: 0.17rem;">-->
-                <!--<h4 style="float: left;">{{item.projectName}}</h4>-->
-                <!--<x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>-->
-                <!--<button style="float: right;">{{item.status}}</button>-->
-              <!--</div>-->
-              <!--<div class="clearfix p">-->
-                <!--<span style="float: left;">{{item.dataFormat}}</span>-->
-                <!--<span style="float: right;">{{item.startUser}}</span>-->
-              <!--</div>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</div>-->
-      <!--</scroller>-->
-    <!--</div>-->
+    <div class="main">
+      <!-- 搜索框 -->
+      <div class="search">
+        <input type="text" v-model="searchValue" placeholder="搜索" disabled>
+      </div>
+      <!-- 上拉加载 -->
+      <scroller lock-x height="93%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <div class="list">
+          <ul>
+            <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
+              <div class="clearfix" style="margin-bottom: 0.17rem;">
+                <h4 style="float: left;">{{item.projectName}}</h4>
+                <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
+                <button style="float: right;">我发起的</button>
+              </div>
+              <div class="clearfix p">
+                <span style="float: left;">{{item.dataFormat}}</span>
+                <span style="float: right;">{{item.startUser}}</span>
+              </div>
+            </li>
+            <li v-if="list.length == 0"
+                style="text-align: center;">数据为空</li>
+          </ul>
+        </div>
+      </scroller>
+    </div>
   </div>
 </template>
 
@@ -40,6 +42,7 @@ export default {
   data() {
     return {
       data: {},
+      fatherInfo: '',
       searchValue: '', // 搜索关键字
       list: [],
       scrollBottom: true, // 控制上拉加载
@@ -51,7 +54,7 @@ export default {
   },
   created() {
     this.getUserInfo()
-    this.getContractInfo()
+    this.fromLink()
   },
   methods: {
     // 获取用户信息
@@ -59,18 +62,28 @@ export default {
       const user = JSON.parse(window.sessionStorage.getItem('data'))
       this.data.loginName = user.loginName
       this.data.password = user.password
+      this.fatherInfo = this.$route.query.id
     },
     // 下拉加载
     onScrollBottom () {
       if (!this.scrollBottom) return false;
-      this.getContractInfo()
+      this.fromLink()
       this.scrollBottom = false
       setTimeout(() => {
         this.scrollBottom = true
       }, 2000)
     },
+    // 判断点击那个接口进来的
+    fromLink() {
+      let url;
+      // 合同审批
+      if (this.fatherInfo == 'contract') {
+        url = 'wechatErp/contract/getContractMyStartProcess'
+      }
+      this.getContractInfo(url)
+    },
     // 获取数据
-    getContractInfo() {
+    getContractInfo(url) {
       const data = {
         ...this.data,
         iDisplayStart: this.iDisplayStart,
@@ -78,16 +91,16 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`wechatErp/contract/getToDoForContract`, {params: data})
+        .get(`${url}`, {params: data})
         .then(res => {
           console.log(res)
           const {data} = res.data
           data.forEach(item => {
-            item.dataFormat = dateFormat(item.taskCreateTime, 'YYYY-MM-DD HH:mm:ss')
+            item.dataFormat = dateFormat(item.startTime, 'YYYY-MM-DD HH:mm:ss')
           })
           this.list.push(...data)
           const page = Math.ceil(res.data.page.totalResult/10)
-          if (page < (this.iDisplayStart/10 + 1)) {
+          if (page > (this.iDisplayStart/10 + 1)) {
             this.iDisplayStart+=10
           } else {
             this.isData = false;
@@ -99,11 +112,8 @@ export default {
       this.$router.push({
         path: '/sponsoredItem',
         query: {
-          key: contract.key,
-          taskId: contract.id,
-          activityId: contract.activityID,
           businessKey: contract.businessKey,
-          processInstanceId: contract.processInstanceId
+          processInstanceId: contract.processInstanceId,
         }
       })
     }
@@ -151,7 +161,7 @@ export default {
 .listItem h4 {
   font-size: 0.24rem;
   color: #333;
-  width: 75%;
+  width: 72%;
   font-weight: 400;
 }
 .listItem button {
@@ -161,7 +171,7 @@ export default {
   border: none;
   padding: 4px 4px;
   border-radius: 5px;
-  margin-right: 0.1rem;
+  /*margin-right: 0.1rem;*/
 }
 .listItem span {
   font-size: 0.24rem;

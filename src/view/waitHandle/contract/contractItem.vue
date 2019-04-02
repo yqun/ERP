@@ -69,6 +69,16 @@
           货物清单
           <span @click="confirmShow = true">查看详情>></span>
         </h3>
+        <ul>
+          <li class="download clearfix total">
+            <strong style="font-weight: 400;">合计：</strong>
+            <div>
+              <p>项目预估利润:{{detailedTotal.forecastGrossProfit}}元;项目预估利率:{{detailedTotal.forecastInterestRate}}%;</p>
+              <p> 项目预估毛利润:{{detailedTotal.totalGrossProfit}}元;项目预估毛利率:{{detailedTotal.forecastProfitRate}}%; </p>
+              <p>总税金:{{detailedTotal.totalTaxes}}元;总质保风险:{{detailedTotal.totalWarrantyPeriodWaring}}元;</p>
+            </div>
+          </li>
+        </ul>
       </div>
       <!-- 合同付款方式 -->
       <div>
@@ -93,13 +103,15 @@
         </ul>
       </div>
       <!-- 所需费用 -->
-      <div v-if="serviceMoneyHide">
+      <div>
         <h3>所需费用</h3>
         <ul class="info-content">
           <li class="cost">
             <strong>项目经理人工成本费</strong>
             <input type="text" placeholder="0" v-model="serviceMoney" :disabled="serviceMoneyShow">
           </li>
+          <li v-if="accessoriesMoney"><strong>辅料费</strong><span>{{detailedTotal.accessoriesMoney}}</span></li>
+          <li><strong>预估外包施工费</strong><span>{{detailedTotal.constructionMoney}}</span></li>
         </ul>
       </div>
       <!-- 审批意见 -->
@@ -135,6 +147,13 @@
         </flexbox-item>
         <flexbox-item :order="99" @click.native="regression()" v-if="regressionShow">
           <div class="flex-demo"><x-button type="warn" style="backgroundColor: #dc4141;">回退</x-button></div>
+        </flexbox-item>
+        <!-- sub_7的按钮 -->
+        <flexbox-item @click.native="regression('fu')" v-if="regressionsub_7Show">
+          <div class="flex-demo"><x-button type="warn" style="backgroundColor: #dc4141; font-size: 12px;padding: 7px 0;">回退(附)</x-button></div>
+        </flexbox-item>
+        <flexbox-item :order="99" @click.native="regression()" v-if="regressionsub_7Show">
+          <div class="flex-demo"><x-button type="warn" style="backgroundColor: #dc4141; font-size:12px;padding: 7px 0;">回退(全)</x-button></div>
         </flexbox-item>
       </flexbox>
     </div>
@@ -182,7 +201,7 @@
               <!--</tr>-->
             <!--</tbody>-->
           <!--</x-table>-->
-          <el-table :data="jsonProducts" height="200" style="width: 100%">
+          <el-table :data="jsonProducts" height="500" style="width: 100%">
             <el-table-column prop="sort" label="序号"></el-table-column>
             <el-table-column prop="name" label="货物名称"></el-table-column>
             <el-table-column prop="count" label="数量"></el-table-column>
@@ -240,19 +259,25 @@ export default {
       opinion: [],
       toastShow: false,
       toastMsg: '',
+      detailedTotal: {}, 
     }
   },
   computed: {
     // 预算金额 填写
     serviceMoneyShow() {
-      let flag = false
-      if(this.activityId == 'sub_4' || this.activityId == 'sub_9') flag = true
+      let flag = true
+      if(this.activityId == 'sub_3') flag = false
       return flag
     },
     // 预算金额 显示隐藏
     serviceMoneyHide() {
       let flag = false
       if(this.activityId == 'sub_9' || this.activityId == 'sub_7' || this.activityId == 'sub_3') flag = true
+      return flag
+    },
+    accessoriesMoney() {
+       let flag = false
+      if(this.activityId == 'sub_9' || this.activityId == 'sub_7') flag = true
       return flag
     },
     // 回退按钮 显示隐藏
@@ -279,6 +304,12 @@ export default {
       let flag = true
       if (this.activityId == 'sub_3') flag = false
       return flag
+    },
+    // sub_7 
+    regressionsub_7Show() {
+       let flag = false 
+      if (this.activityId == 'sub_7') flag = true
+      return flag
     }
   },
   created() {
@@ -291,6 +322,7 @@ export default {
     this.getContractFiles();  // 合同附件
     this.getTenderingFiles(); // 招标文件
     this.getBidFiles();       // 招标文件
+    this.getTotal();          // 合计
     this.getPaymentMethod();  // 合同付款方式
     this.getOpinion();  // 意见
   },
@@ -412,6 +444,14 @@ export default {
           this.bidFiles = data
         })
     },
+    // 货物清单合计 
+    getTotal() {
+      this.axios
+      .get(`/wechatErp/contract/getProjectProfitInfoByContractId/${this.businessKey}`)
+      .then(res => {
+        this.detailedTotal = res.data
+      })
+    },
     // 合同付款方式
     getPaymentMethod() {
       this.axios
@@ -468,8 +508,11 @@ export default {
         data.projectId = this.projectInfo.id
         data.isPass = '1'
       }
+      if (this.activityId == 'sub_7') {
+          data.isPass = 'Y'
+      }
       // 发送请求
-      if (this.activityId == 'sub_9' || this.activityId == 'sub_4') {
+      if (this.activityId == 'sub_9' || this.activityId == 'sub_4' || this.activityId == 'sub_5' || this.activityId == 'sub_6' || this.activityId == 'sub_7') {
         this.managerSendData(data)
       } else if (this.activityId == 'sub_3') {
         this.technologySendData(data)
@@ -494,7 +537,7 @@ export default {
       this.managerSendData(data)
     },
     // 回退
-    regression() {
+    regression(fu) {
       const data = {
         ...this.data,
         taskId: this.taskId,
@@ -512,6 +555,12 @@ export default {
         data.projectId = this.projectInfo.id
         data.isPass = '2'
       }
+      if (this.activityId == 'sub_7' && fu) {
+        data.isPass = 'N'
+      } 
+      if (this.activityId == 'sub_7' && !fu) {
+        data.isPass = 'R'
+      }
       console.log(data)
       this.managerSendData(data)
     },
@@ -524,6 +573,22 @@ export default {
       }
       // 总经理 意见必填
       if (this.activityId == 'sub_9' && !this.message) {
+        this.toastShow = true
+        return this.toastMsg = '请填写意见'
+      }
+      if (this.activityId == 'sub_5' && !this.message) {
+        this.toastShow = true
+        return this.toastMsg = '请填写意见'
+      }
+      if (this.activityId == 'sub_6' && !this.message) {
+        this.toastShow = true
+        return this.toastMsg = '请填写意见'
+      }
+      if (this.activityId == 'sub_6' && !this.message) {
+        this.toastShow = true
+        return this.toastMsg = '请填写意见'
+      }
+      if (this.activityId == 'sub_7' && !this.message) {
         this.toastShow = true
         return this.toastMsg = '请填写意见'
       }
@@ -620,7 +685,7 @@ export default {
 }
 .info-content li span {
   display: inline-block;
-  width: 69%;
+  max-width: 69%;
   color: #999;
   font-size: 14px;
   overflow: scroll;
@@ -661,6 +726,16 @@ li.download > div p a {
   color: #fff;
   padding: 2px 10px;
   border-radius: 6px;
+}
+li.total {
+  font-size: 12px;
+  vertical-align: bottom;
+}
+li.total > div {
+  width: 85%;
+}
+li.total > div p {
+  margin-bottom: 0;
 }
 /* 合同归属 */
 .ascription /deep/ .weui-cells.vux-no-group-title {
@@ -718,6 +793,9 @@ li.download > div p a {
   margin: 0 10px;
   overflow: scroll;
   white-space:nowrap
+}
+.vux-confirm /deep/ .weui-dialog__hd {
+  background-color: #f2f2f2;
 }
 .vux-confirm /deep/ .weui-dialog__bd {
   width: 300px;

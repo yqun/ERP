@@ -26,6 +26,10 @@
                 <span style="float: right;">{{item.startUser}}</span>
               </div>
             </li>
+            <li v-if="list.length == 0"
+                style="text-align: center;">
+              数据为空
+            </li>
           </ul>
         </div>
       </scroller>

@@ -8,9 +8,7 @@ import sponsoredRouter from '@/router/sponsoredRouter'
 import waitHandleRouter from '@/router/waitHandleRouter'
 // 业务报销
 import serviceExpense from '@/router/serviceExpenseRouter'
-
-
-import KeepAlive from '@/view/keepAlive'
+// 已处理的
 import ProcessedRouter from "./processedRouter";
 
 
@@ -20,11 +18,10 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {path: '/', name: 'home', component: Home},
-    {path: '/keepAlive', name: 'keepAlive', component: KeepAlive},
     ...sponsoredRouter,  // 我发起的
     ...waitHandleRouter, // 待处理
     ...ProcessedRouter,  // 已处理
-    ...serviceExpense,
+    ...serviceExpense,   // 业务报销
   ]
 });
 

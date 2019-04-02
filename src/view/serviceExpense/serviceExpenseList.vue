@@ -87,6 +87,11 @@ export default {
       ],
     }
   },
+  // 列表也去到详情页  不保存信息
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = false;
+    next();
+  },
   created() {
 
   },
@@ -106,7 +111,9 @@ export default {
     },
     // 获取dropdown 信息
     dropDown(listItem) {
-      console.log(listItem)
+      if (this.containerStyle.indexOf(true) !== -1) {
+        console.log(listItem)
+      }
     },
     // 获取 点击查询信息的值
     getSearchItem(listIndex, optionindex) {
@@ -131,7 +138,7 @@ export default {
           this.scrollBottom = true
         }, 2000)
       }
-    }
+    },
   }
 }
 </script>
@@ -197,8 +204,8 @@ export default {
   background-color: #fff;
   box-sizing: border-box;
   padding: 10px 10px 12px;
-  position: absolute;
-  top: 42px;
+  position: fixed;
+  top: 88px;
   left: 0
 }
 .nav .container input {
