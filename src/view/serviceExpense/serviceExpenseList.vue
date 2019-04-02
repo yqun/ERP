@@ -117,6 +117,7 @@ export default {
     },
     // 获取 点击查询信息的值
     getSearchItem(listIndex, optionindex) {
+      console.log(1)
       // 改变字体颜色
       const option = this.$refs.searchItem
       option.forEach(item => {
