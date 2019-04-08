@@ -19,11 +19,11 @@ const Http = axios.create({
 
 Http.interceptors.request.use(function (config) {
   // 设置全局token
-  // const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
-  // if (!AUTH_TOKEN) return config;
-  // config.headers.common['loginName'] = AUTH_TOKEN.loginName;
-  // config.headers.common['password'] = AUTH_TOKEN.password;
-
+  const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
+  if (!AUTH_TOKEN) return config;
+  config.headers.common['loginName'] = AUTH_TOKEN.loginName;
+  config.headers.common['password'] = AUTH_TOKEN.password;
+  config.headers.common['id'] = AUTH_TOKEN.id;
   return config;
 }, function (error) {
 
@@ -32,7 +32,6 @@ Http.interceptors.request.use(function (config) {
 
 // 响应拦截器
 Http.interceptors.response.use(function (response) {
-
 
   return response;
 }, function (error) {

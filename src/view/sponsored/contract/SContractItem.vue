@@ -147,7 +147,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "sponsoredItem",
+  name: "SContractItem",
   data() {
     return {
       data: {},
@@ -297,7 +297,7 @@ export default {
         processInstanceId: this.processInstanceId
       }
       this.axios
-        .get(`/wechatErp/contract/getBeforeTaskComment`, {params: data})
+        .get(`/wechatErp/center/getBeforeTaskComment`, {params: data})
         .then(res => {
           // console.log(res)
           this.opinion = res.data

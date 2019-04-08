@@ -13,10 +13,10 @@
           <h3>{{ContractSum}}</h3>
           <p>合同审批</p>
         </li>
-        <!--<li class="waitHandleItem">-->
-          <!--<h3>3</h3>-->
-          <!--<p>采购变更</p>-->
-        <!--</li>-->
+        <li class="waitHandleItem" @click="$router.push('/serviceExpenseList')">
+          <h3>{{ServiceExpenseSum}}</h3>
+          <p>业务报销</p>
+        </li>
         <!--<li class="waitHandleItem">-->
           <!--<h3>17</h3>-->
           <!--<p>核算</p>-->
@@ -40,12 +40,14 @@ export default {
   data() {
     return {
       data: {}, // 用户登陆账号 密码
-      ContractSum: '', // 合同审批总条数
+      ContractSum: '',       // 合同审批总条数
+      ServiceExpenseSum: '', // 业务报销总条数
     }
   },
   created() {
     this.getUserInfo();
-    this.getContractSum();
+    this.getContractSum();        // 合同审批条数
+    this.getServiceExpenseSum();  // 业务报销条数
   },
   methods: {
     // 获取用户信息
@@ -61,6 +63,15 @@ export default {
         .then(res => {
           // console.log(res)
           this.ContractSum = res.data || 0
+        })
+    },
+    // 获取业务报销条数
+    getServiceExpenseSum() {
+      this.axios
+        .get(`wechatErp/expenseReimbursement/getToDoForBusinessBxCount`, {params: this.data})
+        .then(res => {
+          // console.log(res)
+          this.ServiceExpenseSum = res.data || 0
         })
     }
   }

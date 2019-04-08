@@ -9,7 +9,7 @@
     <div class="main">
       <!-- 按钮 -->
       <ul class="clearfix">
-        <li class="waitHandleItem" @click="$router.push({path: '/sponsoredList', query: {id: 'contract'}})">
+        <li class="waitHandleItem" @click="$router.push({path: '/SContractList', query: {id: 'contract'}})">
           <h3>{{ContractSum}}</h3>
           <p>合同审批</p>
         </li>

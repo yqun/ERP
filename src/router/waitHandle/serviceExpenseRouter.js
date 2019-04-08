@@ -1,7 +1,6 @@
-import ServiceExpenseList from '@/view/serviceExpense/serviceExpenseList'
-import ServiceExpenseItem from '@/view/serviceExpense/serviceExpenseItem'
-import ServiceExpenseItemData from '@/view/serviceExpense/serviceExpenseItemData'
-import router from "./index";
+import ServiceExpenseList from '@/view/waitHandle/serviceExpense/serviceExpenseList'
+import ServiceExpenseItem from '@/view/waitHandle/serviceExpense/serviceExpenseItem'
+import ServiceExpenseItemData from '@/view/waitHandle/serviceExpense/serviceExpenseItemData'
 
 
 const serviceExpense = [

@@ -19,7 +19,7 @@
 
           <div class="container" v-show="containerStyle[listIndex]">
             <!-- 搜索框 -->
-            <input type="text" v-model="searchVal[listIndex]" placeholder="搜索">
+            <input type="text" v-model="searchValue" placeholder="搜索">
 
             <!-- 搜索信息列表 -->
             <ul class="option" v-if="containerStyle[listIndex]">
@@ -29,8 +29,8 @@
                   @click="getSearchItem(listIndex, optionindex)">
                 {{optionItem}}
               </li>
+              <li v-if="option.length == 0" style="text-align: center;">数据为空</li>
             </ul>
-
           </div>
         </li>
       </ul>
@@ -41,15 +41,15 @@
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
-            <li class="listItem clearfix" v-for="i in 15" :key="i" @click="$router.push('/serviceExpenseItem')">
+            <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">请业大客户吃饭</h4>
+                <h4 style="float: left;">{{item.projectName}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
                 <button style="float: right;">正在流转</button>
               </div>
               <div class="clearfix p">
-                <span style="float: left;">X1234567</span>
-                <span style="float: right;">￥20000.00</span>
+                <span style="float: left;">{{item.createTime}}</span>
+                <span style="float: right;">{{item.name}}</span>
               </div>
             </li>
           </ul>
@@ -66,25 +66,30 @@ export default {
   name: "serviceExpenseList",
   data() {
     return {
+      userInfoData: {}, //
       scrollBottom: true, // 上拉加载
+      iDisplayStart: 0,
+      iDisplayLength: 10,
       zhezhaoindex: '', // 判断遮罩层
-      list: [
+      waitHandleList: [], // 代办列表
+      list: [ // 搜索选项
         {name: '报销事由', value: 1},
         {name: '流水号', value: 2},
         {name: '报销项目', value: 3},
         {name: '报销人员', value: 4},
-        {name: '12345', value: 5}
       ],
-      containerStyle: [false, false, false, false,false],
-      searchVal: [],
-      option: ['报销事由','流水号','报销项目','报销人员','12345'],
+      containerStyle: [false, false, false, false,false], // 搜索打开的选项列表
+      searchValue: '', // 搜索的内容
+      optionArr: [], // 搜索下拉列表选项
+      option: [], // 搜索下拉列表选项
       sendData: [
-        {name: '', value: ''},
-        {name: '', value: ''},
-        {name: '', value: ''},
-        {name: '', value: ''},
-        {name: '', value: ''}
+        {name: 'a', value: ''},
+        {name: 'b', value: ''},
+        {name: 'c', value: ''},
+        {name: 'd', value: ''},
+        {name: 'e', value: ''}
       ],
+      data: {},
     }
   },
   // 列表也去到详情页  不保存信息
@@ -92,10 +97,29 @@ export default {
     to.meta.keepAlive = false;
     next();
   },
+  watch: {
+    searchValue(newVal, oldVal) {
+      console.log(newVal)
+      this.option = []
+      this.optionArr.forEach(item => {
+        if (item.indexOf(newVal) !== -1) {
+          this.option.push(item)
+        }
+      })
+      console.log(this.option)
+    }
+  },
   created() {
-
+    this.getUserInfo()
+    this.getListData()
   },
   methods: {
+    // 获取用户信息
+    getUserInfo () {
+      const user = JSON.parse(window.sessionStorage.getItem('data'))
+      this.userInfoData.loginName = user.loginName
+      this.userInfoData.password = user.password
+    },
     // 点击 弹出查询框
     searchInfo(listItem, listIndex) {
       this.zhezhaoindex = listIndex
@@ -107,29 +131,68 @@ export default {
       // 通过索引直接改变数组的变化
       this.$set(this.containerStyle, listIndex, !this.containerStyle[listIndex])
       // 获取dropdown 信息
-      this.dropDown(listItem)
+      // this.dropDown(listItem)
     },
     // 获取dropdown 信息
     dropDown(listItem) {
-      if (this.containerStyle.indexOf(true) !== -1) {
-        console.log(listItem)
-      }
+      if (this.containerStyle.indexOf(true) == -1) return false;
+      this.option = []
+      this.waitHandleList.forEach(item => {
+        // 报销事由
+        if (listItem.value == 1) {
+          this.option.push(item.pdname)
+        }
+        //流水号
+        if (listItem.value == 2) {
+          this.option.push(item.pdname)
+        }
+        // 报销项目
+        if (listItem.value == 3) {
+          this.option.push(item.projectName)
+        }
+        // 报销人员
+        if (listItem.value == 4) {
+          this.option.push(item.startUser)
+        }
+        this.optionArr = this.option
+      })
     },
     // 获取 点击查询信息的值
     getSearchItem(listIndex, optionindex) {
-      console.log(1)
       // 改变字体颜色
       const option = this.$refs.searchItem
       option.forEach(item => {
         item.style.color = '#333'
       })
       option[optionindex].style.color='#6ea6ff'
+      //点击选项 关闭下拉框
+      setTimeout(() => {
+        this.$set(this.containerStyle, listIndex, !this.containerStyle[listIndex])
+      },100)
       // 获取 要发送到后台的数据
-      // console.log(this.option[optionindex])
-      this.sendData[listIndex] = {}
       this.sendData[listIndex].value = this.option[optionindex]
-      // console.log(this.sendData)
+      this.sendData.forEach(item => {
+        if (item.value) this.data[item.name] = item.value
+      })
+      console.log(this.data)
     },
+
+    // 列表数据
+    getListData() {
+      const data = {
+        ...this.userInfoData,
+        iDisplayStart: this.iDisplayStart,
+        iDisplayLength: this.iDisplayLength
+      }
+      this.axios
+        .get(`wechatErp/expenseReimbursement/getToDoForBusinessBx`, {params: data})
+        .then(res => {
+          console.log(res)
+          const {data} = res.data
+          this.waitHandleList = data
+        })
+    },
+
     // 上拉加载
     onScrollBottom () {
       if (this.scrollBottom) {
@@ -140,6 +203,19 @@ export default {
         }, 2000)
       }
     },
+    // 路由跳转
+    routerLink(item) {
+      this.$router.push({
+        path: '/serviceExpenseItem',
+        query: {
+          key: item.key,
+          taskId: item.id,
+          activityID: item.activityID,
+          businessKey: item.businessKey,
+          processInstanceId: item.processInstanceId
+        }
+      })
+    }
   }
 }
 </script>
@@ -221,6 +297,8 @@ export default {
 }
 .nav .container .option {
   width: 100%;
+  max-height: 200px;
+  overflow: scroll;
   box-sizing: border-box;
   padding: 0 30px;
   text-align: left;

@@ -153,7 +153,7 @@
 <script>
   import { dateFormat } from 'vux'
   export default {
-    name: "processedItem",
+    name: "PContractItem",
     data() {
       return {
         data: {},
@@ -311,7 +311,7 @@
           processInstanceId: this.processInstanceId
         }
         this.axios
-          .get(`/wechatErp/contract/getBeforeTaskComment`, {params: data})
+          .get(`/wechatErp/center/getBeforeTaskComment`, {params: data})
           .then(res => {
             // console.log(res)
             this.opinion = res.data

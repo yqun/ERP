@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="我发起的">
+              title="已处理">
     </x-header>
     <!-- main -->
     <div class="main">
@@ -19,15 +19,18 @@
               <div class="clearfix" style="margin-bottom: 0.17rem;">
                 <h4 style="float: left;">{{item.projectName}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">我发起的</button>
+                <button style="float: right;">已处理</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.dataFormat}}</span>
                 <span style="float: right;">{{item.startUser}}</span>
               </div>
             </li>
+            <!-- 数据为空时显示 -->
             <li v-if="list.length == 0"
-                style="text-align: center;">数据为空</li>
+                style="text-align: center;">
+              数据为空
+            </li>
           </ul>
         </div>
       </scroller>
@@ -38,7 +41,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "sponsoredList",
+  name: "PContractList",
   data() {
     return {
       data: {},
@@ -54,7 +57,7 @@ export default {
   },
   created() {
     this.getUserInfo()
-    this.fromLink()
+    this.getContractInfo()
   },
   methods: {
     // 获取用户信息
@@ -67,23 +70,14 @@ export default {
     // 下拉加载
     onScrollBottom () {
       if (!this.scrollBottom) return false;
-      this.fromLink()
+      this.getContractInfo()
       this.scrollBottom = false
       setTimeout(() => {
         this.scrollBottom = true
       }, 2000)
     },
-    // 判断点击那个接口进来的
-    fromLink() {
-      let url;
-      // 合同审批
-      if (this.fatherInfo == 'contract') {
-        url = 'wechatErp/contract/getContractMyStartProcess'
-      }
-      this.getContractInfo(url)
-    },
     // 获取数据
-    getContractInfo(url) {
+    getContractInfo() {
       const data = {
         ...this.data,
         iDisplayStart: this.iDisplayStart,
@@ -91,7 +85,7 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`${url}`, {params: data})
+        .get(`wechatErp/contract/getContractAlreadyDoneTask`, {params: data})
         .then(res => {
           console.log(res)
           const {data} = res.data
@@ -110,7 +104,7 @@ export default {
     // 路由跳转
     routerLink(contract) {
       this.$router.push({
-        path: '/sponsoredItem',
+        path: '/PContractItem',
         query: {
           businessKey: contract.businessKey,
           processInstanceId: contract.processInstanceId,
@@ -161,7 +155,7 @@ export default {
 .listItem h4 {
   font-size: 0.24rem;
   color: #333;
-  width: 72%;
+  width: 75%;
   font-weight: 400;
 }
 .listItem button {
@@ -171,7 +165,7 @@ export default {
   border: none;
   padding: 4px 4px;
   border-radius: 5px;
-  /*margin-right: 0.1rem;*/
+  margin-right: 0.1rem;
 }
 .listItem span {
   font-size: 0.24rem;

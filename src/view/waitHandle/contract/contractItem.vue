@@ -73,7 +73,7 @@
           <li class="download clearfix total">
             <strong style="font-weight: 400;">合计：</strong>
             <div>
-              <p>项目预估利润:{{detailedTotal.forecastGrossProfit}}元;项目预估利率:{{detailedTotal.forecastInterestRate}}%;</p>
+              <p>项目预估利润:{{forecastGrossProfit}}元;项目预估利率:{{forecastInterestRate}}%;</p>
               <p> 项目预估毛利润:{{detailedTotal.totalGrossProfit}}元;项目预估毛利率:{{detailedTotal.forecastProfitRate}}%; </p>
               <p>总税金:{{detailedTotal.totalTaxes}}元;总质保风险:{{detailedTotal.totalWarrantyPeriodWaring}}元;</p>
             </div>
@@ -243,7 +243,8 @@ export default {
       key: '',
       taskId: '',
       activityId: '',
-      serviceMoney: '',
+      serviceMoney: 0,
+      serviceMoneyed: 0,
       message: '',
       confirmShow: false,
       selectValue: '',
@@ -310,6 +311,14 @@ export default {
        let flag = false 
       if (this.activityId == 'sub_7') flag = true
       return flag
+    },
+    forecastGrossProfit() {
+      let serviceMoney = this.serviceMoney
+      if (!this.serviceMoney) serviceMoney = 0
+      return (this.detailedTotal.forecastGrossProfit - (serviceMoney - this.serviceMoneyed)).toFixed(2)
+    },
+    forecastInterestRate() {
+      return ((this.forecastGrossProfit/this.contractInfo.money) * 100).toFixed(1)
     }
   },
   created() {
@@ -398,6 +407,7 @@ export default {
         mainType: this.businessKey,
         subType:'attachments'
       }
+      console.log(data)
       this.axios
         .post(`wechatErp/contract/getFiles`, data)
         .then(res => {
@@ -449,6 +459,7 @@ export default {
       this.axios
       .get(`/wechatErp/contract/getProjectProfitInfoByContractId/${this.businessKey}`)
       .then(res => {
+        // console.log(res)
         this.detailedTotal = res.data
       })
     },
@@ -466,7 +477,8 @@ export default {
           // 合同列表
           this.jsonProducts = JSON.parse(data.jsonProducts)
           // serviceMoney 预算金额
-          this.serviceMoney = data.serviceMoney
+          this.serviceMoney = data.serviceMoney || 0
+          this.serviceMoneyed = data.serviceMoney || 0
         })
     },
     // 意见
@@ -476,7 +488,7 @@ export default {
         processInstanceId: this.processInstanceId,
       }
       this.axios
-        .get(`/wechatErp/contract/getBeforeTaskComment`, {params: data})
+        .get(`/wechatErp/center/getBeforeTaskComment`, {params: data})
         .then(res => {
           // console.log(res)
           this.opinion = res.data
@@ -497,8 +509,10 @@ export default {
         data.processInstanceId = this.processInstanceId
         data.activityID = this.activityId
         data.serviceMoney = this.serviceMoney
-        data.forecastGrossProfit = 0
-        data.forecastInterestRate = 0
+        //项目总利润 项目预估利润＝总毛利润 - 辅料费 - 项目经理人工成本
+        data.forecastGrossProfit = this.forecastGrossProfit
+        //项目总利率 项目预估利润率＝（项目预估利润/销售合同额） * 100（百分数，保留一位小数）
+        data.forecastInterestRate = this.forecastInterestRate
       } else if (this.activityId == 'sub_4') {
         data.isPass = 'Y'
         data.contractVest = this.selectValue
@@ -566,31 +580,14 @@ export default {
     },
     // 事业部经理 总经理
     managerSendData (data) {
+      if (!this.message) {
+        this.toastShow = true
+        return this.toastMsg = '请填写意见'
+      }
       // 事业部经理  并且 数据必填
-      if (this.activityId == 'sub_4' && (!this.message || !this.selectValue)) {
+      if (this.activityId == 'sub_4' && !this.selectValue) {
         this.toastShow = true
-        return this.toastMsg = '请填写合同归属和意见'
-      }
-      // 总经理 意见必填
-      if (this.activityId == 'sub_9' && !this.message) {
-        this.toastShow = true
-        return this.toastMsg = '请填写意见'
-      }
-      if (this.activityId == 'sub_5' && !this.message) {
-        this.toastShow = true
-        return this.toastMsg = '请填写意见'
-      }
-      if (this.activityId == 'sub_6' && !this.message) {
-        this.toastShow = true
-        return this.toastMsg = '请填写意见'
-      }
-      if (this.activityId == 'sub_6' && !this.message) {
-        this.toastShow = true
-        return this.toastMsg = '请填写意见'
-      }
-      if (this.activityId == 'sub_7' && !this.message) {
-        this.toastShow = true
-        return this.toastMsg = '请填写意见'
+        return this.toastMsg = '请填写合同归属'
       }
       this.axios
         .post(`/wechatErp/contract/saveComment`, data)

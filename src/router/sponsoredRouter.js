@@ -1,13 +1,13 @@
 // 我发起的
 import Sponsored from '@/view/sponsored/sponsored'
-import SponsoredList from '@/view/sponsored/sponsoredList'
-import SponsoredItem from '@/view/sponsored/sponsoredItem'
+import SContractList from '@/view/sponsored/contract/SContractList'
+import SContractItem from '@/view/sponsored/contract/SContractItem'
 
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
-  {path: '/sponsoredList', name: 'sponsoredList', component: SponsoredList},
-  {path: '/sponsoredItem', name: 'sponsoredItem', component: SponsoredItem},
+  {path: '/SContractList', name: 'sponsoredList', component: SContractList},
+  {path: '/SContractItem', name: 'sponsoredItem', component: SContractItem},
 ]
 
 

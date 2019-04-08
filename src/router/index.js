@@ -6,8 +6,6 @@ import Home from '@/view/home'
 import sponsoredRouter from '@/router/sponsoredRouter'
 // 待处理 路由配置
 import waitHandleRouter from '@/router/waitHandleRouter'
-// 业务报销
-import serviceExpense from '@/router/serviceExpenseRouter'
 // 已处理的
 import ProcessedRouter from "./processedRouter";
 
@@ -21,7 +19,6 @@ const router = new Router({
     ...sponsoredRouter,  // 我发起的
     ...waitHandleRouter, // 待处理
     ...ProcessedRouter,  // 已处理
-    ...serviceExpense,   // 业务报销
   ]
 });
 
