@@ -1,17 +1,19 @@
 import WaitHandle from '@/view/waitHandle/waithandle'
 // 合同审批
 import contract from '@/router/waitHandle/contractRouter'
-// 业务报销
+// 项目报销
 import serviceExpense from '@/router/waitHandle/serviceExpenseRouter'
-
+// 公司报销
+import companyExpense from '@/router/waitHandle/companyExpenseRouter'
+// 销售报销月计划
+import reimbursementMonth from '@/router/waitHandle/reimbursementMonthRouter'
 
 const waitHandleRouter = [
   {path: '/waithandle', name: 'waitHandle', component: WaitHandle},
-  // 合同审批
   ...contract,
-  // 业务报销
   ...serviceExpense,
-
+  ...companyExpense,
+  ...reimbursementMonth,
 ]
 
 

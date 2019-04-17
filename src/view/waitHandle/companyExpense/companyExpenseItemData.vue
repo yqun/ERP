@@ -3,9 +3,8 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="项目报销">
+              title="公司报销">
     </x-header>
-
     <!-- 内容部分 -->
     <div class="main">
       <!-- 表头 -->
@@ -15,7 +14,6 @@
           <p><strong>报销科目</strong><span>{{item.reasonInfo}}</span></p>
           <p><strong>替票科目</strong><span>{{item.replaceSubjectInfo}}</span></p>
           <p><strong>摘要　　</strong><span>{{item.content}}</span></p>
-          <p><strong>报销项目</strong><span>{{projectInfo.projectName}}</span></p>
           <p><strong>金额　　</strong><span>{{item.singleTotalMoney}}</span></p>
           <p><strong>附单据数</strong><span>{{item.invoiceNum}}</span></p>
         </li>
@@ -38,7 +36,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "serviceExpenseItemData",
+  name: "companyExpenseItemData",
   filters: {
     dateFormat
   },
@@ -64,7 +62,7 @@ export default {
     getProjectInfo() {
       this.businessKey = this.$route.query.businessKey
       this.axios
-        .get(`wechatErp/expenseReimbursement/mobileQueryAllBxInfoById/${this.businessKey}`)
+        .get(`wechatErp/expenseReimbursementPlatform/mobileQueryAllBxInfoById/${this.businessKey}`)
         .then(res => {
           const {data} = res
           this.projectInfo = data

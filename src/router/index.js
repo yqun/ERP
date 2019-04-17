@@ -3,9 +3,9 @@ import Router from 'vue-router'
 import Home from '@/view/home'
 
 // 我发起的 路由配置
-import sponsoredRouter from '@/router/sponsoredRouter'
+import sponsoredRouter from './sponsoredRouter'
 // 待处理 路由配置
-import waitHandleRouter from '@/router/waitHandleRouter'
+import waitHandleRouter from './waitHandleRouter'
 // 已处理的
 import ProcessedRouter from "./processedRouter";
 
@@ -29,7 +29,11 @@ router.beforeEach((to, from, next) => {
   if (to.path == '/') {
     next()
   } else {
-    // const data = JSON.parse(sessionStorage.getItem('data'))
+    const data = JSON.parse(sessionStorage.getItem('data'))
+    if (!data) {
+      Vue.$vux.toast.text('用户信息获取失败')
+      return router.push('/')
+    }
     next()
   }
 

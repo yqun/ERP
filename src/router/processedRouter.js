@@ -1,13 +1,15 @@
 // processed 已处理
-import Processed from '@/view/processed/processed'
-import PContractList from '@/view/processed/contract/PContractList'
-import PContractItem from '@/view/processed/contract/PContractItem'
-
+// 审批
+import contract from '@/router/processed/processedContractRouter'
+// 项目报销
+import serviceExpense from '@/router/processed/serviceExpenseRouter'
+// 公司报销
+import companyExpense from '@/router/processed/companyExpenseRouter'
 
 const ProcessedRouter = [
-  {path: '/processed', name: 'processed', component: Processed},
-  {path: '/PContractList', name: 'PContractList', component: PContractList},
-  {path: '/PContractItem', name: 'PContractItem', component: PContractItem},
+  ...contract,
+  ...serviceExpense,
+  ...companyExpense,
 ]
 
 

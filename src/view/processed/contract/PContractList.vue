@@ -23,7 +23,8 @@
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.dataFormat}}</span>
-                <span style="float: right;">{{item.startUser}}</span>
+                <span style="float: right;" v-if="item.isProcessEnd == 'Y'">已完结</span>
+                <span style="float: right;" v-if="item.isProcessEnd == 'N'">{{item.userName}}</span>
               </div>
             </li>
             <!-- 数据为空时显示 -->

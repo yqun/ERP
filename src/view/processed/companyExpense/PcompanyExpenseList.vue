@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0; z-index: 999;"
               :left-options="{backText: ''}"
-              title="项目报销">
+              title="公司报销">
     </x-header>
     <!-- nav导航 -->
     <div class="nav">
@@ -41,18 +41,19 @@
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
-            <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
+            <li class="listItem clearfix" v-for="item in sponsoredList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.projectName}}</h4>
+                <h4 style="float: left;">{{item.processDefinitionName}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
-                <button style="float: right;">正在流转</button>
+                <button style="float: right;">我发起的</button>
               </div>
               <div class="clearfix p">
-                <span style="float: left;">{{item.createTime}}</span>
-                <span style="float: right;">{{item.name}}</span>
+                <span style="float: left;">{{item.startTimeDate}}</span>
+                <span style="float: right;" v-if="item.isProcessEnd == 'Y'">已完结</span>
+                <span style="float: right;" v-if="item.isProcessEnd == 'N'">{{item.userName}}</span>
               </div>
             </li>
-            <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
+            <li v-if="sponsoredList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
           </ul>
         </div>
       </scroller>
@@ -63,8 +64,9 @@
 </template>
 
 <script>
+import { dateFormat } from 'vux'
 export default {
-  name: "serviceExpenseList",
+  name: "PcompanyExpenseList",
   data() {
     return {
       userInfoData: {}, //
@@ -73,7 +75,7 @@ export default {
       iDisplayLength: 10,
       isData: true, // 判断是否还有数据
       zhezhaoindex: '', // 判断遮罩层
-      waitHandleList: [], // 代办列表
+      sponsoredList: [], // 代办列表
       list: [ // 搜索选项
         {name: '报销事由', value: 1},
         {name: '流水号', value: 2},
@@ -139,7 +141,7 @@ export default {
     dropDown(listItem) {
       if (this.containerStyle.indexOf(true) == -1) return false;
       this.option = []
-      this.waitHandleList.forEach(item => {
+      this.sponsoredList.forEach(item => {
         // 报销事由
         if (listItem.value == 1) {
           this.option.push(item.pdname)
@@ -188,11 +190,14 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`wechatErp/expenseReimbursement/getToDoForBusinessBx`, {params: data})
+        .get(`wechatErp/expenseReimbursementPlatform/getPlatformBxAlreadyDoneTask`, {params: data})
         .then(res => {
-          // console.log(res)
+          console.log(res)
           const {data} = res.data
-          this.waitHandleList.push(...data)
+          data.forEach(item => {
+            item.startTimeDate = dateFormat(item.startTime, 'YYYY-MM-DD HH:mm:ss')
+          })
+          this.sponsoredList.push(...data)
           const page = Math.ceil(res.data.page.totalResult/10)
           if (page > (this.iDisplayStart/10 + 1)) {
             this.iDisplayStart+=10
@@ -204,22 +209,19 @@ export default {
 
     // 上拉加载
     onScrollBottom () {
-      if (this.scrollBottom) {
-        this.getListData();
-        this.scrollBottom = false
-        setTimeout(() => {
-          this.scrollBottom = true
-        }, 2000)
-      }
+      if (!this.scrollBottom) return false;
+      this.getListData();
+      this.scrollBottom = false
+      setTimeout(() => {
+        this.scrollBottom = true
+      }, 2000)
     },
     // 路由跳转
     routerLink(item) {
       this.$router.push({
-        path: '/serviceExpenseItem',
+        path: '/PcompanyExpenseItem',
         query: {
           key: item.key,
-          taskId: item.id,
-          activityID: item.activityID,
           businessKey: item.businessKey,
           processInstanceId: item.processInstanceId
         }

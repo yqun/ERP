@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="项目报销">
+              title="公司报销">
     </x-header>
 
     <!-- 内容部分 -->
@@ -15,7 +15,6 @@
           <p><strong>报销科目</strong><span>{{item.reasonInfo}}</span></p>
           <p><strong>替票科目</strong><span>{{item.replaceSubjectInfo}}</span></p>
           <p><strong>摘要　　</strong><span>{{item.content}}</span></p>
-          <p><strong>报销项目</strong><span>{{projectInfo.projectName}}</span></p>
           <p><strong>金额　　</strong><span>{{item.singleTotalMoney}}</span></p>
           <p><strong>附单据数</strong><span>{{item.invoiceNum}}</span></p>
         </li>
@@ -38,7 +37,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "serviceExpenseItemData",
+  name: "ScompanyExpenseItemData",
   filters: {
     dateFormat
   },
@@ -50,11 +49,6 @@ export default {
       reimbursementList: [],
       reimbursementType: true, // true 普通  false 差旅
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    // 设置下一个路由的 meta
-    to.meta.keepAlive = true;  // 让 A 缓存，即不刷新
-    next();
   },
   created() {
     this.getProjectInfo();

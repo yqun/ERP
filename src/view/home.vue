@@ -37,19 +37,25 @@
           <!-- 第一页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
-              <!-- 业务报销 -->
-              <grid-item link="/serviceExpenseList">
-                <img slot="icon" src="../assets/images/application/组36@2x.png">
-                <span slot="label">业务报销</span>
-              </grid-item>
               <!-- 合同审批 -->
               <grid-item link="/contractList">
                 <img slot="icon" src="../assets/images/application/组18@2x.png">
                 <span slot="label">合同审批</span>
               </grid-item>
-              <!--<grid-item>-->
-                <!--<img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">平台报销</span>-->
+              <!-- 业务报销 -->
+              <grid-item link="/serviceExpenseList">
+                <img slot="icon" src="../assets/images/application/组36@2x.png">
+                <span slot="label">项目报销</span>
+              </grid-item>
+              <!-- 公司报销 -->
+              <grid-item link="/companyExpenseList">
+              <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
+              <span slot="label">公司报销</span>
+              </grid-item>
+              <!-- 销售部门报销月计划 -->
+              <!--<grid-item link="/reimbursementMonthList">-->
+                <!--<img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">-->
+                <!--<span slot="label">销售部门报销月计划</span>-->
               <!--</grid-item>-->
             </grid>
           </swiper-item>
@@ -205,6 +211,9 @@ export default {
 }
 .applicationItem span {
   font-size: 14px;
+}
+/deep/ .weui-grid__label {
+  white-space: normal;
 }
 /*swiper 样式修改*/
 .vux-slider {

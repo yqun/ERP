@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="项目报销">
+              title="公司报销">
     </x-header>
     <!-- 内容 -->
     <div class="main">
@@ -15,21 +15,7 @@
           <li><strong>流水号　</strong><span>{{projectInfo.ticketNum}}</span></li>
           <li><strong>报销人员</strong><span>{{projectInfo.chineseName}}</span></li>
           <!-- projectInfo.projectName -->
-          <li>
-            <strong>报销项目</strong>
-            <span v-if="this.activityID !== 'businessMan'">{{projectInfo.projectName}}</span>
-            <span v-if="this.activityID == 'businessMan'">
-              <select id="selectBusinessMan" :disabled="this.activityID !== 'businessMan'"
-                      @change="selectChange()" v-model="projectInfo.projectId">
-                <option value="null">请选择项目名称</option>
-                <option :value="item.id"
-                        v-for="item in projectAll"
-                        :key="item.id">
-                  {{item.name}}
-                </option>
-              </select>
-            </span>
-          </li>
+          <li><strong>所属公司</strong><span>{{companyName}}</span></li>
           <li><strong>总金额　</strong><span>{{projectInfo.totalPrice}}</span></li>
           <li><strong>实报金额</strong><span>{{projectInfo.realTotalPrice}}</span></li>
           <li><strong>冲抵金额</strong><span>{{projectInfo.deductionTotalPrice}}</span></li>
@@ -40,6 +26,7 @@
           <li v-if="projectInfo.zzKind == 2"><strong>开户行</strong><span>{{projectInfo.bankName}}</span></li>
           <li v-if="projectInfo.zzKind == 2"><strong>账户名称</strong><span>{{projectInfo.accountName}}</span></li>
           <li v-if="projectInfo.zzKind == 2"><strong>银行账号</strong><span>{{projectInfo.bankNum}}</span></li>
+          <li v-if="projectInfo.zzKind == 2"><strong>电子发票号</strong><span>{{projectInfo.invoiceCode}}</span></li>
           <!-- 见票据 -->
           <li v-if="projectInfo.zzKind == 3"><strong>转账类型</strong><span>见票据</span></li>
           <li v-if="projectInfo.zzKind != 2"><strong>领款人　</strong><span>{{projectInfo.payee}}</span></li>
@@ -62,7 +49,7 @@
               </checker>
             </span>
           </li>
-          <li v-if="projectInfo.projectId">
+          <li>
             <strong>签订合同</strong>
             <span>
               <checker v-model="contractRadio" type="radio" :radio-required="true"
@@ -101,36 +88,11 @@
           </x-table>
         </div>
       </div>
-      <!-- 月计划 -->
-      <div v-if="MonthlyHide">
-        <h3>月计划</h3>
-        <div class="info-content">
-          <x-table :content-bordered="false" :cell-bordered="false">
-            <thead>
-            <tr>
-              <th style="font-weight: 700">客户名称</th>
-              <th style="font-weight: 700">已报销金额(包含本次)	</th>
-              <th style="font-weight: 700">合计金额</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item,index) in costPlanDetailList" :key="item.id">
-              <td>{{item.clientName}}</td>
-              <td>{{item.alreadyBxMoney}}</td>
-              <td>{{item.singleTotalAmount}}</td>
-            </tr>
-            <tr v-if="costPlanDetailList.length == 0">
-              <td colspan="4">数据为空</td>
-            </tr>
-            </tbody>
-          </x-table>
-        </div>
-      </div>
       <!-- 报销单据 -->
       <div class="reimbursement">
         <h3>
           报销单据({{kindType}})
-          <span @click="$router.push({path: 'serviceExpenseItemData', query: {businessKey:businessKey}})">查看详情>></span>
+          <span @click="$router.push({path: 'companyExpenseItemData', query: {businessKey:businessKey}})">查看详情>></span>
         </h3>
         <ul class="info-content">
           <!-- 差旅费才有 -->
@@ -156,7 +118,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in opinion" :key="item.id">
+            <tr v-for="item in opinion" :key="item.id" v-if="item.message">
               <td>{{item.role}}</td>
               <td>{{item.userName}}</td>
               <td>{{item.message}}</td>
@@ -204,7 +166,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "serviceExpenseItem",
+  name: "companyExpenseItem",
   data() {
     return {
       data: {},
@@ -216,12 +178,12 @@ export default {
       projectInfo: {}, // 项目表单数据
       voucherNum: '',
       deductionDetailList: [],
-      costPlanDetailList: [], // 月计划
       tApp: {},
       invoiceRadio: '',
       contractRadio: '',
       kindType: '',
-      projectAll: [],
+      companyCode: '', // 所属公司code
+      companyName: '', // 所属公司
       roleInfo: {}, // 代办事项
       opinion: [], // 意见
       message: '',
@@ -234,8 +196,8 @@ export default {
     // 拒绝按钮显示隐藏
     refuseHide() {
       let flag = false
-      if (this.activityID == 'businessMan' || this.activityID == 'businessManager'
-        || this.activityID == 'deptManager' || this.activityID == 'gm') flag = true
+      if (this.activityID == 'businessManager' || this.activityID == 'deptManager'
+        || this.activityID == 'gm') flag = true
       return flag;
     },
     // 回退按钮显示隐藏
@@ -244,20 +206,12 @@ export default {
       if (this.activityID == 'cwFirst' || this.activityID == 'cfo') flag = true
       return flag;
     },
-    // 月计划显示隐藏
-    MonthlyHide() {
-      let flag = false
-      if (this.activityID == 'businessManager' || this.activityID == 'deptManager'
-        || this.activityID == 'gm') flag = true
-      return flag;
-    }
   },
   created() {
     this.getUserInfo();
     this.getQuery();
     this.getRoleInfo();      // 打开代办事项
     this.getProjectInfo();   // 项目表单数据
-    this.getBusinessProject(); // 业务员项目
     this.getOpinion();       // 意见
   },
   methods: {
@@ -294,46 +248,36 @@ export default {
     // 获取项目表单数据
     getProjectInfo() {
       this.axios
-        .get(`wechatErp/expenseReimbursement/mobileQueryAllBxInfoById/${this.businessKey}`)
+        .get(`wechatErp/expenseReimbursementPlatform/mobileQueryAllBxInfoById/${this.businessKey}`)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const {data} = res
           this.projectInfo = data
           this.deductionDetailList = data.deductionDetailList
           this.voucherNum = data.voucherNum
-          // 流程到业务员 没有 项目  则无法判定有无合同
-          if (this.activityID !== 'businessMan') this.contractRadio = data.buildContract || 'N'
+          // 所属公司
+          this.companyCode = data.companyCode
+          // 合同 发票
+          this.contractRadio = data.buildContract || 'N'
           this.invoiceRadio = data.haveInvoice || 'N'
           if (data.kind == 1) this.kindType = '普', this.tApp = data.tAppCommonBx
           if (data.kind == 2) this.kindType = '旅', this.tApp = data.tAppBusinessTrip
 
-
-          this.getMonthly(); // 获取月计划
+          this.getcompany(); // 获取所属公司
         })
     },
-    // 获取月计划
-    getMonthly() {
-      const data = {
-        projectId: this.projectInfo.projectId,
-        businessManId: this.projectInfo.businessManId,
-        costPlanMonth: dateFormat(this.projectInfo.createTime, 'YYYY-MM-01')
-      }
-      this.axios
-        .get(`wechatErp/expenseReimbursement/queryPersonalCostPlanDetail`, {params: data})
-        .then(res => {
-          console.log(res)
-          const {costPlanDetailList} = res.data
-          this.costPlanDetailList = costPlanDetailList
-        })
-    },
-    // 获取 业务员项目
-    getBusinessProject() {
+    // 获取 公司
+    getcompany() {
       const id = JSON.parse(window.sessionStorage.getItem('data')).id
+      var a = 'COMPANY-FLAG'
       this.axios
-        .get(`wechatErp/projectManager/getAllProjectList?createBy=${id}`)
+        .post(`wechatErp/center/getSubEnumModalsByCode/${a}`)
         .then(res => {
-          // console.log(res)
-          this.projectAll = res.data
+          res.data.forEach(item => {
+            if (item.code == this.companyCode) {
+              this.companyName = item.name
+            }
+          })
         })
     },
     // 意见
@@ -345,24 +289,8 @@ export default {
       this.axios
         .get(`wechatErp/center/getBeforeTaskComment`, {params: data})
         .then(res => {
-          // console.log(res)
+          console.log(res)
           this.opinion = res.data
-        })
-    },
-    // 选择项目 获取签订合同
-    selectChange() {
-      // console.log(this.projectInfo.projectId)
-      this.axios
-        .get(`wechatErp/contract/getMaxVersionContractByProjectId/${this.projectInfo.projectId}`)
-        .then(res => {
-          // console.log(res)
-          // contractRadio 是否签订合同
-          const {state} = res.data
-          if (state == "2" || state == '4') {
-            this.contractRadio = "Y"
-          } else {
-            this.contractRadio = "N"
-          }
         })
     },
     // 拒绝
@@ -419,10 +347,6 @@ export default {
         isPass: 'Y',
         message: this.message,
       };
-      if (this.activityID == 'businessMan') { // 业务员
-        data.projectId = this.projectInfo.projectId
-        data.buildContract = this.contractRadio
-      }
       if (this.activityID == 'cwSecond') { // 财务填写凭证号
         data.voucherNum = this.voucherNum
       }
@@ -432,7 +356,6 @@ export default {
     },
     // 发送请求
     processSend(data) {
-      if (this.activityID == 'businessMan' && !data.projectId && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请选择项目'
       if (this.activityID == 'cwSecond' && !data.voucherNum && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请填写凭证号'
       if (!this.message.trim()) return this.toastShow = true, this.toastVal = '请填写意见'
       this.axios
@@ -530,20 +453,6 @@ export default {
 .vux-x-icon {
   fill: transparent;
 }
-#selectBusinessMan {
-  min-width: 100px;
-  outline: none;
-  border: none;
-  vertical-align: top;
-  background-color: transparent;
-  color: #999;
-  /* 清除 下拉小箭头 */
-  appearance:none;
-  -moz-appearance:none;
-  -webkit-appearance:none;
-  padding-right: 14px;
-}
-select::-ms-expand { display: none; }
 /* 凭证号 */
 #voucher {
   outline: none;

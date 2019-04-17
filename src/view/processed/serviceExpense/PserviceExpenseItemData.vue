@@ -38,7 +38,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "serviceExpenseItemData",
+  name: "PserviceExpenseItemData",
   filters: {
     dateFormat
   },
@@ -50,11 +50,6 @@ export default {
       reimbursementList: [],
       reimbursementType: true, // true 普通  false 差旅
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    // 设置下一个路由的 meta
-    to.meta.keepAlive = true;  // 让 A 缓存，即不刷新
-    next();
   },
   created() {
     this.getProjectInfo();

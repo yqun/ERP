@@ -7,6 +7,7 @@ import router from './router/index'
 import Axios from './request/config'
 import ElementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+import store from '@/store/index'
 
 // 全局
 import '@/components/components.js'
@@ -27,6 +28,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app-box',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

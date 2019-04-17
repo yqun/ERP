@@ -557,14 +557,15 @@ export default {
         taskId: this.taskId,
         businessKey: this.businessKey,
         procInstId: this.processInstanceId,
+        processInstanceId: this.processInstanceId,
         message: this.message,
         role: this.roleInfo.roleName,
+        projectId:this.projectInfo.id
       }
       if (this.activityId == 'sub_4') {
         data.isPass = 'N'
         data.contractVest = this.selectValue
       }  else if (this.activityId == 'sub_9') {
-        data.processInstanceId = this.processInstanceId
         data.roleCode = 'GENERAL_MANAGER'
         data.projectId = this.projectInfo.id
         data.isPass = '2'
@@ -598,7 +599,8 @@ export default {
             this.toastShow = true
             this.toastMsg = '流转成功'
             setTimeout(() => {
-              this.$router.push('/contractList')
+              // this.$router.push('/contractList')
+              this.$router.go(-1)
             }, 800)
           }
           // 失败
@@ -624,7 +626,8 @@ export default {
             this.toastShow = true
             this.toastMsg = '流转成功'
             setTimeout(() => {
-              this.$router.push('/contractList')
+              // this.$router.push('/contractList')
+              this.$router.go(-1)
             }, 800)
           }
           // 失败

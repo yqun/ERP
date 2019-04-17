@@ -15,12 +15,12 @@
         </li>
         <li class="waitHandleItem" @click="$router.push('/serviceExpenseList')">
           <h3>{{ServiceExpenseSum}}</h3>
-          <p>业务报销</p>
+          <p>项目报销</p>
         </li>
-        <!--<li class="waitHandleItem">-->
-          <!--<h3>17</h3>-->
-          <!--<p>核算</p>-->
-        <!--</li>-->
+        <li class="waitHandleItem" @click="$router.push('/companyExpenseList')">
+          <h3>{{CompanyExpenseSum}}</h3>
+          <p>公司报销</p>
+        </li>
         <!--<li class="waitHandleItem">-->
           <!--<h3>9</h3>-->
           <!--<p>标书购买</p>-->
@@ -41,13 +41,13 @@ export default {
     return {
       data: {}, // 用户登陆账号 密码
       ContractSum: '',       // 合同审批总条数
-      ServiceExpenseSum: '', // 业务报销总条数
+      ServiceExpenseSum: '', // 项目报销总条数
+      CompanyExpenseSum: '', // 公司报销总条数
     }
   },
   created() {
     this.getUserInfo();
-    this.getContractSum();        // 合同审批条数
-    this.getServiceExpenseSum();  // 业务报销条数
+    this.loopAddress();
   },
   methods: {
     // 获取用户信息
@@ -56,24 +56,33 @@ export default {
       this.data.loginName = user.loginName
       this.data.password = user.password
     },
-    //获取合同审批条数
-    getContractSum() {
-      this.axios
-        .get(`wechatErp/contract/getToDoForContractCount`, {params: this.data})
-        .then(res => {
-          // console.log(res)
-          this.ContractSum = res.data || 0
-        })
+    // 根据地址发送请求
+    loopAddress() {
+      const addressArr = [
+        'wechatErp/contract/getToDoForContractCount',
+        'wechatErp/expenseReimbursement/getToDoForBusinessBxCount',
+        'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount',
+      ]
+      for(let i = 0; i < addressArr.length; i++) {
+        this.getSum(addressArr[i])
+      }
     },
-    // 获取业务报销条数
-    getServiceExpenseSum() {
-      this.axios
-        .get(`wechatErp/expenseReimbursement/getToDoForBusinessBxCount`, {params: this.data})
-        .then(res => {
-          // console.log(res)
+    // 获取数据
+    async getSum(url) {
+      const res = await this.axios.get(url, {params: this.data})
+      // 判断url
+      switch(url) {
+        case 'wechatErp/contract/getToDoForContractCount':
+          this.ContractSum = res.data || 0;
+          break;
+        case 'wechatErp/expenseReimbursement/getToDoForBusinessBxCount':
           this.ServiceExpenseSum = res.data || 0
-        })
-    }
+          break;
+        case 'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount':
+          this.CompanyExpenseSum = res.data || 0
+          break;
+      }
+    },
   }
 }
 </script>

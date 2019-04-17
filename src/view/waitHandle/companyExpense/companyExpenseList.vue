@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0; z-index: 999;"
               :left-options="{backText: ''}"
-              title="项目报销">
+              title="公司报销">
     </x-header>
     <!-- nav导航 -->
     <div class="nav">
@@ -11,12 +11,10 @@
         <li :class="{active: containerStyle[listIndex]}"
             v-for="(listItem,listIndex) in list"
             :key="listIndex">
-
           <p @click="searchInfo(listItem,listIndex)">
             {{listItem.name}}
             <i></i>
           </p>
-
           <div class="container" v-show="containerStyle[listIndex]">
             <!-- 搜索框 -->
             <input type="text" v-model="searchValue" placeholder="搜索">
@@ -43,13 +41,13 @@
           <ul>
             <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.projectName}}</h4>
+                <h4 style="float: left;">{{item.pdname}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
                 <button style="float: right;">正在流转</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.createTime}}</span>
-                <span style="float: right;">{{item.name}}</span>
+                <span style="float: right;">{{item.startUser}}</span>
               </div>
             </li>
             <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -64,7 +62,7 @@
 
 <script>
 export default {
-  name: "serviceExpenseList",
+  name: "companyExpenseList",
   data() {
     return {
       userInfoData: {}, //
@@ -188,7 +186,7 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`wechatErp/expenseReimbursement/getToDoForBusinessBx`, {params: data})
+        .get(`wechatErp/expenseReimbursementPlatform/getToDoForPlatformBx`, {params: data})
         .then(res => {
           // console.log(res)
           const {data} = res.data
@@ -215,7 +213,7 @@ export default {
     // 路由跳转
     routerLink(item) {
       this.$router.push({
-        path: '/serviceExpenseItem',
+        path: '/companyExpenseItem',
         query: {
           key: item.key,
           taskId: item.id,

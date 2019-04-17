@@ -15,21 +15,7 @@
           <li><strong>流水号　</strong><span>{{projectInfo.ticketNum}}</span></li>
           <li><strong>报销人员</strong><span>{{projectInfo.chineseName}}</span></li>
           <!-- projectInfo.projectName -->
-          <li>
-            <strong>报销项目</strong>
-            <span v-if="this.activityID !== 'businessMan'">{{projectInfo.projectName}}</span>
-            <span v-if="this.activityID == 'businessMan'">
-              <select id="selectBusinessMan" :disabled="this.activityID !== 'businessMan'"
-                      @change="selectChange()" v-model="projectInfo.projectId">
-                <option value="null">请选择项目名称</option>
-                <option :value="item.id"
-                        v-for="item in projectAll"
-                        :key="item.id">
-                  {{item.name}}
-                </option>
-              </select>
-            </span>
-          </li>
+          <li><strong>报销项目</strong><span>{{projectInfo.projectName}}</span></li>
           <li><strong>总金额　</strong><span>{{projectInfo.totalPrice}}</span></li>
           <li><strong>实报金额</strong><span>{{projectInfo.realTotalPrice}}</span></li>
           <li><strong>冲抵金额</strong><span>{{projectInfo.deductionTotalPrice}}</span></li>
@@ -44,14 +30,7 @@
           <li v-if="projectInfo.zzKind == 3"><strong>转账类型</strong><span>见票据</span></li>
           <li v-if="projectInfo.zzKind != 2"><strong>领款人　</strong><span>{{projectInfo.payee}}</span></li>
           <!-- 填写凭证号 -->
-          <li v-if="activityID == 'cwSecond' || activityID == 'cn'"><strong>凭证号　</strong>
-            <span>
-              <input id="voucher" type="text"
-                     placeholder="请填写凭证号"
-                     v-model="voucherNum"
-                     :disabled="activityID == 'cn'">
-            </span>
-          </li>
+          <li><strong>凭证号　</strong><span>{{voucherNum}}</span></li>
           <li>
             <strong>有无发票</strong>
             <span>
@@ -101,36 +80,11 @@
           </x-table>
         </div>
       </div>
-      <!-- 月计划 -->
-      <div v-if="MonthlyHide">
-        <h3>月计划</h3>
-        <div class="info-content">
-          <x-table :content-bordered="false" :cell-bordered="false">
-            <thead>
-            <tr>
-              <th style="font-weight: 700">客户名称</th>
-              <th style="font-weight: 700">已报销金额(包含本次)	</th>
-              <th style="font-weight: 700">合计金额</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item,index) in costPlanDetailList" :key="item.id">
-              <td>{{item.clientName}}</td>
-              <td>{{item.alreadyBxMoney}}</td>
-              <td>{{item.singleTotalAmount}}</td>
-            </tr>
-            <tr v-if="costPlanDetailList.length == 0">
-              <td colspan="4">数据为空</td>
-            </tr>
-            </tbody>
-          </x-table>
-        </div>
-      </div>
       <!-- 报销单据 -->
       <div class="reimbursement">
         <h3>
           报销单据({{kindType}})
-          <span @click="$router.push({path: 'serviceExpenseItemData', query: {businessKey:businessKey}})">查看详情>></span>
+          <span @click="$router.push({path: 'SserviceExpenseItemData', query: {businessKey:businessKey}})">查看详情>></span>
         </h3>
         <ul class="info-content">
           <!-- 差旅费才有 -->
@@ -168,35 +122,6 @@
           </x-table>
         </div>
       </div>
-      <!-- 我的意见 -->
-      <div>
-        <h3>我的意见</h3>
-        <group>
-          <x-textarea placeholder="请填写我的审批意见" v-model="message"></x-textarea>
-        </group>
-      </div>
-      <!-- 底部按钮 -->
-      <div class="footer">
-        <flexbox>
-          <flexbox-item v-if="refuseHide">
-            <div class="flex-demo">
-              <x-button type="warn" style="backgroundColor: #dc4141; color: #fff;" @click.native="refuse()">拒绝</x-button>
-            </div>
-          </flexbox-item>
-          <flexbox-item v-if="regressionHide">
-            <div class="flex-demo">
-              <x-button type="warn" style="backgroundColor: #dc4141; color: #fff;" @click.native="regression()">回退</x-button>
-            </div>
-          </flexbox-item>
-          <flexbox-item>
-            <div class="flex-demo">
-              <x-button type="primary" style="backgroundColor: #6ea6ff; color: #fff;" @click.native="approval()">流转</x-button>
-            </div>
-          </flexbox-item>
-        </flexbox>
-      </div>
-      <!-- 提示信息 -->
-      <toast v-model="toastShow" :text="toastVal" position="middle" type="text"></toast>
     </div>
   </div>
 </template>
@@ -204,7 +129,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "serviceExpenseItem",
+  name: "SserviceExpenseItem",
   data() {
     return {
       data: {},
@@ -216,48 +141,17 @@ export default {
       projectInfo: {}, // 项目表单数据
       voucherNum: '',
       deductionDetailList: [],
-      costPlanDetailList: [], // 月计划
       tApp: {},
       invoiceRadio: '',
       contractRadio: '',
       kindType: '',
-      projectAll: [],
-      roleInfo: {}, // 代办事项
       opinion: [], // 意见
-      message: '',
-      // 提示信息
-      toastShow: false,
-      toastVal: '',
-    }
-  },
-  computed: {
-    // 拒绝按钮显示隐藏
-    refuseHide() {
-      let flag = false
-      if (this.activityID == 'businessMan' || this.activityID == 'businessManager'
-        || this.activityID == 'deptManager' || this.activityID == 'gm') flag = true
-      return flag;
-    },
-    // 回退按钮显示隐藏
-    regressionHide() {
-      let flag = false
-      if (this.activityID == 'cwFirst' || this.activityID == 'cfo') flag = true
-      return flag;
-    },
-    // 月计划显示隐藏
-    MonthlyHide() {
-      let flag = false
-      if (this.activityID == 'businessManager' || this.activityID == 'deptManager'
-        || this.activityID == 'gm') flag = true
-      return flag;
     }
   },
   created() {
     this.getUserInfo();
     this.getQuery();
-    this.getRoleInfo();      // 打开代办事项
     this.getProjectInfo();   // 项目表单数据
-    this.getBusinessProject(); // 业务员项目
     this.getOpinion();       // 意见
   },
   methods: {
@@ -276,27 +170,12 @@ export default {
       this.businessKey = this.$route.query.businessKey
       this.processInstanceId = this.$route.query.processInstanceId
     },
-    // 打开代办事项
-    getRoleInfo() {
-      // console.log(this.data)
-      const data =  {
-        key: this.key,
-        taskId: this.taskId,
-        activityId: this.activityID,
-      }
-      this.axios
-        .get(`wechatErp/center/toTaskPage`, {params: data})
-        .then(res => {
-          // console.log(res)
-          this.roleInfo = res.data
-        })
-    },
     // 获取项目表单数据
     getProjectInfo() {
       this.axios
         .get(`wechatErp/expenseReimbursement/mobileQueryAllBxInfoById/${this.businessKey}`)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const {data} = res
           this.projectInfo = data
           this.deductionDetailList = data.deductionDetailList
@@ -306,34 +185,6 @@ export default {
           this.invoiceRadio = data.haveInvoice || 'N'
           if (data.kind == 1) this.kindType = '普', this.tApp = data.tAppCommonBx
           if (data.kind == 2) this.kindType = '旅', this.tApp = data.tAppBusinessTrip
-
-
-          this.getMonthly(); // 获取月计划
-        })
-    },
-    // 获取月计划
-    getMonthly() {
-      const data = {
-        projectId: this.projectInfo.projectId,
-        businessManId: this.projectInfo.businessManId,
-        costPlanMonth: dateFormat(this.projectInfo.createTime, 'YYYY-MM-01')
-      }
-      this.axios
-        .get(`wechatErp/expenseReimbursement/queryPersonalCostPlanDetail`, {params: data})
-        .then(res => {
-          console.log(res)
-          const {costPlanDetailList} = res.data
-          this.costPlanDetailList = costPlanDetailList
-        })
-    },
-    // 获取 业务员项目
-    getBusinessProject() {
-      const id = JSON.parse(window.sessionStorage.getItem('data')).id
-      this.axios
-        .get(`wechatErp/projectManager/getAllProjectList?createBy=${id}`)
-        .then(res => {
-          // console.log(res)
-          this.projectAll = res.data
         })
     },
     // 意见
@@ -363,89 +214,6 @@ export default {
           } else {
             this.contractRadio = "N"
           }
-        })
-    },
-    // 拒绝
-    refuse() {
-      const data = {  // 审批数据
-        loginName: this.data.loginName,
-        currentUserId: this.data.id,
-        businessKey : this.businessKey,
-        taskId: this.taskId,
-        processInstanceId: this.processInstanceId,
-        activityID: this.activityID,
-        roleName: this.roleInfo.roleName,
-        id: this.projectInfo.id,
-        creatorId: this.projectInfo.creatorId,
-        kind: this.projectInfo.kind,
-        isPass: 'N',
-        message: this.message,
-      };
-      //发送数据
-      this.processSend(data)
-    },
-    // 回退
-    regression() {
-      const data = {  // 审批数据
-        loginName: this.data.loginName,
-        currentUserId: this.data.id,
-        businessKey : this.businessKey,
-        taskId: this.taskId,
-        processInstanceId: this.processInstanceId,
-        activityID: this.activityID,
-        roleName: this.roleInfo.roleName,
-        id: this.projectInfo.id,
-        creatorId: this.projectInfo.creatorId,
-        kind: this.projectInfo.kind,
-        isPass: 'N',
-        message: this.message,
-      };
-      //发送数据
-      this.processSend(data)
-    },
-    // 审批
-    approval() {
-      const data = {  // 审批数据
-        loginName: this.data.loginName,
-        currentUserId: this.data.id,
-        businessKey : this.businessKey,
-        taskId: this.taskId,
-        processInstanceId: this.processInstanceId,
-        activityID: this.activityID,
-        roleName: this.roleInfo.roleName,
-        id: this.projectInfo.id,
-        creatorId: this.projectInfo.creatorId,
-        kind: this.projectInfo.kind,
-        isPass: 'Y',
-        message: this.message,
-      };
-      if (this.activityID == 'businessMan') { // 业务员
-        data.projectId = this.projectInfo.projectId
-        data.buildContract = this.contractRadio
-      }
-      if (this.activityID == 'cwSecond') { // 财务填写凭证号
-        data.voucherNum = this.voucherNum
-      }
-      console.log(data)
-      //发送数据
-      this.processSend(data)
-    },
-    // 发送请求
-    processSend(data) {
-      if (this.activityID == 'businessMan' && !data.projectId && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请选择项目'
-      if (this.activityID == 'cwSecond' && !data.voucherNum && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请填写凭证号'
-      if (!this.message.trim()) return this.toastShow = true, this.toastVal = '请填写意见'
-      this.axios
-        .post(`wechatErp/expenseReimbursement/flowToNextActivityForQueryOnly`, data)
-        .then(res => {
-          // console.log(res)
-          const {resultState, messageInfo} = res.data
-          this.toastShow = true
-          this.toastVal = messageInfo
-          if (resultState == -1) return false;
-          setTimeout(() => {
-            this.$router.go(-1)
-          }, 800)
         })
     }
   }
@@ -587,12 +355,5 @@ div.footer {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin: 0;
-}
-  /* 表格 */
-.vux-table td {
-  max-width: 100px;
-}
-.vux-table {
-  line-height: 20px;
 }
 </style>
