@@ -43,9 +43,9 @@
           <ul>
             <li class="listItem clearfix" v-for="item in sponsoredList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.processDefinitionName}}</h4>
+                <h4 style="float: left;">{{item.startUser}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
-                <button style="float: right;">我发起的</button>
+                <button style="float: right;">已处理</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.startTimeDate}}</span>

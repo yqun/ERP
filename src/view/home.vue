@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="内部IMP系统">
+              title="ERP系统">
     </x-header>
     <!-- banner -->
     <div class="banner">
@@ -53,10 +53,10 @@
               <span slot="label">公司报销</span>
               </grid-item>
               <!-- 销售部门报销月计划 -->
-              <!--<grid-item link="/reimbursementMonthList">-->
-                <!--<img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">销售部门报销月计划</span>-->
-              <!--</grid-item>-->
+              <grid-item link="/reimbursementMonthList">
+                <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
+                <span slot="label">销售部门报销月计划</span>
+              </grid-item>
             </grid>
           </swiper-item>
           <!--<swiper-item></swiper-item>-->
@@ -74,6 +74,11 @@ export default {
     return {
       waitHandleNum: 0,
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    // console.log(to)
+    if (to.name == 'reimbursementMonthList') to.meta.keepAlive = false
+    next();
   },
   created() {
     this.getUserInfo()

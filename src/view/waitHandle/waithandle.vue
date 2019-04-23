@@ -9,22 +9,22 @@
     <div class="main">
       <!-- 按钮 -->
       <ul class="clearfix">
-        <li class="waitHandleItem" @click="$router.push({path: '/contractList'})">
-          <h3>{{ContractSum}}</h3>
-          <p>合同审批</p>
-        </li>
-        <li class="waitHandleItem" @click="$router.push('/serviceExpenseList')">
-          <h3>{{ServiceExpenseSum}}</h3>
-          <p>项目报销</p>
-        </li>
-        <li class="waitHandleItem" @click="$router.push('/companyExpenseList')">
-          <h3>{{CompanyExpenseSum}}</h3>
-          <p>公司报销</p>
-        </li>
-        <!--<li class="waitHandleItem">-->
-          <!--<h3>9</h3>-->
-          <!--<p>标书购买</p>-->
+        <!--<li class="waitHandleItem" @click="$router.push({path: '/contractList'})">-->
+          <!--<h3>{{ContractSum}}</h3>-->
+          <!--<p>合同审批</p>-->
         <!--</li>-->
+        <!--<li class="waitHandleItem" @click="$router.push('/serviceExpenseList')">-->
+          <!--<h3>{{ServiceExpenseSum}}</h3>-->
+          <!--<p>项目报销</p>-->
+        <!--</li>-->
+        <!--<li class="waitHandleItem" @click="$router.push('/companyExpenseList')">-->
+          <!--<h3>{{CompanyExpenseSum}}</h3>-->
+          <!--<p>公司报销</p>-->
+        <!--</li>-->
+        <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push(item.path)">
+          <h3>{{item.num}}</h3>
+          <p>{{item.name}}</p>
+        </li>
         <!--<li class="waitHandleItem">-->
           <!--<h3>15</h3>-->
           <!--<p>标书购买</p>-->
@@ -43,6 +43,13 @@ export default {
       ContractSum: '',       // 合同审批总条数
       ServiceExpenseSum: '', // 项目报销总条数
       CompanyExpenseSum: '', // 公司报销总条数
+      reimbursementMonth:'', // 报销月计划
+      info: [
+        {name: '合同审批', path: '/contractList', num: ''},
+        {name: '项目报销', path: '/serviceExpenseList', num: ''},
+        {name: '公司报销', path: '/companyExpenseList', num: ''},
+        {name: '报销月计划', path: '/monthList', num: ''},
+      ]
     }
   },
   created() {
@@ -62,6 +69,7 @@ export default {
         'wechatErp/contract/getToDoForContractCount',
         'wechatErp/expenseReimbursement/getToDoForBusinessBxCount',
         'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount',
+        'wechatErp/costPlan/getToDoForCostPlanCount',
       ]
       for(let i = 0; i < addressArr.length; i++) {
         this.getSum(addressArr[i])
@@ -70,16 +78,20 @@ export default {
     // 获取数据
     async getSum(url) {
       const res = await this.axios.get(url, {params: this.data})
+      // console.log(res)
       // 判断url
       switch(url) {
         case 'wechatErp/contract/getToDoForContractCount':
-          this.ContractSum = res.data || 0;
+          this.info[0].num = res.data || 0;
           break;
         case 'wechatErp/expenseReimbursement/getToDoForBusinessBxCount':
-          this.ServiceExpenseSum = res.data || 0
+          this.info[1].num = res.data || 0;
           break;
         case 'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount':
-          this.CompanyExpenseSum = res.data || 0
+          this.info[2].num = res.data || 0;
+          break;
+        case 'wechatErp/costPlan/getToDoForCostPlanCount':
+          this.info[3].num = res.data || 0;
           break;
       }
     },

@@ -7,15 +7,20 @@
     </x-header>
     <!-- main -->
     <group :gutter="0">
-      <x-input title="项目　　"></x-input>
-      <x-input title="客户　　"></x-input>
-      <x-input title="联系人　"></x-input>
-      <x-input title="联系方式"></x-input>
-      <x-input title="招待费　"></x-input>
-      <x-input title="差旅费　"></x-input>
-      <x-input title="礼品费　"></x-input>
-      <x-input title="项目说明"></x-input>
-      <x-input title="合计金额"></x-input>
+      <selector title="项目"
+                v-model="projectId"
+                :options="projectAll"
+                placeholder="项目"
+                direction="ltr"
+                @on-change="changeproject"></selector>
+      <x-input title="客户　　" :show-clear="false" v-model="clientName" placeholder="客户" disabled></x-input>
+      <x-input title="联系人　" :show-clear="false" v-model="contactsName" placeholder="联系人" disabled></x-input>
+      <x-input title="联系方式" :show-clear="false" v-model="contactsPhone" placeholder="联系方式" disabled></x-input>
+      <x-input title="招待费　" :show-clear="false" v-model="entertainExpenses" placeholder="0"></x-input>
+      <x-input title="差旅费　" :show-clear="false" v-model="travelExpenses" placeholder="0"></x-input>
+      <x-input title="礼品费　" :show-clear="false" v-model="giftExpenses" placeholder="0"></x-input>
+      <x-input title="项目说明" :show-clear="false" v-model="projectInfo" placeholder="项目说明" ></x-input>
+      <x-input title="合计金额" :show-clear="false" v-model="singleTotalAmount" placeholder="0" disabled></x-input>
     </group>
     <div class="footer">
       <flexbox>
@@ -39,23 +44,93 @@ export default {
   name: "reimbursementMonthAdd",
   data() {
     return {
-
+      projectAll: [],
+      // 提交的信息
+      projectId: '',
+      clientName: '',
+      clientId: '',
+      contactsName: '',
+      contactsPhone: '',
+      entertainExpenses: '',
+      travelExpenses: '',
+      giftExpenses: '',
+      projectInfo: '',
     }
   },
   created() {
-
+    this.getBusinessProject();
+  },
+  computed: {
+    singleTotalAmount: {
+      get() { return (this.entertainExpenses*1 + this.travelExpenses*1 + this.giftExpenses*1) },
+      set() {}
+    },
   },
   methods: {
+    // 获取 业务员项目
+    getBusinessProject() {
+      const id = JSON.parse(window.sessionStorage.getItem('data')).id
+      this.axios
+        .get(`wechatErp/projectManager/getAllProjectList?createBy=${id}`)
+        .then(res => {
+          console.log(res)
+          res.data.forEach(item => {
+            this.projectAll.push({key: item.id, value: item.name})
+          })
+        })
+    },
+    changeproject(value) {
+      this.axios
+        .get(`wechatErp/costPlan/getClientByProjectId/${value}`)
+        .then(res => {
+          // console.log(res)
+          const {client, contacts} = res.data
+          this.clientName = client.companyName
+          this.clientId = client.id
+          this.contactsName = contacts.name
+          this.contactsPhone = contacts.mobilePhone
+        })
+    },
     // 点击确认按钮
     confirmBtn() {
-      const data = {}
-      console.log(data)
+      if (this.projectId == '')  return this.$vux.toast.text('请选择项目');
+      if (!this.singleTotalAmount) return this.$vux.toast.text('合计金额不能为0');
+      // 项目名称
+      const project = this.projectAll.filter(item => {
+        return item.key == this.projectId
+      })
+      const data = {
+        projectId:         this.projectId,
+        projectName:       project[0].value,
+        clientName:        this.clientName,
+        clientId:        this.clientId,
+        contactsName:      this.contactsName,
+        contactsPhone:     this.contactsPhone,
+        entertainExpenses: this.entertainExpenses,
+        travelExpenses:    this.travelExpenses,
+        giftExpenses:      this.giftExpenses,
+        projectInfo:       this.projectInfo,
+        singleTotalAmount: this.singleTotalAmount,
+        flag: parseInt(Math.random()*99999) + new Date()
+      }
+      const month = this.$route.query.month
+      this.axios
+        .get(`wechatErp/costPlan/getCostPlanCount`, {params: {projectId: this.projectId,yyyyMonth:month}})
+        .then(res => {
+          // console.log(res)
+          if (res.data == 0) {
+            this.$store.commit('changeMonthCostList', {data: data})
+            // console.log(this.$store.state.monthCostList)
+            // this.$router.go(-1)
+          } else {
+            this.$vux.toast.text(`该项目在该月已报销过月计划`)
+          }
+        })
     },
     // 点击取消按钮
     cancelBtn() {
-      console.log('取消')
       this.$router.go(-1)
-    }
+    },
   }
 }
 </script>

@@ -498,14 +498,15 @@ export default {
     approval() {
       const data = {
         ...this.data,
+        projectId: this.projectInfo.id,
         taskId: this.taskId,
         businessKey: this.businessKey,
         procInstId: this.processInstanceId,
+        processInstanceId: this.processInstanceId,
         message: this.message,
         role: this.roleInfo.roleName,
       }
       if (this.activityId == 'sub_3') {
-        data.projectId = this.projectInfo.id
         data.processInstanceId = this.processInstanceId
         data.activityID = this.activityId
         data.serviceMoney = this.serviceMoney
@@ -519,7 +520,6 @@ export default {
       }  else if (this.activityId == 'sub_9') {
         data.processInstanceId = this.processInstanceId
         data.roleCode = 'GENERAL_MANAGER'
-        data.projectId = this.projectInfo.id
         data.isPass = '1'
       }
       if (this.activityId == 'sub_7') {
@@ -581,7 +581,7 @@ export default {
     },
     // 事业部经理 总经理
     managerSendData (data) {
-      if (!this.message) {
+      if (!this.message.trim()) {
         this.toastShow = true
         return this.toastMsg = '请填写意见'
       }
@@ -590,9 +590,11 @@ export default {
         this.toastShow = true
         return this.toastMsg = '请填写合同归属'
       }
+      console.log(data)
       this.axios
         .post(`/wechatErp/contract/saveComment`, data)
         .then(res => {
+          console.log(res)
           const {resultInfo, resultState} = res.data
           // 成功
           if (resultState == 0) {
@@ -613,7 +615,7 @@ export default {
     // 技术部经理
     technologySendData(data) {
       // 技术经理 数据不为空
-      if (this.activityId == 'sub_3' && (!this.serviceMoney || !this.message)) {
+      if (this.activityId == 'sub_3' && (!this.serviceMoney || !this.message.trim())) {
         this.toastShow = true
         return this.toastMsg = '请填写所需费用和意见'
       }

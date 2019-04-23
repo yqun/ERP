@@ -6,11 +6,18 @@ Vue.use(vuex)
 const store = new vuex.Store({
 
   state: {
-    count: 0,
+    monthCostList: [], // 报销月计划
   },
   mutations: {
-    Count(state, n) {
-      state.count+=n
+    // 报销月计划
+    changeMonthCostList(state, {data, index}) {
+      console.log(index)
+      if (index >= 0) {
+        return state.monthCostList.splice(index, 1)
+      } else if (index < 0) {
+        return state.monthCostList = [];
+      }
+      if (data.flag) return state.monthCostList.push(data);
     }
   }
 })

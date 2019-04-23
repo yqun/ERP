@@ -26,7 +26,7 @@
           <li v-if="projectInfo.zzKind == 2"><strong>开户行</strong><span>{{projectInfo.bankName}}</span></li>
           <li v-if="projectInfo.zzKind == 2"><strong>账户名称</strong><span>{{projectInfo.accountName}}</span></li>
           <li v-if="projectInfo.zzKind == 2"><strong>银行账号</strong><span>{{projectInfo.bankNum}}</span></li>
-          <li v-if="projectInfo.zzKind == 2"><strong>电子发票号</strong><span>{{projectInfo.invoiceCode}}</span></li>
+          <li v-if="invoiceRadio == 'Y'"><strong>电子发票号</strong><span>{{projectInfo.invoiceCode}}</span></li>
           <!-- 见票据 -->
           <li v-if="projectInfo.zzKind == 3"><strong>转账类型</strong><span>见票据</span></li>
           <li v-if="projectInfo.zzKind != 2"><strong>领款人　</strong><span>{{projectInfo.payee}}</span></li>
@@ -356,10 +356,10 @@ export default {
     },
     // 发送请求
     processSend(data) {
-      if (this.activityID == 'cwSecond' && !data.voucherNum && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请填写凭证号'
+      if (this.activityID == 'cwSecond' && !data.voucherNum.trim() && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请填写凭证号'
       if (!this.message.trim()) return this.toastShow = true, this.toastVal = '请填写意见'
       this.axios
-        .post(`wechatErp/expenseReimbursement/flowToNextActivityForQueryOnly`, data)
+        .post(`wechatErp/expenseReimbursementPlatform/flowToNextActivityForQueryOnly`, data)
         .then(res => {
           // console.log(res)
           const {resultState, messageInfo} = res.data

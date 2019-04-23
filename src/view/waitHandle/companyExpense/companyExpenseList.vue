@@ -41,13 +41,13 @@
           <ul>
             <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.pdname}}</h4>
+                <h4 style="float: left;">{{item.startUser}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
                 <button style="float: right;">正在流转</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.createTime}}</span>
-                <span style="float: right;">{{item.startUser}}</span>
+                <span style="float: right;">{{item.userName}}</span>
               </div>
             </li>
             <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>

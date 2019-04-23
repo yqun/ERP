@@ -11,30 +11,43 @@
           <h3>基本信息</h3>
         </div>
         <group :gutter="0">
-          <x-input title="申请名称" placeholder="请输入申请名称"></x-input>
-          <x-input title="月度　　"></x-input>
-          <x-input title="总计　　"></x-input>
+          <x-input title="申请名称" placeholder="请输入申请名称" :show-clear="false" v-model="applyName"></x-input>
+          <datetime title="月度" format="YYYY-MM" v-model="datetimeMonth"></datetime>
+          <x-input title="总计　　" :show-clear="false"　disabled v-model="costTotal"></x-input>
         </group>
       <!-- 费用列表 -->
       <div class="costList title">
         <h3>
           费用列表
-          <span style="float: right;" @click="$router.push('/reimbursementMonthAdd')"><i class="add-pic"></i>添加</span>
+          <span style="float: right;" @click="addCostList()"><i class="add-pic"></i>添加</span>
         </h3>
         <!-- 费用信息 -->
-        <swiper height="300px" class="text-scroll" :show-dots="false" :threshold="1">
-          <swiper-item v-for="item in 3" :key="item">
+        <swiper :height="height" :show-dots="false" :threshold="20">
+          <swiper-item v-if='!monthCostList.length'>
             <ul>
-              <li><strong>项目名称</strong><span>1234567</span></li>
-              <li><strong>客户名称</strong><span>1234567</span></li>
-              <li><strong>联系人　</strong><span>1234567</span></li>
-              <li><strong>联系方式</strong><span>1234567</span></li>
-              <li><strong>招待费　</strong><span>1234567</span></li>
-              <li><strong>差旅费　</strong><span>1234567</span></li>
-              <li><strong>礼品费　</strong><span>1234567</span></li>
-              <li><strong>项目情况</strong><span>1234567</span></li>
-              <li><strong>合计金额</strong><span>1234567</span></li>
-              <!--<li style="padding: 10px 10%"><x-button type="warn">删除</x-button></li>-->
+              <li><strong>项目名称</strong><span>无</span></li>
+              <li><strong>客户名称</strong><span>无</span></li>
+              <li><strong>联系人　</strong><span>无</span></li>
+              <li><strong>联系方式</strong><span>无</span></li>
+              <li><strong>招待费　</strong><span>无</span></li>
+              <li><strong>差旅费　</strong><span>无</span></li>
+              <li><strong>礼品费　</strong><span>无</span></li>
+              <li><strong>项目情况</strong><span>无</span></li>
+              <li><strong>合计金额</strong><span>无</span></li>
+            </ul>
+          </swiper-item>
+          <swiper-item v-for="(item,index) in monthCostList" :key="item.flag" >
+            <ul>
+              <li><strong>项目名称</strong><span>{{item.projectName || '无'}}</span></li>
+              <li><strong>客户名称</strong><span>{{item.clientName || '无'}}</span></li>
+              <li><strong>联系人　</strong><span>{{item.contactsName || '无'}}</span></li>
+              <li><strong>联系方式</strong><span>{{item.contactsPhone || '无'}}</span></li>
+              <li><strong>招待费　</strong><span>{{item.entertainExpenses || '0'}}</span></li>
+              <li><strong>差旅费　</strong><span>{{item.travelExpenses || '0'}}</span></li>
+              <li><strong>礼品费　</strong><span>{{item.giftExpenses || '0'}}</span></li>
+              <li><strong>项目情况</strong><span>{{item.projectInfo || '无'}}</span></li>
+              <li><strong>合计金额</strong><span>{{item.singleTotalAmount || '0'}}</span></li>
+              <li style="padding: 10px 10%" @click="deleteCostList(index)"><x-button type="warn">删除</x-button></li>
             </ul>
           </swiper-item>
         </swiper>
@@ -59,25 +72,80 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: "reimbursementMonthList",
   data() {
     return {
-
+      height: '320px',
+      applyName: '',
+      datetimeMonth: '',
+      costTotal: 0,
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    to.meta.keepAlive = true
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.name == 'home') {
+      this.$destroy()
+    }
+    next()
   },
   created() {
 
   },
+  activated() {
+    if (this.monthCostList.length) {
+      // 获取总金额
+      this.costTotal = 0;
+      this.monthCostList.forEach(item => {
+        this.costTotal+=item.singleTotalAmount
+      })
+    }
+  },
+  computed: {
+   ...mapState(['monthCostList'])
+  },
   methods: {
+    //
+    addCostList() {
+      if (!this.datetimeMonth) return this.$vux.toast.text('请选择月份')
+      this.$router.push({path: '/reimbursementMonthAdd', query: {month: this.datetimeMonth}})
+    },
+    deleteCostList(index) {
+      console.log(index)
+      this.$store.commit('changeMonthCostList', {index: index})
+      console.log(this.$store.state.monthCostList)
+    },
     // 点击确认按钮
     confirmBtn() {
-      const data = {}
-      console.log(data)
+      if (!this.applyName)     return this.$vux.toast.text('申请名称不能为空')
+      if (!this.datetimeMonth) return this.$vux.toast.text('请选择月份')
+      if (!this.monthCostList.length) return this.$vux.toast.text('费用列表不能为空')
+      const data = {
+        name: this.applyName,
+        month: this.datetimeMonth + '-01',
+        totalAmount: this.costTotal,
+        costPlanDetailsJson: JSON.stringify(this.monthCostList)
+      }
+      // console.log(data)
+      this.axios
+        .post(`wechatErp/costPlan/saveAndFlow`, data)
+        .then(res => {
+          console.log(res)
+          const {resultState, resultInfo} = res.data
+          this.$vux.toast.text(resultInfo)
+          if (resultState != -1) {
+            this.$store.commit('changeMonthCostList', {index: -1})
+            console.log(this.$store.state.monthCostList)
+            this.$router.go(-1)
+          }
+        })
     },
     // 点击取消按钮
     cancelBtn() {
-      console.log('取消')
       this.$router.go(-1)
     }
   }
@@ -124,7 +192,7 @@ export default {
 .costList ul li {
   width: 100%;
   box-sizing: border-box;
-  padding: 5px 0;
+  padding: 3px 0;
 }
 .costList ul li strong {
   display: inline-block;
@@ -134,6 +202,10 @@ export default {
   display: inline-block;
   width: 69%;
   color: #999;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 /* 添加 */
 .add-pic {

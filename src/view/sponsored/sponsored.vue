@@ -9,22 +9,22 @@
     <div class="main">
       <!-- 按钮 -->
       <ul class="clearfix">
-        <li class="waitHandleItem" @click="$router.push('/SContractList')">
-          <h3>{{ContractSum}}</h3>
-          <p>合同审批</p>
-        </li>
-        <li class="waitHandleItem" @click="$router.push('/SserviceExpenseList')">
-          <h3>{{ServiceExpenseSum}}</h3>
-          <p>项目报销</p>
-        </li>
-        <li class="waitHandleItem" @click="$router.push('/ScompanyExpenseList')">
-          <h3>{{CompanyExpenseSum}}</h3>
-          <p>公司报销</p>
-        </li>
-        <!--<li class="waitHandleItem">-->
-          <!--<h3>9</h3>-->
-          <!--<p>标书购买</p>-->
+        <!--<li class="waitHandleItem" @click="$router.push('/SContractList')">-->
+          <!--<h3>{{ContractSum}}</h3>-->
+          <!--<p>合同审批</p>-->
         <!--</li>-->
+        <!--<li class="waitHandleItem" @click="$router.push('/SserviceExpenseList')">-->
+          <!--<h3>{{ServiceExpenseSum}}</h3>-->
+          <!--<p>项目报销</p>-->
+        <!--</li>-->
+        <!--<li class="waitHandleItem" @click="$router.push('/ScompanyExpenseList')">-->
+          <!--<h3>{{CompanyExpenseSum}}</h3>-->
+          <!--<p>公司报销</p>-->
+        <!--</li>-->
+        <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push(item.path)">
+          <h3>{{item.num}}</h3>
+          <p>{{item.name}}</p>
+        </li>
         <!--<li class="waitHandleItem">-->
           <!--<h3>15</h3>-->
           <!--<p>标书购买</p>-->
@@ -43,6 +43,12 @@ export default {
       ContractSum: '', // 合同审批总条数
       ServiceExpenseSum: '', //业务报销条数
       CompanyExpenseSum: '', // 公司报销总条数
+      info: [
+        {name: '合同审批', path: '/SContractList', num: ''},
+        {name: '项目报销', path: '/SserviceExpenseList', num: ''},
+        {name: '公司报销', path: '/ScompanyExpenseList', num: ''},
+        // {name: '报销月计划', path: '/SmonthList', num: ''},
+      ]
     }
   },
   created() {
@@ -62,6 +68,7 @@ export default {
         'wechatErp/contract/getContractMyStartProcessCount',
         'wechatErp/expenseReimbursement/getBusinessBxtMyStartProcessCount',
         'wechatErp/expenseReimbursementPlatform/getPlatformBxtMyStartProcessCount',
+        // 'wechatErp/costPlan/getCostPlantMyStartProcessCount'
       ]
       for(let i = 0; i < addressArr.length; i++) {
         this.getSum(addressArr[i])
@@ -73,13 +80,16 @@ export default {
       // 判断url
       switch(url) {
         case 'wechatErp/contract/getContractMyStartProcessCount':
-          this.ContractSum = res.data || 0;
+          this.info[0].num = res.data || 0;
           break;
         case 'wechatErp/expenseReimbursement/getBusinessBxtMyStartProcessCount':
-          this.ServiceExpenseSum = res.data || 0
+          this.info[1].num = res.data || 0
           break;
         case 'wechatErp/expenseReimbursementPlatform/getPlatformBxtMyStartProcessCount':
-          this.CompanyExpenseSum = res.data || 0
+          this.info[2].num = res.data || 0
+          break;
+        case 'wechatErp/costPlan/getCostPlantMyStartProcessCount':
+          this.info[3].num = res.data || 0
           break;
       }
     },
