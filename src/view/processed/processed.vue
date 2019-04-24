@@ -11,17 +11,17 @@
       <ul class="clearfix">
         <!--<li class="waitHandleItem" @click="$router.push({path: '/PContractList'})">-->
           <!--<h3 :style="{'font-size': size}">{{ContractSum}}</h3>-->
-          <!--&lt;!&ndash;<i>({{ContractSum}})</i>&ndash;&gt;-->
+          <!--<i>({{ContractSum}})</i>-->
           <!--<p>合同审批</p>-->
         <!--</li>-->
         <!--<li class="waitHandleItem" @click="$router.push({path: '/PserviceExpenseList'})">-->
           <!--<h3 :style="{'font-size': size}">{{ServiceExpenseSum}}</h3>-->
-          <!--&lt;!&ndash;<i>({{ServiceExpenseSum}})</i>&ndash;&gt;-->
+          <!--<i>({{ServiceExpenseSum}})</i>-->
           <!--<p>项目报销</p>-->
         <!--</li>-->
         <!--<li class="waitHandleItem" @click="$router.push({path: '/PcompanyExpenseList'})">-->
           <!--<h3 :style="{'font-size': size}">{{CompanyExpenseSum}}</h3>-->
-          <!--&lt;!&ndash;<i>({{CompanyExpenseSum}})</i>&ndash;&gt;-->
+          <!--<i>({{CompanyExpenseSum}})</i>-->
           <!--<p>公司报销</p>-->
         <!--</li>-->
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push({path: item.path})">
@@ -48,10 +48,11 @@ export default {
       ServiceExpenseSum: '',  // 业务报销总条数
       CompanyExpenseSum: '',  // 公司报销条数
       info: [
-        {name: '合同审批', path: '/PContractList',       fontSize: '0.55rem', num: ''},
+        {name: '合同审批', path: '/PContractList', fontSize: '0.55rem', num: ''},
         {name: '项目报销', path: '/PserviceExpenseList', fontSize: '0.55rem', num: ''},
-        {name: '公司报销', path: '/PcompanyExpenseList', fontSize: '0.55rem', num: ''}
-        ],
+        {name: '公司报销', path: '/PcompanyExpenseList', fontSize: '0.55rem', num: ''},
+        {name: '报销月计划', path: '/PmonthList', fontSize: '0.55rem', num: ''},
+      ],
     }
   },
   created() {
@@ -71,32 +72,21 @@ export default {
         'wechatErp/contract/getContractAlreadyDoneTaskCount',
         'wechatErp/expenseReimbursement/getBusinessBxAlreadyDoneTaskCount',
         'wechatErp/expenseReimbursementPlatform/getPlatformBxAlreadyDoneTaskCount',
+        'wechatErp/costPlan/getCostPlanAlreadyDoneTaskCount',
       ]
-      for(let i = 0; i < addressArr.length; i++) {
-        this.getSum(addressArr[i])
+      for(let index = 0; index < addressArr.length; index++) {
+        this.getSum(addressArr[index], index)
       }
     },
     // 获取数据
-    async getSum(url) {
+    async getSum(url, index) {
       const res = await this.axios.get(url, {params: this.data})
       // 判断url
-      switch(url) {
-        case 'wechatErp/contract/getContractAlreadyDoneTaskCount':
-          this.info[0].num = res.data || 0;
-          break;
-        case 'wechatErp/expenseReimbursement/getBusinessBxAlreadyDoneTaskCount':
-          this.info[1].num = res.data || 0;
-          break;
-        case 'wechatErp/expenseReimbursementPlatform/getPlatformBxAlreadyDoneTaskCount':
-          this.info[2].num = res.data || 0;
-          break;
-      }
+      this.info[index].num = res.data || 0;
       // 根据数字长度判断 字体大小
-      this.info.forEach(item => {
-        if (item.num <= 99999) item.fontSize = '0.45rem'
-        if (item.num <= 9999)  item.fontSize = '0.5rem'
-        if (item.num <= 999)   item.fontSize = '0.55rem'
-      })
+      if (this.info[index].num <= 99999) this.info[index].fontSize = '0.45rem'
+      if (this.info[index].num <= 9999)  this.info[index].fontSize = '0.5rem'
+      if (this.info[index].num <= 999)   this.info[index].fontSize = '0.55rem'
     },
   }
 }

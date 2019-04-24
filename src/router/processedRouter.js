@@ -5,11 +5,14 @@ import contract from '@/router/processed/processedContractRouter'
 import serviceExpense from '@/router/processed/serviceExpenseRouter'
 // 公司报销
 import companyExpense from '@/router/processed/companyExpenseRouter'
+// 报销月计划
+import reimbursementMonth from '@/router/processed/reimbursementMonthRouter'
 
 const ProcessedRouter = [
   ...contract,
   ...serviceExpense,
   ...companyExpense,
+  ...reimbursementMonth
 ]
 
 

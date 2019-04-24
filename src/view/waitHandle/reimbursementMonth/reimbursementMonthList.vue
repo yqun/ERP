@@ -61,7 +61,7 @@
             </div>
           </flexbox-item>
           <flexbox-item>
-            <div class="flex-demo" @click="cancelBtn()">
+            <div class="flex-demo" @click="$router.go(-1)">
               <x-button type="warn" style="backgroundColor: #bababa; color: #fff;">取消</x-button>
             </div>
           </flexbox-item>
@@ -89,15 +89,17 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (to.name == 'home') {
+      this.$store.commit('changeMonthCostList', {index: -1})
       this.$destroy()
     }
     next()
   },
-  created() {
-
-  },
-  activated() {
-    if (this.monthCostList.length) {
+  created() {},
+  activated() {},
+  computed: {...mapState(['monthCostList'])},
+  watch: {
+    monthCostList(newVal, oldVal) {
+      if (!this.monthCostList.length) return false;
       // 获取总金额
       this.costTotal = 0;
       this.monthCostList.forEach(item => {
@@ -105,22 +107,15 @@ export default {
       })
     }
   },
-  computed: {
-   ...mapState(['monthCostList'])
-  },
   methods: {
-    //
-    addCostList() {
+    addCostList() {  // 点击跳转添加费用列表页
       if (!this.datetimeMonth) return this.$vux.toast.text('请选择月份')
       this.$router.push({path: '/reimbursementMonthAdd', query: {month: this.datetimeMonth}})
     },
-    deleteCostList(index) {
-      console.log(index)
+    deleteCostList(index) { // 删除费用列表选项
       this.$store.commit('changeMonthCostList', {index: index})
-      console.log(this.$store.state.monthCostList)
     },
-    // 点击确认按钮
-    confirmBtn() {
+    confirmBtn() { // 点击确认按钮
       if (!this.applyName)     return this.$vux.toast.text('申请名称不能为空')
       if (!this.datetimeMonth) return this.$vux.toast.text('请选择月份')
       if (!this.monthCostList.length) return this.$vux.toast.text('费用列表不能为空')
@@ -134,20 +129,13 @@ export default {
       this.axios
         .post(`wechatErp/costPlan/saveAndFlow`, data)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const {resultState, resultInfo} = res.data
           this.$vux.toast.text(resultInfo)
-          if (resultState != -1) {
-            this.$store.commit('changeMonthCostList', {index: -1})
-            console.log(this.$store.state.monthCostList)
-            this.$router.go(-1)
-          }
+          if (resultState == -1) return false;
+          this.$router.go(-1)
         })
     },
-    // 点击取消按钮
-    cancelBtn() {
-      this.$router.go(-1)
-    }
   }
 }
 </script>

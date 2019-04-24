@@ -6,6 +6,8 @@ import SContractItem from '@/view/sponsored/contract/SContractItem'
 import serviceExpense from '@/router/sponsored/serviceExpenseRouter'
 // 公司报销
 import companyExpense from '@/router/sponsored/companyExpenseRouter'
+// 报销月计划
+import reimbursementMonth from '@/router/sponsored/reimbursementMonthRouter'
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -13,6 +15,7 @@ const sponsoredRouter = [
   {path: '/SContractItem', name: 'sponsoredItem', component: SContractItem},
   ...serviceExpense,
   ...companyExpense,
+  ...reimbursementMonth,
 ]
 
 

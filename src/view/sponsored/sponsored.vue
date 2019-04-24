@@ -47,7 +47,7 @@ export default {
         {name: '合同审批', path: '/SContractList', num: ''},
         {name: '项目报销', path: '/SserviceExpenseList', num: ''},
         {name: '公司报销', path: '/ScompanyExpenseList', num: ''},
-        // {name: '报销月计划', path: '/SmonthList', num: ''},
+        {name: '报销月计划', path: '/SmonthList', num: ''},
       ]
     }
   },
@@ -68,7 +68,7 @@ export default {
         'wechatErp/contract/getContractMyStartProcessCount',
         'wechatErp/expenseReimbursement/getBusinessBxtMyStartProcessCount',
         'wechatErp/expenseReimbursementPlatform/getPlatformBxtMyStartProcessCount',
-        // 'wechatErp/costPlan/getCostPlantMyStartProcessCount'
+        'wechatErp/costPlan/getCostPlantMyStartProcessCount'
       ]
       for(let i = 0; i < addressArr.length; i++) {
         this.getSum(addressArr[i])

@@ -30,7 +30,7 @@
           </div>
         </flexbox-item>
         <flexbox-item>
-          <div class="flex-demo" @click="cancelBtn()">
+          <div class="flex-demo" @click="$router.go(-1)">
             <x-button type="warn" style="backgroundColor: #bababa; color: #fff;">取消</x-button>
           </div>
         </flexbox-item>
@@ -73,7 +73,7 @@ export default {
       this.axios
         .get(`wechatErp/projectManager/getAllProjectList?createBy=${id}`)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           res.data.forEach(item => {
             this.projectAll.push({key: item.id, value: item.name})
           })
@@ -120,16 +120,11 @@ export default {
           // console.log(res)
           if (res.data == 0) {
             this.$store.commit('changeMonthCostList', {data: data})
-            // console.log(this.$store.state.monthCostList)
-            // this.$router.go(-1)
+            this.$router.go(-1)
           } else {
             this.$vux.toast.text(`该项目在该月已报销过月计划`)
           }
         })
-    },
-    // 点击取消按钮
-    cancelBtn() {
-      this.$router.go(-1)
     },
   }
 }

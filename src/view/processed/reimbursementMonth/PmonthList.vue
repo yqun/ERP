@@ -18,12 +18,12 @@
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
                 <h4 style="float: left;">{{item.startUser}}</h4>
-                <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">{{item.status}}</button>
+                <x-icon type="ios-arrow-right" size="24"></x-icon>
+                <button style="float: right;">我发起的</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.dataFormat}}</span>
-                <span style="float: right;">{{item.name}}</span>
+                <span style="float: right;">{{item.userName || '已完结'}}</span>
               </div>
             </li>
             <li v-if="list.length == 0"
@@ -40,7 +40,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "monthList",
+  name: "PmonthList",
   data() {
       return {
         data: {},
@@ -54,6 +54,9 @@ export default {
       }
     },
   created() {
+    this.$vux.loading.show({
+      text: 'Loading'
+    })
     this.getUserInfo()
     this.getMonthInfo()
   },
@@ -75,7 +78,6 @@ export default {
     },
     // 获取数据
     getMonthInfo() {
-      this.$vux.loading.show({text: 'Loading'});
       const data = {
         ...this.data,
         iDisplayStart: this.iDisplayStart,
@@ -83,13 +85,13 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`wechatErp/costPlan/getToDoForCostPlan`, {params: data})
+        .get(`wechatErp/costPlan/getCostPlanAlreadyDoneTask`, {params: data})
         .then(res => {
-          this.$vux.loading.hide();
           // console.log(res)
+          this.$vux.loading.hide()
           const {data} = res.data
           data.forEach(item => {
-            item.dataFormat = dateFormat(item.taskCreateTime, 'YYYY-MM-DD HH:mm:ss')
+            item.dataFormat = dateFormat(item.startTime, 'YYYY-MM-DD HH:mm:ss')
           })
           this.list.push(...data)
           const page = Math.ceil(res.data.page.totalResult/10)
@@ -104,11 +106,9 @@ export default {
     // 路由跳转
     routerLink(contract) {
       this.$router.push({
-        path: '/monthItem',
+        path: '/PmonthItem',
         query: {
           key: contract.key,
-          taskId: contract.id,
-          activityId: contract.activityID,
           businessKey: contract.businessKey,
           processInstanceId: contract.processInstanceId
         }
@@ -120,11 +120,27 @@ export default {
 
 <style scoped>
 @import '../../../assets/css/list.css';
+/* 固定头部导航 */
+.contract-item {
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 46px;
+  font-size:16px;
+  background-color: #f8f8f8;
+}
+.vux-header {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+}
 .waitHandleList {
-   width: 100%;
-   height: 100%;
-   background-color: #fff;
- }
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding-top: 46px;
+}
 .search {
   height: 0.5rem;
   /*background-color: red;*/
@@ -144,7 +160,7 @@ export default {
 }
 .main {
   width: 100%;
-  height: 92%;
+  height: 99%;
   box-sizing: border-box;
 }
 </style>

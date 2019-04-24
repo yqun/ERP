@@ -11,7 +11,6 @@ const store = new vuex.Store({
   mutations: {
     // 报销月计划
     changeMonthCostList(state, {data, index}) {
-      console.log(index)
       if (index >= 0) {
         return state.monthCostList.splice(index, 1)
       } else if (index < 0) {

@@ -27,9 +27,9 @@
               <li><strong>客户名称</strong><span>{{item.clientName}}</span></li>
               <li><strong>联系人　</strong><span>{{item.contactsName}}</span></li>
               <li><strong>联系方式</strong><span>{{item.contactsPhone}}</span></li>
-              <li><strong>招待费　</strong><span><input type="text" :disabled="activityId !== 'sub_4'" v-model="item.entertainExpenses"></span></li>
-              <li><strong>差旅费　</strong><span><input type="text" :disabled="activityId !== 'sub_4'" v-model="item.travelExpenses"></span></li>
-              <li><strong>礼品费　</strong><span><input type="text" :disabled="activityId !== 'sub_4'" v-model="item.giftExpenses"></span></li>
+              <li><strong>招待费　</strong><span><input type="text" :disabled="activityId != 'sub_4'" v-model="item.entertainExpenses"></span></li>
+              <li><strong>差旅费　</strong><span><input type="text" :disabled="activityId != 'sub_4'" v-model="item.travelExpenses"></span></li>
+              <li><strong>礼品费　</strong><span><input type="text" :disabled="activityId != 'sub_4'" v-model="item.giftExpenses"></span></li>
               <li><strong>项目情况</strong><span>{{item.projectInfo || '无'}}</span></li>
               <li><strong>合计金额</strong><span>{{item.singleTotalAmount}}</span></li>
             </ul>
@@ -200,6 +200,9 @@ export default {
     },
     // 点击确认按钮
     confirmBtn() {
+      for(let i = 0; i < this.costPlanDetailList.length; i++) {
+        if(this.costPlanDetailList[i].singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0');
+      }
       if (!this.message.trim()) return this.$vux.toast.text('请输入意见');
       const data = {
         message:             this.message,
@@ -219,6 +222,9 @@ export default {
     // 点击回退按钮
     cancelBtn() {
       if (!this.message.trim()) return this.$vux.toast.text('请输入意见');
+      for(let i = 0; i < this.costPlanDetailList.length; i++) {
+        if(this.costPlanDetailList[i].singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0');
+      }
       const data = {
         message:             this.message,
         businessKey:         this.businessKey,
@@ -236,9 +242,9 @@ export default {
     },
     // 流转
     circulation() {
-      this.costPlanDetailList.forEach(item => { // 合计金额不能为0
-        if (item.singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0')
-      })
+      for(let i = 0; i < this.costPlanDetailList.length; i++) {
+        if(this.costPlanDetailList[i].singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0');
+      }
       if (!this.message.trim()) return this.$vux.toast.text('请输入意见');
       this.axios
         .post(`wechatErp/costPlan/updateAndFlow`, {
