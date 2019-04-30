@@ -18,6 +18,8 @@ import { Selector } from 'vux'
 import { Checker, CheckerItem } from 'vux'
 import { Icon } from 'vux'
 import { Datetime } from 'vux'
+import { Checklist } from 'vux'
+import { CheckIcon } from 'vux'
 
 import  { ToastPlugin } from 'vux'
 import  { LoadingPlugin } from 'vux'
@@ -47,6 +49,8 @@ Vue.component('checker', Checker)
 Vue.component('checker-item', CheckerItem)
 Vue.component('icon', Icon)
 Vue.component('datetime', Datetime)
+Vue.component('checklist', Checklist)
+Vue.component('check-icon', CheckIcon)
 
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin, {position: 'middle'})

@@ -29,7 +29,6 @@
           </grid-item>
         </grid>
       </div>
-
       <!-- 常用应用 application -->
       <div class="application">
         <h3>常用应用</h3>
@@ -52,10 +51,15 @@
               <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
               <span slot="label">公司报销</span>
               </grid-item>
-              <!-- 销售部门报销月计划 -->
+              <!-- 报销月计划 -->
               <grid-item link="/reimbursementMonthList">
                 <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
-                <span slot="label">销售部门报销月计划</span>
+                <span slot="label">报销月计划</span>
+              </grid-item>
+              <!-- 立项管理 -->
+              <grid-item link="/projectList">
+                <img slot="icon" src="../assets/images/application/组16@2x.png">
+                <span slot="label">立项管理</span>
               </grid-item>
             </grid>
           </swiper-item>

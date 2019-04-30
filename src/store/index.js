@@ -16,7 +16,8 @@ const store = new vuex.Store({
       } else if (index < 0) {
         return state.monthCostList = [];
       }
-      if (data.flag) return state.monthCostList.push(data);
+      if (data instanceof Object) return state.monthCostList.push(data);
+      if (data instanceof Array) return state.monthCostList = data;
     }
   }
 })

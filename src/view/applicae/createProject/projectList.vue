@@ -1,31 +1,34 @@
 <template>
-  <div class="waitHandleList">
+  <div class="contract">
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="报销月计划">
+              title="立项管理">
+      <span slot="right" style="color: #fff; font-size: 30px;" @click="$router.push('/createProject')">+</span>
     </x-header>
-    <!-- main -->
+    <!-- 搜索框 -->
+    <div class="search">
+      <p style="float: left;">项目名称<i></i></p>
+      <p style="float: right;">创建时间 <input type="text"> 到 <input type="text"></p>
+    </div>
+    <!-- 内容 -->
     <div class="main">
-      <!-- 搜索框 -->
-      <!--<div class="search">-->
-        <!--<input type="text" v-model="searchValue" placeholder="搜索" disabled>-->
-      <!--</div>-->
-      <!-- 上拉加载 -->
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.startUser}}</h4>
+                <h4 style="float: left; width: 75%;">{{item.name}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">{{item.status}}</button>
+                <button style="float: right;">{{item.chineseName}}</button>
+                <!--<span>{{item.chineseName}}</span>-->
               </div>
               <div class="clearfix p">
-                <span style="float: left;">{{item.dataFormat}}</span>
-                <span style="float: right;">{{item.name}}</span>
+                <span style="float: left;">{{item.code}}</span>
+                <span style="float: right;">{{item.dataFormat}}</span>
               </div>
             </li>
+            <!-- 数据为空时显示 -->
             <li v-if="list.length == 0"
                 style="text-align: center;">
               数据为空
@@ -40,22 +43,21 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "monthList",
+  name: "projectList",
   data() {
-      return {
-        data: {},
-        searchValue: '', // 搜索关键字
-        list: [],
-        scrollBottom: true, // 控制上拉加载
-        // 分页数据
-        iDisplayStart: 0,
-        iDisplayLength: 10,
-        isData: true, // 判断是否还有数据
-      }
-    },
+    return {
+      data: {},
+      list: [],
+      iDisplayStart: 0,
+      iDisplayLength: 10,
+      scrollBottom: true,
+      isData: true,
+    }
+  },
   created() {
-    this.getUserInfo()
-    this.getMonthInfo()
+    this.$vux.loading.show({text: 'Loading'});
+    this.getUserInfo ();
+    this.getMonthInfo();
   },
   methods: {
     // 获取用户信息
@@ -75,7 +77,6 @@ export default {
     },
     // 获取数据
     getMonthInfo() {
-      this.$vux.loading.show({text: 'Loading'});
       const data = {
         ...this.data,
         iDisplayStart: this.iDisplayStart,
@@ -83,13 +84,13 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`wechatErp/costPlan/getToDoForCostPlan`, {params: data})
+        .post(`wechatErp/projectManager/page`, data)
         .then(res => {
           this.$vux.loading.hide();
           // console.log(res)
           const {data} = res.data
           data.forEach(item => {
-            item.dataFormat = dateFormat(item.taskCreateTime, 'YYYY-MM-DD HH:mm:ss')
+            item.dataFormat = dateFormat(item.createTime, 'YYYY-MM-DD')
           })
           this.list.push(...data)
           const page = Math.ceil(res.data.page.totalResult/10)
@@ -103,20 +104,10 @@ export default {
     },
     // 路由跳转
     routerLink(contract) {
-      let path;
-      if (contract.activityID == 'sub_4') {
-        path = '/updateInfo'
-      } else {
-        path = '/monthItem'
-      }
       this.$router.push({
-        path: path,
+        path: '/createProject',
         query: {
-          key: contract.key,
-          taskId: contract.id,
-          activityId: contract.activityID,
-          businessKey: contract.businessKey,
-          processInstanceId: contract.processInstanceId
+          id: contract.id,
         }
       })
     }
@@ -126,31 +117,46 @@ export default {
 
 <style scoped>
 @import '../../../assets/css/list.css';
-.waitHandleList {
-   width: 100%;
-   height: 100%;
-   background-color: #fff;
- }
-.search {
-  height: 0.5rem;
-  /*background-color: red;*/
-  padding-bottom: 0.15rem;
-}
-.search input {
-  vertical-align: top;
+.contract {
   width: 100%;
   height: 100%;
-  border: none;
-  background-color: #e3e3e3;
-  border-radius: 20px;
+  box-sizing: border-box;
+  padding-top: 86px;
+  font-size:16px;
+  background-color: #f8f8f8;
+}
+div.vux-header {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+}
+/* search */
+.search {
+  position: fixed;
+  z-index: 999;
+  top: 46px;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background-color: #fff;
   box-sizing: border-box;
   padding: 0 10px;
+}
+.search p {
+  font-size: 14px;
+}
+.search p input {
+  width: 70px;
+  border: none;
   outline: none;
-  color: #fff;
+  background-color: #f2f2f2;
 }
 .main {
+  height: 100%;
   width: 100%;
-  height: 92%;
   box-sizing: border-box;
+  padding: 10px 0;
+  /*background-color: #fff;*/
 }
 </style>

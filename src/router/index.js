@@ -8,6 +8,8 @@ import sponsoredRouter from './sponsoredRouter'
 import waitHandleRouter from './waitHandleRouter'
 // 已处理的
 import ProcessedRouter from "./processedRouter";
+// 常用应用
+import ApplicaeRouter from "./applicaeRouter";
 
 
 Vue.use(Router)
@@ -16,9 +18,10 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {path: '/', name: 'home', component: Home},
-    ...sponsoredRouter,  // 我发起的
-    ...waitHandleRouter, // 待处理
-    ...ProcessedRouter,  // 已处理
+    ...sponsoredRouter,
+    ...waitHandleRouter,
+    ...ProcessedRouter,
+    ...ApplicaeRouter,
   ]
 });
 

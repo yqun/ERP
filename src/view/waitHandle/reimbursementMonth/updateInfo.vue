@@ -7,31 +7,47 @@
     </x-header>
     <!-- main -->
     <div class="main">
-      <div class="costList title" style="margin-top: 0px;">
+      <div class="title" style="margin-top: 0px;">
         <h3>基本信息</h3>
-        <ul>
-          <li><strong>申请名称</strong><span>{{coltPlan.name}}</span></li>
-          <li><strong>申请人　</strong><span>{{coltPlan.userName}}</span></li>
-          <li><strong>月度　　</strong><span>{{coltPlan.month}}</span></li>
-          <li><strong>申请总计</strong><span>{{totalAmount}}</span></li>
-        </ul>
       </div>
+      <group :gutter="0">
+        <x-input title="申请名称" placeholder="请输入申请名称" :show-clear="false" v-model="coltPlan.name"></x-input>
+        <datetime title="月度" format="YYYY-MM" v-model="coltPlan.month"></datetime>
+        <x-input title="总计　　" :show-clear="false"　disabled v-model="costTotal"></x-input>
+      </group>
       <!-- 费用列表 -->
       <div class="costList title">
-        <h3>费用列表</h3>
+        <h3>
+          费用列表
+          <span style="float: right;" @click="addCostList()"><i class="add-pic"></i>添加</span>
+        </h3>
         <!-- 费用信息 -->
-        <swiper height="300px" class="text-scroll" :show-dots="false" :threshold="1">
-          <swiper-item v-for="item in costPlanDetailList" :key="item.id">
+        <swiper :height="height" :show-dots="false" :threshold="20">
+          <swiper-item v-if='!costPlanDetailList.length'>
             <ul>
-              <li><strong>项目名称</strong><span>{{item.projectName}}</span></li>
-              <li><strong>客户名称</strong><span>{{item.clientName}}</span></li>
-              <li><strong>联系人　</strong><span>{{item.contactsName}}</span></li>
-              <li><strong>联系方式</strong><span>{{item.contactsPhone}}</span></li>
-              <li><strong>招待费　</strong><span><input type="text" v-model="item.entertainExpenses"></span></li>
-              <li><strong>差旅费　</strong><span><input type="text" v-model="item.travelExpenses"></span></li>
-              <li><strong>礼品费　</strong><span><input type="text" v-model="item.giftExpenses"></span></li>
-              <li><strong>项目情况</strong><span>{{item.projectInfo || '无'}}</span></li>
+              <li><strong>项目名称</strong><span>无</span></li>
+              <li><strong>客户名称</strong><span>无</span></li>
+              <li><strong>联系人　</strong><span>无</span></li>
+              <li><strong>联系方式</strong><span>无</span></li>
+              <li><strong>招待费　</strong><span>无</span></li>
+              <li><strong>差旅费　</strong><span>无</span></li>
+              <li><strong>礼品费　</strong><span>无</span></li>
+              <li><strong>项目情况</strong><span>无</span></li>
+              <li><strong>合计金额</strong><span>无</span></li>
+            </ul>
+          </swiper-item>
+          <swiper-item v-for="(item,index) in costPlanDetailList" :key="item.id || item.flag">
+            <ul>
+              <li><strong>项目名称</strong><span>{{item.projectName }}</span></li>
+              <li><strong>客户名称</strong><span>{{item.clientName }}</span></li>
+              <li><strong>联系人　</strong><span>{{item.contactsName }}</span></li>
+              <li><strong>联系方式</strong><span>{{item.contactsPhone }}</span></li>
+              <li><strong>招待费　</strong><span><input type="number" v-model="item.entertainExpenses"></span></li>
+              <li><strong>差旅费　</strong><span><input type="number" v-model="item.travelExpenses"></span></li>
+              <li><strong>礼品费　</strong><span><input type="number" v-model="item.giftExpenses"></span></li>
+              <li><strong>项目情况</strong><span><input type="text" v-model="item.projectInfo"></span></li>
               <li><strong>合计金额</strong><span>{{item.singleTotalAmount}}</span></li>
+              <li style="padding: 10px 10%" @click="deleteCostList(index)"><x-button type="warn">删除</x-button></li>
             </ul>
           </swiper-item>
         </swiper>
@@ -49,11 +65,11 @@
             </tr>
             </thead>
             <tbody>
-              <tr v-for="item in opations" :key="item.id">
-                <td>{{item.role}}</td>
-                <td>{{item.userName}}</td>
-                <td>{{item.message}}</td>
-              </tr>
+            <tr v-for="item in opations" :key="item.id">
+              <td>{{item.role}}</td>
+              <td>{{item.userName}}</td>
+              <td>{{item.message}}</td>
+            </tr>
             <tr v-if="opations.length == 0">
               <td colspan="3">数据为空</td>
             </tr>
@@ -71,19 +87,14 @@
       <!-- 按钮 -->
       <div class="footer">
         <flexbox>
-          <flexbox-item v-if="confirmHide">
+          <flexbox-item>
             <div class="flex-demo" @click="confirmBtn()">
-              <x-button type="primary" style="backgroundColor: #6ea6ff; color: #fff;">审批</x-button>
-            </div>
-          </flexbox-item>
-          <flexbox-item v-if="circulationHide">
-            <div class="flex-demo" @click="circulation()">
               <x-button type="primary" style="backgroundColor: #6ea6ff; color: #fff;">流转</x-button>
             </div>
           </flexbox-item>
-          <flexbox-item v-if="cancelHide">
-            <div class="flex-demo" @click="cancelBtn()">
-              <x-button type="warn" style=" color: #fff;">回退</x-button>
+          <flexbox-item>
+            <div class="flex-demo" @click="$router.go(-1)">
+              <x-button type="warn" style="backgroundColor: #bababa; color: #fff;">取消</x-button>
             </div>
           </flexbox-item>
         </flexbox>
@@ -93,32 +104,48 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import { dateFormat } from 'vux'
 export default {
-  name: "monthItem",
+  name: "updateInfo",
   data() {
     return {
       data: {},
-      key: '',
-      taskId: '',
-      activityId: '',
-      businessKey: '',
-      processInstanceId: '',
+      height: '320px',
+      applyName: '',
+      datetimeMonth: '',
+      costTotal: 0,
+      roleInfo: {},
       coltPlan: {},
       costPlanDetailList: [],
-      roleInfo: {},
-      opations: {},
+      opations: [],
       message: '',
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    to.meta.keepAlive = true
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.name == 'home') {
+      this.$store.commit('changeMonthCostList', {index: -1})
+      this.$destroy()
+    }
+    next()
   },
   created() {
     this.getUserInfo();
     this.getQuery();
-    this.getRoleInfo();  // 获取代办事项
+    this.getRoleInfo(); // 获取代办事项
     this.getMonthInfo(); // 获取月计划基本信息
     this.getopations(); // 获取意见
   },
+  activated() {
+    this.costPlanDetailList.push(...this.monthCostList)
+    this.$store.commit('changeMonthCostList', {index: -1})
+  },
   computed: {
+    ...mapState(['monthCostList']),
     totalAmount() {
       let sum = 0, a = 0, b = 0, c = 0;
       this.costPlanDetailList.forEach(item => {
@@ -131,21 +158,10 @@ export default {
       })
       return sum;
     },
-    confirmHide() {
-      let flag = false
-      if (this.activityId != "sub_4") flag = true
-      return flag
-    },
-    cancelHide() {
-      let flag = false
-      if (this.activityId != "sub_4") flag = true
-      return flag
-    },
-    // 流转按钮隐藏
-    circulationHide() {
-      let flag = false
-      if (this.activityId == 'sub_4') flag = true
-      return flag
+  },
+  watch: {
+    totalAmount(newVal, oldVal) {
+      this.costTotal = newVal
     }
   },
   methods: {
@@ -170,7 +186,7 @@ export default {
       this.axios
         .get(`wechatErp/center/toTaskPage`, {params: data})
         .then(res => {
-          // console.log(res)
+          console.log(res)
           this.roleInfo = res.data
         })
     },
@@ -198,56 +214,24 @@ export default {
           this.opations = res.data
         })
     },
+    // 点击跳转添加费用列表页
+    addCostList() {
+      if (!this.coltPlan.month) return this.$vux.toast.text('请选择月份')
+      this.$router.push({path: '/reimbursementMonthAdd', query: {month: this.datetimeMonth}})
+    },
+    // 删除费用列表选项
+    deleteCostList(index) {
+      this.costPlanDetailList.splice(index, 1)
+    },
     // 点击确认按钮
     confirmBtn() {
+      if (!this.coltPlan.name)  return this.$vux.toast.text('申请名称不能为空')
+      if (!this.coltPlan.month) return this.$vux.toast.text('请选择月份')
       for(let i = 0; i < this.costPlanDetailList.length; i++) {
         if(this.costPlanDetailList[i].singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0');
       }
       if (!this.message.trim()) return this.$vux.toast.text('请输入意见');
-      const data = {
-        message:             this.message,
-        businessKey:         this.businessKey,
-        taskId:              this.taskId,
-        processInstanceId:   this.processInstanceId,
-        role:                this.roleInfo.roleName,
-        id:                  this.coltPlan.id,
-        totalAmount:         this.totalAmount,
-        costPlanDetailsJson: JSON.stringify(this.costPlanDetailList),
-        isPass : 'Y',
-      }
-      if (this.activityId == 'sub_3') data.lastTask = 'Y'
-      // console.log(data)
-      this.sendData(data)
-    },
-    // 点击回退按钮
-    cancelBtn() {
-      if (!this.message.trim()) return this.$vux.toast.text('请输入意见');
-      for(let i = 0; i < this.costPlanDetailList.length; i++) {
-        if(this.costPlanDetailList[i].singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0');
-      }
-      const data = {
-        message:             this.message,
-        businessKey:         this.businessKey,
-        taskId:              this.taskId,
-        processInstanceId:   this.processInstanceId,
-        role:                this.roleInfo.roleName,
-        id:                  this.coltPlan.id,
-        totalAmount:         this.coltPlan.totalAmount,
-        costPlanDetailsJson: JSON.stringify(this.costPlanDetailList),
-        isPass : 'N',
-      }
-      if (this.activityId == 'sub_3') data.lastTask = 'Y'
-      // console.log(data)
-      this.sendData(data)
-    },
-    // 流转
-    circulation() {
-      for(let i = 0; i < this.costPlanDetailList.length; i++) {
-        if(this.costPlanDetailList[i].singleTotalAmount == 0) return this.$vux.toast.text('合计金额不能为0');
-      }
-      if (!this.message.trim()) return this.$vux.toast.text('请输入意见');
-      this.axios
-        .post(`wechatErp/costPlan/updateAndFlow`, {
+        const data = {
           message:             this.message,
           businessKey:         this.businessKey,
           taskId:              this.taskId,
@@ -258,26 +242,18 @@ export default {
           name:                this.coltPlan.name,
           month:               this.coltPlan.month+'-01',
           costPlanDetailsJson: JSON.stringify(this.costPlanDetailList),
-        })
-        .then(res => {
-          // console.log(res)
-          const {resultInfo, resultState} = res.data
-          this.$vux.toast.text(resultInfo)
-          if (resultState != -1) this.$router.go(-1)
-        })
-    },
-    // 发送数据
-    sendData(data) {
-      this.axios
-        .post(`wechatErp/costPlan/uploadSalesManagerFlow`, data)
-        .then(res => {
-          // console.log(res)
-          const {resultInfo, resultState} = res.data
-          this.$vux.toast.text(resultInfo)
-          if (resultState != -1) this.$router.go(-1)
-        })
-
-    }
+        }
+        // console.log(data)
+        this.axios
+          .post(`wechatErp/costPlan/updateAndFlow`, data)
+          .then(res => {
+            // console.log(res)
+            const {resultState, resultInfo} = res.data
+            this.$vux.toast.text(resultInfo)
+            if (resultState == -1) return false;
+            this.$router.go(-1)
+          })
+      },
   }
 }
 </script>
@@ -322,7 +298,7 @@ export default {
 .costList ul li {
   width: 100%;
   box-sizing: border-box;
-  padding: 5px 0;
+  padding: 3px 0;
 }
 .costList ul li strong {
   display: inline-block;
@@ -332,20 +308,50 @@ export default {
   display: inline-block;
   width: 69%;
   color: #999;
-
-  /*overflow-x: scroll;*/
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  white-space:nowrap;
   vertical-align: middle;
-}
-.costList ul li span::-webkit-scrollbar {
-  display: none;
 }
 .costList ul li span input {
   border: none;
   outline: none;
   background-color: transparent;
+}
+/* 添加 */
+.add-pic {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #6ea6ff;
+  color: #fff;
+  margin-right: 4px;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+.add-pic::after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 2px;
+  background-color: #fff;
+  color: #fff;
+  position: absolute;
+  top: 9px;
+  left: 5px;
+}
+.add-pic::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 10px;
+  background-color: #fff;
+  color: #fff;
+  position: absolute;
+  top: 5px;
+  left: 9px;
 }
 /* 我的意见 */
 /deep/ .weui-cells:after,
@@ -382,8 +388,8 @@ table.vux-table {
 /* 底部按钮 */
 .footer {
   width: 100%;
-  padding: 30px 10%;
+  margin-top: 10px;
+  padding: 10px 10%;
   box-sizing: border-box;
 }
 </style>
-
