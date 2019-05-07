@@ -5,7 +5,6 @@
         <!-- 这里是会被缓存的视图组件，比如 Home！ -->
       </router-view>
     </keep-alive>
-
     <router-view v-if="!$route.meta.keepAlive">
       <!-- 这里是不被缓存的视图组件，比如 Edit！ -->
     </router-view>
@@ -24,7 +23,7 @@ export default {
 html, body, #app {
   width: 100%;
   height: 100%;
-  /*overflow: hidden;*/
+  /*overflow: scroll;*/
 }
 body {
   background-color: #f8f8f8;

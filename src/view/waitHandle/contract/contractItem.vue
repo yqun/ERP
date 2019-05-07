@@ -8,7 +8,7 @@
     <!-- 内容 -->
     <div class="main">
       <!-- 项目信息 -->
-      <div class="project-info">
+      <div>
         <h3>项目信息</h3>
         <ul class="info-content">
           <li><strong>项目名称</strong><span>{{projectInfo.name}}</span></li>
@@ -161,46 +161,6 @@
     <confirm v-model="confirmShow" title="货物清单" hide-on-blur :show-confirm-button="false" cancel-text="返回">
          <!--table表格-->
         <div class="table">
-          <!--<x-table full-bordered style="background-color:#fff;">-->
-            <!--<thead>-->
-              <!--<tr>-->
-                <!--<th>序号</th>-->
-                <!--<th>货物名称</th>-->
-                <!--<th>数量</th>-->
-                <!--<th>单位</th>-->
-                <!--<th>成本单价</th>-->
-                <!--<th>成本总价</th>-->
-                <!--<th>销售单价</th>-->
-                <!--<th>销售总价</th>-->
-                <!--<th>采购质保年限</th>-->
-                <!--<th>销售合同质保年限</th>-->
-                <!--<th>质保风险预警</th>-->
-                <!--<th>采购税率</th>-->
-                <!--<th>销售税率</th>-->
-                <!--<th>税金</th>-->
-                <!--<th>毛利率</th>-->
-              <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-              <!--<tr v-for="item in jsonProducts" :key="item.id">-->
-                <!--<td>{{item.sort}}</td>-->
-                <!--<td>{{item.name}}</td>-->
-                <!--<td>{{item.count}}</td>-->
-                <!--<td>{{item.unit}}</td>-->
-                <!--<td>{{item.firstCost}}</td>-->
-                <!--<td>{{item.totalFirstCost}}</td>-->
-                <!--<td>{{item.saleCost}}</td>-->
-                <!--<td>{{item.totalSaleCost}}</td>-->
-                <!--<td>{{item.warrantyPeriodSale}}</td>-->
-                <!--<td>{{item.warrantyPeriodBid}}</td>-->
-                <!--<td>{{item.warrantyPeriodWaring}}</td>-->
-                <!--<td>{{item.purchasingTaxRate}}</td>-->
-                <!--<td>{{item.saleTaxRate}}</td>-->
-                <!--<td>{{item.taxes}}</td>-->
-                <!--<td>{{item.grossProfit}}</td>-->
-              <!--</tr>-->
-            <!--</tbody>-->
-          <!--</x-table>-->
           <el-table :data="jsonProducts" height="500" style="width: 100%">
             <el-table-column prop="sort" label="序号"></el-table-column>
             <el-table-column prop="name" label="货物名称"></el-table-column>
@@ -707,6 +667,16 @@ export default {
   font-size: 14px;
   line-height: 25px;
 }
+li.total {
+  font-size: 12px;
+  vertical-align: bottom;
+}
+li.total > div {
+  width: 85%;
+}
+li.total > div p {
+  margin-bottom: 0;
+}
 /* 需要下载 */
 li.download {
   margin-bottom: 0;
@@ -728,16 +698,6 @@ li.download > div p a {
   color: #fff;
   padding: 2px 10px;
   border-radius: 6px;
-}
-li.total {
-  font-size: 12px;
-  vertical-align: bottom;
-}
-li.total > div {
-  width: 85%;
-}
-li.total > div p {
-  margin-bottom: 0;
 }
 /* 合同归属 */
 .ascription /deep/ .weui-cells.vux-no-group-title {

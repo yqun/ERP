@@ -1,0 +1,112 @@
+/*
+  * main 包含 div 为每一模块
+  * div 包含 h3(标头) ul.info-content(信息内容)
+  * 基础的 li包含  strong(字段名) span(值)
+  * 下载 li>strong(字段名)/div>p(循环)>span(值)/a(下载按钮)
+  * 查看详情 div>h3>span(float:right), div>p/div>p(循环)
+*/
+/* main > div */
+.main {
+  width: 100%;
+}
+.main > div {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 0.26rem;
+  margin-bottom: 0.17rem;
+  background-color: #fff;
+}
+.main > div h3 {
+  font-size: 16px;
+  color: #6ea6ff;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 0.17rem 0;
+}
+/* ul信息内容 */
+.info-content {
+  padding: 0.24rem 0 0.1rem 0;
+}
+.info-content li {
+  font-size: 14px;
+  margin-bottom: 0.2rem;
+}
+.info-content li strong {
+  display: inline-block;
+  width: 30%;
+}
+.info-content li span {
+  display: inline-block;
+  max-width: 69%;
+  color: #999;
+  font-size: 14px;
+
+  overflow: scroll;
+  white-space:nowrap;
+  vertical-align: middle;
+}
+.info-content li span::-webkit-scrollbar {
+  display: none;
+}
+/* 下载 */
+li.download strong {
+  float: left;
+}
+li.download > div {
+  float: left;
+  width: 69%;
+}
+li.download > div p a {
+  float: right;
+  background-color: #6ea6ff;
+  color: #fff;
+  padding: 1px 10px;
+  border-radius: 6px;
+}
+/* 货物清单 */
+.main .cargo > h3 {
+  border-bottom: none;
+}
+.main .cargo > h3 span {
+  float: right;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 25px;
+}
+.total {
+  font-size: 12px;
+  padding-bottom: 0.1rem;
+}
+.total > p,
+.total > div {
+  float: left;
+}
+/* 历史意见 表格 */
+table.vux-table {
+  font-size: 12px;
+  line-height: 20px;
+}
+.vux-table td {
+  color: #999;
+  max-width: 50px;
+}
+.vux-table td:before,
+.vux-table th:before,
+.vux-table:after {
+  border: none;
+}
+/* 我的意见 */
+div.my-opation > h3 {
+  border-bottom: none;
+}
+/deep/ .weui-cells:after,
+/deep/ .weui-cells:before {
+  border: none;
+}
+.weui-cell.vux-x-textarea {
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+/deep/ .weui-textarea {
+  font-size: 14px;
+}

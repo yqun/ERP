@@ -15,5 +15,5 @@
 ul > li {
   list-style: none;
 }
-
-* { touch-action: none; }
+/* 阻止移动端页面滑动 */
+/** { touch-action: none; }*/

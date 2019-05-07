@@ -108,6 +108,7 @@ export default {
         path: '/createProject',
         query: {
           id: contract.id,
+          createBy: contract.createBy
         }
       })
     }

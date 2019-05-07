@@ -61,6 +61,11 @@
                 <img slot="icon" src="../assets/images/application/组16@2x.png">
                 <span slot="label">立项管理</span>
               </grid-item>
+              <!-- 项目启动-->
+              <!--<grid-item link="/createInitiation">-->
+                <!--<img slot="icon" src="../assets/images/application/组14@2x.png">-->
+                <!--<span slot="label">项目启动</span>-->
+              <!--</grid-item>-->
             </grid>
           </swiper-item>
           <!--<swiper-item></swiper-item>-->
@@ -120,7 +125,7 @@ export default {
           // console.log(res)
           this.waitHandleNum = (res.data > 99)? '99+':res.data
         })
-    }　
+    }
   },
 }
 </script>
