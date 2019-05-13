@@ -15,3 +15,4 @@ function adapt(designWidth, rem2px){
   return defaultFontSize
 };
 var defaultFontSize = adapt(640, 100);
+

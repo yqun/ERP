@@ -14,24 +14,10 @@
           <!--<i>({{ContractSum}})</i>-->
           <!--<p>合同审批</p>-->
         <!--</li>-->
-        <!--<li class="waitHandleItem" @click="$router.push({path: '/PserviceExpenseList'})">-->
-          <!--<h3 :style="{'font-size': size}">{{ServiceExpenseSum}}</h3>-->
-          <!--<i>({{ServiceExpenseSum}})</i>-->
-          <!--<p>项目报销</p>-->
-        <!--</li>-->
-        <!--<li class="waitHandleItem" @click="$router.push({path: '/PcompanyExpenseList'})">-->
-          <!--<h3 :style="{'font-size': size}">{{CompanyExpenseSum}}</h3>-->
-          <!--<i>({{CompanyExpenseSum}})</i>-->
-          <!--<p>公司报销</p>-->
-        <!--</li>-->
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push({path: item.path})">
           <h3 :style="{'font-size': item.fontSize}">{{item.num}}</h3>
           <p>{{item.name}}</p>
         </li>
-        <!--<li class="waitHandleItem">-->
-          <!--<h3>15</h3>-->
-          <!--<p>标书购买</p>-->
-        <!--</li>-->
       </ul>
     </div>
   </div>
@@ -52,6 +38,7 @@ export default {
         {name: '项目报销', path: '/PserviceExpenseList', fontSize: '0.55rem', num: ''},
         {name: '公司报销', path: '/PcompanyExpenseList', fontSize: '0.55rem', num: ''},
         {name: '报销月计划', path: '/PmonthList', fontSize: '0.55rem', num: ''},
+        {name: '项目启动', path: '/PinitiationList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -73,10 +60,11 @@ export default {
         'wechatErp/expenseReimbursement/getBusinessBxAlreadyDoneTaskCount',
         'wechatErp/expenseReimbursementPlatform/getPlatformBxAlreadyDoneTaskCount',
         'wechatErp/costPlan/getCostPlanAlreadyDoneTaskCount',
+        'wechatErp/projectStart/getProjectStartAlreadyDoneTaskCount',
       ]
-      for(let index = 0; index < addressArr.length; index++) {
-        this.getSum(addressArr[index], index)
-      }
+      addressArr.forEach((item, index) => {
+        this.getSum(item, index)
+      })
     },
     // 获取数据
     async getSum(url, index) {

@@ -8,6 +8,8 @@ import serviceExpense from '@/router/sponsored/serviceExpenseRouter'
 import companyExpense from '@/router/sponsored/companyExpenseRouter'
 // 报销月计划
 import reimbursementMonth from '@/router/sponsored/reimbursementMonthRouter'
+// 项目管理
+import initiation from '@/router/sponsored/initiationRouter'
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -16,6 +18,7 @@ const sponsoredRouter = [
   ...serviceExpense,
   ...companyExpense,
   ...reimbursementMonth,
+  ...initiation,
 ]
 
 

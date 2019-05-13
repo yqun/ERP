@@ -7,28 +7,15 @@
     </x-header>
     <!-- 主体内容  main -->
     <div class="main">
-      <!-- 按钮 -->
       <ul class="clearfix">
         <!--<li class="waitHandleItem" @click="$router.push({path: '/contractList'})">-->
           <!--<h3>{{ContractSum}}</h3>-->
           <!--<p>合同审批</p>-->
         <!--</li>-->
-        <!--<li class="waitHandleItem" @click="$router.push('/serviceExpenseList')">-->
-          <!--<h3>{{ServiceExpenseSum}}</h3>-->
-          <!--<p>项目报销</p>-->
-        <!--</li>-->
-        <!--<li class="waitHandleItem" @click="$router.push('/companyExpenseList')">-->
-          <!--<h3>{{CompanyExpenseSum}}</h3>-->
-          <!--<p>公司报销</p>-->
-        <!--</li>-->
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push(item.path)">
           <h3>{{item.num}}</h3>
           <p>{{item.name}}</p>
         </li>
-        <!--<li class="waitHandleItem">-->
-          <!--<h3>15</h3>-->
-          <!--<p>标书购买</p>-->
-        <!--</li>-->
       </ul>
     </div>
   </div>
@@ -49,6 +36,7 @@ export default {
         {name: '项目报销', path: '/serviceExpenseList', num: ''},
         {name: '公司报销', path: '/companyExpenseList', num: ''},
         {name: '报销月计划', path: '/monthList', num: ''},
+        {name: '项目启动', path: '/initiationList', num: ''},
       ]
     }
   },
@@ -70,30 +58,17 @@ export default {
         'wechatErp/expenseReimbursement/getToDoForBusinessBxCount',
         'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount',
         'wechatErp/costPlan/getToDoForCostPlanCount',
+        'wechatErp/projectStart/getToDoForProjectStartCount',
       ]
-      for(let i = 0; i < addressArr.length; i++) {
-        this.getSum(addressArr[i])
-      }
+      addressArr.forEach((item, index) => {
+        this.getSum(item, index)
+      })
     },
     // 获取数据
-    async getSum(url) {
+    async getSum(url, index) {
       const res = await this.axios.get(url, {params: this.data})
       // console.log(res)
-      // 判断url
-      switch(url) {
-        case 'wechatErp/contract/getToDoForContractCount':
-          this.info[0].num = res.data || 0;
-          break;
-        case 'wechatErp/expenseReimbursement/getToDoForBusinessBxCount':
-          this.info[1].num = res.data || 0;
-          break;
-        case 'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount':
-          this.info[2].num = res.data || 0;
-          break;
-        case 'wechatErp/costPlan/getToDoForCostPlanCount':
-          this.info[3].num = res.data || 0;
-          break;
-      }
+      this.info[index].num = res.data || 0;
     },
   }
 }

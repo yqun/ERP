@@ -14,7 +14,7 @@
         <x-input :disabled="edit" title="品牌倾向　　" v-model="project.brandTendency"   placeholder="请填写品牌倾向" ></x-input>
         <x-input :disabled="edit" title="竞争情况　　" v-model="project.competitiveness" placeholder="请填写竞争情况" ></x-input>
         <selector :readonly="edit" title="项目概率级别" v-model="projectProbabilityLevel" :options="randomLevel" ></selector>
-        <selector :readonly="edit" title="项目类型　　" v-model="type" :options="projectType"></selector>
+        <selector :readonly="this.$route.query.id" title="项目类型　　" v-model="type" :options="projectType"></selector>
         <datetime :readonly="edit" title="结单日　　　" v-model="project.dataFormat"   placeholder="请选择结单日" ></datetime>
         <selector :readonly="edit" title="客户　　　　" v-model="clientId" :options="customerAll" @on-change="changeClientId"></selector>
         <el-select :disabled="edit" v-model="contactsId" multiple placeholder="请选择联系人" class="contacts">
@@ -124,7 +124,7 @@ export default {
       createBy: '',
       edit: false,
 
-      project: {},
+      project: {code: ''},
       projectProbabilityLevel: 'PROJECT-PROBABILITY-LEVEL-1',
       type: '2',
       newClient: 'Y',
@@ -169,8 +169,9 @@ export default {
       this.axios
         .post(`wechatErp/projectManager/getProjectCode`)
         .then(res => {
-          // console.log(res)
+          console.log(res)
           this.project.code = res.data
+          console.log(this.project)
         })
     },
     // 项目概率级别
@@ -189,7 +190,7 @@ export default {
       this.axios
         .post(`wechatErp/projectManager/pageForOneselfClientSelect2`, {companyName: '', pageNo: 1})
         .then(res => {
-          // console.log('客户', res)
+          console.log('客户', res)
           res.data.list.forEach(item => {
             this.customerAll.push({key: item.id, value: item.text})
           })
@@ -219,7 +220,7 @@ export default {
       this.axios
         .post(`wechatErp/projectManager/getModelById/${this.$route.query.id}`)
         .then(res => {
-          // console.log(res)
+          console.log(res)
           const {clientId, clientName, contacts, pm} = res.data
           pm.dataFormat = dateFormat(pm.overOrderData, 'YYYY-MM-DD')
           this.clientId = clientId
@@ -235,14 +236,14 @@ export default {
           this.energyProject        = pm.energyProject
           this.outsourcingProject   = pm.outsourcingProject
 
+          // 项目类型
+          if (this.type) {
+            this.type = this.projectType.filter((item) => {
+              return pm.type == item.key
+            })[0].value
+          }
           // 禁用状态渲染的数据
           if (this.edit) {
-            // 项目类型
-            if (this.type) {
-              this.type = this.projectType.filter((item) => {
-                return pm.type == item.key
-              })[0].value
-            }
             // 概率级别
             if (this.projectProbabilityLevel) {
               this.projectProbabilityLevel = this.randomLevel.filter((item) => {
@@ -281,6 +282,8 @@ export default {
       }
       if (!data.name) return this.$vux.toast.text('请填写项目名称');
       if (!data.budget) return this.$vux.toast.text('请填写预算金额');
+      if (!data.projectProbabilityLevel) return this.$vux.toast.text('请选择概率级别');
+      if (!data.type) return this.$vux.toast.text('请选择项目类型');
       if (!data.overOrderData) return this.$vux.toast.text('请填写日期');
       if (!data.clientCompany) return this.$vux.toast.text('请填写客户');
       if (!data.contacts) return this.$vux.toast.text('请填写联系人');

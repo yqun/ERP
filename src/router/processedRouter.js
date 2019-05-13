@@ -7,12 +7,16 @@ import serviceExpense from '@/router/processed/serviceExpenseRouter'
 import companyExpense from '@/router/processed/companyExpenseRouter'
 // 报销月计划
 import reimbursementMonth from '@/router/processed/reimbursementMonthRouter'
+// 项目管理
+import initiation from '@/router/processed/initiationRouter'
+
 
 const ProcessedRouter = [
   ...contract,
   ...serviceExpense,
   ...companyExpense,
-  ...reimbursementMonth
+  ...reimbursementMonth,
+  ...initiation,
 ]
 
 
