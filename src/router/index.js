@@ -31,15 +31,29 @@ router.beforeEach((to, from, next) => {
   if (to.path == '/') {
     next()
   } else {
-    const data = JSON.parse(sessionStorage.getItem('data'))
-    if (!data) {
+    const data = JSON.parse(window.sessionStorage.getItem('data'))
+    if (data) {
+      // window.sessionStorage.setItem('data', JSON.stringify(data))
+    } else {
       Vue.$vux.toast.text('用户信息获取失败')
-      // return router.push('/')
+      return router.push('/')
     }
     next()
   }
 
 })
 
+function getUser(code, next) {
+  this.axios
+    .get(`wechatErp/center/initialAccreditation?code=${code}`)
+    .then(res => {
+      console.log('router', res);
+      const {data} = res
+      if (data != null) {
+        window.sessionStorage.setItem('data', JSON.stringify(data))
+        next()
+      }
+    })
+}
 
 export default router

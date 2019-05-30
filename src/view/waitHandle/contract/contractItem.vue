@@ -190,6 +190,7 @@
       sub_6 财务
       sub_7 商务
       sub_9 总经理
+      marketingGeneralManager  营销中心总经理审批
   -->
 <script>
 import { dateFormat } from 'vux'
@@ -233,7 +234,8 @@ export default {
     // 预算金额 显示隐藏
     serviceMoneyHide() {
       let flag = false
-      if(this.activityId == 'sub_9' || this.activityId == 'sub_7' || this.activityId == 'sub_3') flag = true
+      if(this.activityId == 'sub_9' || this.activityId == 'sub_7'
+        || this.activityId == 'sub_3' || this.activityId == 'marketingGeneralManager') flag = true
       return flag
     },
     accessoriesMoney() {
@@ -244,13 +246,14 @@ export default {
     // 回退按钮 显示隐藏
     regressionShow() {
       let flag = false
-      if (this.activityId == 'sub_4' || this.activityId == 'sub_9') flag = true
+      if (this.activityId == 'sub_4' || this.activityId == 'sub_9'
+        || this.activityId == 'marketingGeneralManager') flag = true
       return flag
     },
     // 拒绝按钮 显示隐藏
     refuseShow() {
       let flag = false
-      if (this.activityId == 'sub_9') flag = true
+      if (this.activityId == 'sub_9' || this.activityId == 'marketingGeneralManager') flag = true
       return flag
     },
     // 合同归属 禁止选择
@@ -481,12 +484,19 @@ export default {
         data.processInstanceId = this.processInstanceId
         data.roleCode = 'GENERAL_MANAGER'
         data.isPass = '1'
+      } else if (this.activityId == 'marketingGeneralManager') {
+        data.processInstanceId = this.processInstanceId
+        data.roleCode = 'MARKETING_GENERAL_MANAGER'
+        data.accessoriesMoney = this.detailedTotal.accessoriesMoney
+        data.isPass = '1'
       }
       if (this.activityId == 'sub_7') {
           data.isPass = 'Y'
       }
       // 发送请求
-      if (this.activityId == 'sub_9' || this.activityId == 'sub_4' || this.activityId == 'sub_5' || this.activityId == 'sub_6' || this.activityId == 'sub_7') {
+      if (this.activityId == 'sub_9' || this.activityId == 'sub_4'
+        || this.activityId == 'sub_5' || this.activityId == 'sub_6'
+        || this.activityId == 'sub_7' || this.activityId == 'marketingGeneralManager') {
         this.managerSendData(data)
       } else if (this.activityId == 'sub_3') {
         this.technologySendData(data)
@@ -505,6 +515,12 @@ export default {
       if (this.activityId == 'sub_9') {
         data.processInstanceId = this.processInstanceId
         data.roleCode = 'GENERAL_MANAGER'
+        data.projectId = this.projectInfo.id
+        data.isPass = '3'
+      } else if (this.activityId == 'marketingGeneralManager') {
+        data.roleCode = 'MARKETING_GENERAL_MANAGER'
+        data.accessoriesMoney = this.detailedTotal.accessoriesMoney
+        data.processInstanceId = this.processInstanceId
         data.projectId = this.projectInfo.id
         data.isPass = '3'
       }
@@ -527,6 +543,11 @@ export default {
         data.contractVest = this.selectValue
       }  else if (this.activityId == 'sub_9') {
         data.roleCode = 'GENERAL_MANAGER'
+        data.projectId = this.projectInfo.id
+        data.isPass = '2'
+      } else if (this.activityId == 'marketingGeneralManager') {
+        data.roleCode = 'MARKETING_GENERAL_MANAGER'
+        data.accessoriesMoney = this.detailedTotal.accessoriesMoney
         data.projectId = this.projectInfo.id
         data.isPass = '2'
       }

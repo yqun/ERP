@@ -90,6 +90,10 @@ export default {
     next();
   },
   created() {
+    // const state = location.search.split('&')[1].split('=')[1];
+    // if (state) return this.$router.push(`/${state}`)
+  },
+  mounted() {
     this.getUserInfo()
   },
   methods: {
@@ -97,7 +101,7 @@ export default {
     getUserInfo() {
       const user = JSON.parse(window.sessionStorage.getItem('data'))
       if (user) {
-        console.log(user.loginName);
+        // console.log(user.loginName);
         this.getWaitHandle(user);
       } else {
         const code = location.search.split('&')[0].split('=')[1];
