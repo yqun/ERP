@@ -4,7 +4,7 @@ import serviceExpense from '@/router/waitHandle/serviceExpenseRouter'         //
 import companyExpense from '@/router/waitHandle/companyExpenseRouter'         // 公司报销
 import reimbursementMonth from '@/router/waitHandle/reimbursementMonthRouter' // 销售报销月计划
 import initiationRouter from '@/router/waitHandle/initiationRouter'           // 项目管理
-
+import goodsReceive from '@/router/waitHandle/goodsReceiveRouter'             // 物品领用
 
 
 
@@ -15,6 +15,7 @@ const waitHandleRouter = [
   ...companyExpense,
   ...reimbursementMonth,
   ...initiationRouter,
+  ...goodsReceive,
 ]
 
 

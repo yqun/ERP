@@ -18,7 +18,7 @@
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left; width: 75%;">{{item.name}}</h4>
+                <h4 style="float: left; width: 70%;">{{item.name}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
                 <button style="float: right;">{{item.chineseName}}</button>
                 <!--<span>{{item.chineseName}}</span>-->

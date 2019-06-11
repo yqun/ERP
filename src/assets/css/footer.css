@@ -1,0 +1,19 @@
+/*
+  div.footer > div > x-buttoin
+*/
+
+
+.footer {
+  box-sizing: border-box;
+  padding: 0 0.26rem 20px;
+  width: 100%;
+  display: flex;
+}
+.footer > div {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.footer > div button {
+  color: #fff;
+}

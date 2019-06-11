@@ -36,7 +36,7 @@
 }
 .info-content li span {
   display: inline-block;
-  max-width: 69%;
+  width: 69%;
   color: #999;
   font-size: 14px;
 
@@ -108,5 +108,8 @@ div.my-opation > h3 {
   margin-bottom: 10px;
 }
 /deep/ .weui-textarea {
+  box-sizing: border-box;
   font-size: 14px;
+  border-radius: 10px;
+  padding: 10px;
 }

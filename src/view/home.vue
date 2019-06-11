@@ -66,6 +66,11 @@
                 <img slot="icon" src="../assets/images/application/组14@2x.png">
                 <span slot="label">项目启动</span>
               </grid-item>
+              <!-- 物品领用 -->
+              <grid-item link="/createGoodsReceive">
+                <img slot="icon" src="../assets/images/application/组38@2x.png">
+                <span slot="label">物品领用</span>
+              </grid-item>
             </grid>
           </swiper-item>
           <!--<swiper-item></swiper-item>-->

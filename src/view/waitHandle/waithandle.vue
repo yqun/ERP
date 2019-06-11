@@ -37,6 +37,7 @@ export default {
         {name: '公司报销', path: '/companyExpenseList', num: ''},
         {name: '报销月计划', path: '/monthList', num: ''},
         {name: '项目启动', path: '/initiationList', num: ''},
+        {name: '物品领用', path: '/goodsReceiveList', num: ''},
       ]
     }
   },
@@ -58,6 +59,7 @@ export default {
         'wechatErp/expenseReimbursement/getToDoForBusinessBxCount',
         'wechatErp/expenseReimbursementPlatform/getToDoForPlatformBxCount',
         'wechatErp/costPlan/getToDoForCostPlanCount',
+        'wechatErp/projectStart/getToDoForProjectStartCount',
         'wechatErp/projectStart/getToDoForProjectStartCount',
       ]
       addressArr.forEach((item, index) => {
