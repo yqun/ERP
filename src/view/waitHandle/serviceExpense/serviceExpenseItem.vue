@@ -237,7 +237,8 @@ export default {
     refuseHide() {
       let flag = false
       if (this.activityID == 'businessMan' || this.activityID == 'businessManager'
-        || this.activityID == 'deptManager' || this.activityID == 'gm') flag = true
+        || this.activityID == 'deptManager' || this.activityID == 'gm'
+        || this.activityID == 'marketGm') flag = true
       return flag;
     },
     // 回退按钮显示隐藏
@@ -250,17 +251,17 @@ export default {
     MonthlyHide() {
       let flag = false
       if (this.activityID == 'businessManager' || this.activityID == 'deptManager'
-        || this.activityID == 'gm') flag = true
+        || this.activityID == 'gm' || this.activityID == 'marketGm') flag = true
       return flag;
     }
   },
   created() {
     this.getUserInfo();
     this.getQuery();
-    this.getRoleInfo();      // 打开代办事项
-    this.getProjectInfo();   // 项目表单数据
+    this.getRoleInfo();        // 打开代办事项
+    this.getProjectInfo();     // 项目表单数据
     this.getBusinessProject(); // 业务员项目
-    this.getOpinion();       // 意见
+    this.getOpinion();         // 意见
   },
   methods: {
     // 获取 userInfo

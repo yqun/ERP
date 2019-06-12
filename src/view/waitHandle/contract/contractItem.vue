@@ -110,7 +110,7 @@
             <strong>项目经理人工成本费</strong>
             <input type="text" placeholder="0" v-model="serviceMoney" :disabled="serviceMoneyShow">
           </li>
-          <li v-if="accessoriesMoney"><strong>辅料费</strong><span>{{detailedTotal.accessoriesMoney}}</span></li>
+          <li v-if="false"><strong>辅料费</strong><span>{{detailedTotal.accessoriesMoney}}</span></li>
           <li><strong>预估外包施工费</strong><span>{{detailedTotal.constructionMoney}}</span></li>
         </ul>
       </div>
@@ -238,11 +238,6 @@ export default {
         || this.activityId == 'sub_3' || this.activityId == 'marketingGeneralManager') flag = true
       return flag
     },
-    accessoriesMoney() {
-       let flag = false
-      if(this.activityId == 'sub_9' || this.activityId == 'sub_7') flag = true
-      return flag
-    },
     // 回退按钮 显示隐藏
     regressionShow() {
       let flag = false
@@ -285,7 +280,7 @@ export default {
     }
   },
   created() {
-    this.getUserInfo()
+    this.getUserInfo();
     this.getQuery();
     this.getRoleInfo();
     this.getProjectInfo();    // 项目表单数据

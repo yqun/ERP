@@ -197,7 +197,7 @@ export default {
     refuseHide() {
       let flag = false
       if (this.activityID == 'businessManager' || this.activityID == 'deptManager'
-        || this.activityID == 'gm') flag = true
+        || this.activityID == 'gm' || this.activityID == 'marketGm' ) flag = true
       return flag;
     },
     // 回退按钮显示隐藏
