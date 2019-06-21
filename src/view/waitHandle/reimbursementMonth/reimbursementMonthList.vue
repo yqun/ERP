@@ -88,6 +88,7 @@ export default {
     next()
   },
   beforeRouteLeave(to, from, next) {
+    console.log(to.name)
     if (to.name == 'home') {
       this.$store.commit('changeMonthCostList', {index: -1})
       this.$destroy()

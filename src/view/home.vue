@@ -48,8 +48,8 @@
               </grid-item>
               <!-- 公司报销 -->
               <grid-item link="/companyExpenseList">
-              <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
-              <span slot="label">公司报销</span>
+                <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
+                <span slot="label">公司报销</span>
               </grid-item>
               <!-- 报销月计划 -->
               <grid-item link="/reimbursementMonthList">
@@ -67,17 +67,23 @@
                 <span slot="label">项目启动</span>
               </grid-item>
               <!-- 物品领用 -->
-              <grid-item link="/createGoodsReceive">
-                <img slot="icon" src="../assets/images/application/组38@2x.png">
-                <span slot="label">物品领用</span>
-              </grid-item>
+              <!--<grid-item link="/createGoodsReceive">-->
+                <!--<img slot="icon" src="../assets/images/application/组38@2x.png">-->
+                <!--<span slot="label">物品领用</span>-->
+              <!--</grid-item>-->
+              <!-- 借款 -->
+              <!--<grid-item link="/companyLoan">-->
+                <!--<img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">-->
+                <!--<span slot="label">公司借款</span>-->
+              <!--</grid-item>-->
+
             </grid>
           </swiper-item>
           <!--<swiper-item></swiper-item>-->
         </swiper>
       </div>
     </div>
-    <!-- over -->
+    <!-- main End -->
   </div>
 </template>
 
@@ -116,7 +122,7 @@ export default {
             console.log(res.data.loginName);
             const {data} = res
             if (data != null) {
-              window.sessionStorage.setItem('data', JSON.stringify(data))
+              const dataStr = window.sessionStorage.setItem('data', JSON.stringify(data))
               this.getWaitHandle(data)
             }
           })

@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="footer clearfix">
-      <div><x-button style="background-color: #6ea6ff;">保存设置</x-button></div>
+      <div><x-button style="background-color: #6ea6ff;">保存</x-button></div>
       <div><x-button style="background-color: #bababa;" @click.native="$router.go(-1)">返回</x-button></div>
     </div>
   </div>

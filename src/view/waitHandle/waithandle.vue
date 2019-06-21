@@ -8,11 +8,10 @@
     <!-- 主体内容  main -->
     <div class="main">
       <ul class="clearfix">
-        <!--<li class="waitHandleItem" @click="$router.push({path: '/contractList'})">-->
-          <!--<h3>{{ContractSum}}</h3>-->
-          <!--<p>合同审批</p>-->
-        <!--</li>-->
-        <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push(item.path)">
+        <li class="waitHandleItem"
+            v-for="item in info"
+            :key="item.name"
+            @click="$router.push(item.path)">
           <h3>{{item.num}}</h3>
           <p>{{item.name}}</p>
         </li>
@@ -37,7 +36,8 @@ export default {
         {name: '公司报销', path: '/companyExpenseList', num: ''},
         {name: '报销月计划', path: '/monthList', num: ''},
         {name: '项目启动', path: '/initiationList', num: ''},
-        {name: '物品领用', path: '/goodsReceiveList', num: ''},
+        {name: '公司借款', path: '/companyLoanList', num: ''},
+        // {name: '物品领用', path: '/goodsReceiveList', num: ''},
       ]
     }
   },
@@ -61,6 +61,7 @@ export default {
         'wechatErp/costPlan/getToDoForCostPlanCount',
         'wechatErp/projectStart/getToDoForProjectStartCount',
         'wechatErp/projectStart/getToDoForProjectStartCount',
+        // 'wechatErp/projectStart/getToDoForProjectStartCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

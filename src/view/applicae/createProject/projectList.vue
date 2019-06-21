@@ -87,8 +87,8 @@ export default {
         .post(`wechatErp/projectManager/page`, data)
         .then(res => {
           this.$vux.loading.hide();
-          // console.log(res)
           const {data} = res.data
+          // console.log(data)
           data.forEach(item => {
             item.dataFormat = dateFormat(item.createTime, 'YYYY-MM-DD')
           })

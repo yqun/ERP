@@ -482,7 +482,7 @@ export default {
       } else if (this.activityId == 'marketingGeneralManager') {
         data.processInstanceId = this.processInstanceId
         data.roleCode = 'MARKETING_GENERAL_MANAGER'
-        data.accessoriesMoney = this.detailedTotal.accessoriesMoney
+        data.accessoriesMoney = this.detailedTotal.accessoriesMoney || 0
         data.isPass = '1'
       }
       if (this.activityId == 'sub_7') {
@@ -514,7 +514,7 @@ export default {
         data.isPass = '3'
       } else if (this.activityId == 'marketingGeneralManager') {
         data.roleCode = 'MARKETING_GENERAL_MANAGER'
-        data.accessoriesMoney = this.detailedTotal.accessoriesMoney
+        data.accessoriesMoney = this.detailedTotal.accessoriesMoney || 0
         data.processInstanceId = this.processInstanceId
         data.projectId = this.projectInfo.id
         data.isPass = '3'
@@ -542,7 +542,7 @@ export default {
         data.isPass = '2'
       } else if (this.activityId == 'marketingGeneralManager') {
         data.roleCode = 'MARKETING_GENERAL_MANAGER'
-        data.accessoriesMoney = this.detailedTotal.accessoriesMoney
+        data.accessoriesMoney = this.detailedTotal.accessoriesMoney || 0
         data.projectId = this.projectInfo.id
         data.isPass = '2'
       }
