@@ -365,7 +365,7 @@ export default {
         mainType: this.businessKey,
         subType:'attachments'
       }
-      console.log(data)
+      // console.log(data)
       this.axios
         .post(`wechatErp/contract/getFiles`, data)
         .then(res => {
@@ -463,10 +463,10 @@ export default {
         processInstanceId: this.processInstanceId,
         message: this.message,
         role: this.roleInfo.roleName,
+        activityID : this.activityId
       }
       if (this.activityId == 'sub_3') {
         data.processInstanceId = this.processInstanceId
-        data.activityID = this.activityId
         data.serviceMoney = this.serviceMoney
         //项目总利润 项目预估利润＝总毛利润 - 辅料费 - 项目经理人工成本
         data.forecastGrossProfit = this.forecastGrossProfit
@@ -486,8 +486,11 @@ export default {
         data.isPass = '1'
       }
       if (this.activityId == 'sub_7') {
-          data.isPass = 'Y'
+        data.isPass = 'Y'
+        data.type = this.projectInfo.contractType
+        data.contractVest = this.selectValue
       }
+      console.log(data)
       // 发送请求
       if (this.activityId == 'sub_9' || this.activityId == 'sub_4'
         || this.activityId == 'sub_5' || this.activityId == 'sub_6'
@@ -593,7 +596,7 @@ export default {
       // 技术经理 数据不为空
       if (this.activityId == 'sub_3' && (!this.serviceMoney || !this.message.trim())) {
         this.toastShow = true
-        return this.toastMsg = '请填写所需费用和意见'
+        return this.toastMsg = '请填写项目经理人工成本费需费和意见'
       }
       this.axios
         .post(`/wechatErp/contract/saveServiceMoney`, data)

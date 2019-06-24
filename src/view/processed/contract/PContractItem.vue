@@ -96,7 +96,7 @@
       <div>
         <h3>所需费用</h3>
         <ul class="info-content">
-          <li class="cost"><strong>项目经理人工成本费</strong><span>{{detailedTotal.accessoriesMoney}}</span></li>
+          <li class="cost"><strong>项目经理人工成本费</strong><span>{{detailedTotal.serviceMoney}}</span></li>
           <li v-if="accessoriesMoney"><strong>辅料费</strong><span>{{detailedTotal.accessoriesMoney}}</span></li>
           <li><strong>预估外包施工费</strong><span>{{detailedTotal.constructionMoney}}</span></li>
         </ul>
