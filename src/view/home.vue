@@ -66,17 +66,16 @@
                 <img slot="icon" src="../assets/images/application/组14@2x.png">
                 <span slot="label">项目启动</span>
               </grid-item>
+              <!-- 借款 -->
+              <grid-item link="/companyLoanList">
+                <img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">
+                <span slot="label">公司借款</span>
+              </grid-item>
               <!-- 物品领用 -->
               <!--<grid-item link="/createGoodsReceive">-->
                 <!--<img slot="icon" src="../assets/images/application/组38@2x.png">-->
                 <!--<span slot="label">物品领用</span>-->
               <!--</grid-item>-->
-              <!-- 借款 -->
-              <!--<grid-item link="/companyLoan">-->
-                <!--<img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">-->
-                <!--<span slot="label">公司借款</span>-->
-              <!--</grid-item>-->
-
             </grid>
           </swiper-item>
           <!--<swiper-item></swiper-item>-->

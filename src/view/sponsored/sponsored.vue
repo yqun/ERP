@@ -37,6 +37,7 @@ export default {
         {name: '公司报销', path: '/ScompanyExpenseList', num: ''},
         {name: '报销月计划', path: '/SmonthList', num: ''},
         {name: '项目启动', path: '/SinitiationList', num: ''},
+        {name: '公司借款', path: '/ScompanyLoanList', num: ''},
       ]
     }
   },
@@ -59,6 +60,7 @@ export default {
         'wechatErp/expenseReimbursementPlatform/getPlatformBxtMyStartProcessCount',
         'wechatErp/costPlan/getCostPlantMyStartProcessCount',
         'wechatErp/projectStart/getProjectStartMyStartProcessCount',
+        'wechatErp/expenseBorrowPlatform/getPlatformBorrowMyStartProcessCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

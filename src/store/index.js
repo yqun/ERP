@@ -6,6 +6,9 @@ Vue.use(vuex)
 const store = new vuex.Store({
 
   state: {
+    loginName: JSON.parse(window.sessionStorage.getItem('data'))? JSON.parse(window.sessionStorage.getItem('data')).loginName : '',
+    password: JSON.parse(window.sessionStorage.getItem('data'))? JSON.parse(window.sessionStorage.getItem('data')).password : '',
+    id: JSON.parse(window.sessionStorage.getItem('data'))? JSON.parse(window.sessionStorage.getItem('data')).id : '',
     monthCostList: [], // 报销月计划
   },
   mutations: {

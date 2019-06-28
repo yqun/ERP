@@ -192,7 +192,7 @@ export default {
       this.axios
         .get(`wechatErp/expenseReimbursementPlatform/getPlatformBxtMyStartProcess`, {params: data})
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const {data} = res.data
           data.forEach(item => {
             item.startTimeDate = dateFormat(item.startTime, 'YYYY-MM-DD HH:mm:ss')

@@ -9,6 +9,8 @@ import companyExpense from '@/router/processed/companyExpenseRouter'
 import reimbursementMonth from '@/router/processed/reimbursementMonthRouter'
 // 项目管理
 import initiation from '@/router/processed/initiationRouter'
+// 公司借款
+import companyLoan from '@/router/processed/companyLoanRouter'
 
 
 const ProcessedRouter = [
@@ -17,6 +19,7 @@ const ProcessedRouter = [
   ...companyExpense,
   ...reimbursementMonth,
   ...initiation,
+  ...companyLoan,
 ]
 
 

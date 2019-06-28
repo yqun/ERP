@@ -1,4 +1,5 @@
 <template>
+  <!-- 公司借款 -->
   <div class="serviceExpense">
     <!-- nav导航 -->
     <div class="nav">
@@ -16,15 +17,15 @@
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
-            <li class="listItem clearfix" v-for="item in 10" :key="item.id" @click="routerLink(item)">
+            <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">摘要</h4>
+                <h4 style="float: left;">{{item.startUser}}</h4>
                 <x-icon type="ios-arrow-right" size="24"></x-icon>
                 <button style="float: right;">正在流转</button>
               </div>
               <div class="clearfix p">
-                <span style="float: left;">日期</span>
-                <span style="float: right;">金额</span>
+                <span style="float: left;">{{item.createTime}}</span>
+                <span style="float: right;">{{item.name}}</span>
               </div>
             </li>
             <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -73,7 +74,7 @@
         }
         if (!this.isData) return false;
         this.axios
-          .get(`wechatErp/expenseReimbursementPlatform/getToDoForPlatformBx`, {params: data})
+          .get(`wechatErp/expenseBorrowPlatform/getToDoForPlatformBorrow`, {params: data})
           .then(res => {
             // console.log(res)
             const {data} = res.data
@@ -128,6 +129,8 @@
   position: relative;
   z-index: 999;
   box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
 }
 .nav > div {
   width: 25%;

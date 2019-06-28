@@ -39,6 +39,7 @@ export default {
         {name: '公司报销', path: '/PcompanyExpenseList', fontSize: '0.55rem', num: ''},
         {name: '报销月计划', path: '/PmonthList', fontSize: '0.55rem', num: ''},
         {name: '项目启动', path: '/PinitiationList', fontSize: '0.55rem', num: ''},
+        {name: '公司借款', path: '/PcompanyLoanList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -61,6 +62,7 @@ export default {
         'wechatErp/expenseReimbursementPlatform/getPlatformBxAlreadyDoneTaskCount',
         'wechatErp/costPlan/getCostPlanAlreadyDoneTaskCount',
         'wechatErp/projectStart/getProjectStartAlreadyDoneTaskCount',
+        'wechatErp/expenseBorrowPlatform/getPlatformBorrowAlreadyDoneTaskCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
