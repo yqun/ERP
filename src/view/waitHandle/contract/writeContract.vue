@@ -1,10 +1,10 @@
 <template>
   <div class="waitHandleItem">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="合同审批">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="合同审批">-->
+    <!--</x-header>-->
     <!-- main -->
     <div class="main">
       <!-- 合同信息 -->

@@ -1,12 +1,12 @@
 <template>
   <div class="contract">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="项目启动">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="项目启动">-->
+    <!--</x-header>-->
     <!-- 搜索框 -->
-    <div class="search">
+    <div class="search" v-if="false">
       <p style="float: left;">项目名称<i></i></p>
       <p style="float: right;">创建时间 <input type="text"> 到 <input type="text"></p>
     </div>
@@ -122,7 +122,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding-top: 86px;
+  /*padding-top: 86px;*/
   font-size:16px;
   background-color: #f8f8f8;
 }

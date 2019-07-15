@@ -1,16 +1,18 @@
 <template>
   <div class="waitHandleList">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="报销月计划">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="报销月计划">-->
+    <!--</x-header>-->
+
+    <!-- 搜索框 -->
+    <!--<div class="search">-->
+    <!--<input type="text" v-model="searchValue" placeholder="搜索" disabled>-->
+    <!--</div>-->
+
     <!-- main -->
     <div class="main">
-      <!-- 搜索框 -->
-      <!--<div class="search">-->
-        <!--<input type="text" v-model="searchValue" placeholder="搜索" disabled>-->
-      <!--</div>-->
       <!-- 上拉加载 -->
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
@@ -122,7 +124,7 @@ export default {
 .contract-item {
   width: 100%;
   box-sizing: border-box;
-  padding-top: 46px;
+  /*padding-top: 46px;*/
   font-size:16px;
   background-color: #f8f8f8;
 }
@@ -137,7 +139,7 @@ export default {
   height: 100%;
   background-color: #fff;
   box-sizing: border-box;
-  padding-top: 46px;
+  /*padding-top: 46px;*/
 }
 .search {
   height: 0.5rem;
@@ -158,7 +160,7 @@ export default {
 }
 .main {
   width: 100%;
-  height: 99%;
+  height: 100%;
   box-sizing: border-box;
 }
 </style>

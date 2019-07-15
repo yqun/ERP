@@ -11,6 +11,8 @@ import reimbursementMonth from '@/router/processed/reimbursementMonthRouter'
 import initiation from '@/router/processed/initiationRouter'
 // 公司借款
 import companyLoan from '@/router/processed/companyLoanRouter'
+// 项目借款
+import serviceLoan from '@/router/processed/serviceLoanRouter'
 
 
 const ProcessedRouter = [
@@ -20,6 +22,7 @@ const ProcessedRouter = [
   ...reimbursementMonth,
   ...initiation,
   ...companyLoan,
+  ...serviceLoan,
 ]
 
 

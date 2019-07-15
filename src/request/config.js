@@ -3,8 +3,8 @@ import axios from 'axios'
 import queryString from 'querystring'
 
 // const urlStr = 'http://10.1.0.142:8080/platformServer/'
-// const urlStr = 'http://10.1.0.225:8081/platformServer/'
-const urlStr = 'http://imp.kingtop.com.cn:8080/platformServer/'
+const urlStr = 'http://10.1.0.225:8081/platformServer/'
+// const urlStr = 'http://imp.kingtop.com.cn:8080/platformServer/'
 
 const Http = axios.create({
   baseURL: urlStr,

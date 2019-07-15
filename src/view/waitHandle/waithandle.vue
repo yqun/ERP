@@ -1,10 +1,10 @@
 <template>
   <div class="waitHandle">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="待处理">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="待处理">-->
+    <!--</x-header>-->
     <!-- 主体内容  main -->
     <div class="main">
       <ul class="clearfix">
@@ -37,6 +37,7 @@ export default {
         {name: '报销月计划', path: '/monthList', num: ''},
         {name: '项目启动', path: '/initiationList', num: ''},
         {name: '公司借款', path: '/companyLoanList', num: ''},
+        {name: '项目借款', path: '/serviceLoanList', num: ''},
         // {name: '物品领用', path: '/goodsReceiveList', num: ''},
       ]
     }
@@ -61,6 +62,7 @@ export default {
         'wechatErp/costPlan/getToDoForCostPlanCount',
         'wechatErp/projectStart/getToDoForProjectStartCount',
         'wechatErp/expenseBorrowPlatform/getToDoForPlatformBorrowCount',
+        'wechatErp/expenseBorrow/getToDoForExpenseBorrowCount',
         // 'wechatErp/projectStart/getToDoForProjectStartCount',
       ]
       addressArr.forEach((item, index) => {
@@ -86,7 +88,7 @@ export default {
 }
 /* 主体内容 */
 .main {
-  padding: 10px 12px;
+  padding: 0 12px;
   box-sizing: border-box;
   overflow: hidden;
 }

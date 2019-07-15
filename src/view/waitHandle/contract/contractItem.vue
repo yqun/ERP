@@ -1,10 +1,10 @@
 <template>
   <div class="contract-item">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="合同评审">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="合同评审">-->
+    <!--</x-header>-->
     <!-- 内容 -->
     <div class="main">
       <!-- 项目信息 -->

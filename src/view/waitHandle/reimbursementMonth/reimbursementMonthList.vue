@@ -1,10 +1,10 @@
 <template>
   <div style="background-color: #f8f8f8; height: 100%;">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="申请报销月计划">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="申请报销月计划">-->
+    <!--</x-header>-->
     <!-- main -->
     <div class="main">
         <div class="title" style="margin-top: 0px;">

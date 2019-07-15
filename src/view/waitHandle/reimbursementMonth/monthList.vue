@@ -1,10 +1,10 @@
 <template>
   <div class="waitHandleList">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="报销月计划">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="报销月计划">-->
+    <!--</x-header>-->
     <!-- main -->
     <div class="main">
       <!-- 搜索框 -->
@@ -150,7 +150,7 @@ export default {
 }
 .main {
   width: 100%;
-  height: 92%;
+  height: 100%;
   box-sizing: border-box;
 }
 </style>

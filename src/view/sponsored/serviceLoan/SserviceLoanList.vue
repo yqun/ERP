@@ -4,8 +4,11 @@
     <!-- nav导航 -->
     <div class="nav" v-if="false">
       <div>
-        <select placeholder="请选择" class="select">
-          <option value ="审批状态">审批状态</option>
+        <select class="select">
+          <option value ="">请选择流程名称</option>
+        </select>
+        <select class="select">
+          <option value ="">请选择流程发起人</option>
         </select>
       </div>
       <div><button>查询</button></div>
@@ -19,14 +22,14 @@
           <ul>
             <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
               <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.startUser}}</h4>
+                <h4 style="float: left;" v-if="item.projectName">{{item.projectName}}</h4>
+                <h4 style="float: left;" v-if="!item.projectName">{{item.startUser}}</h4>
                 <x-icon type="ios-arrow-right" size="24"></x-icon>
-                <button style="float: right;">已处理</button>
+                <button style="float: right;">正在流转</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.startTimeDate}}</span>
-                <span style="float: right;" v-if="item.isProcessEnd == 'Y'">已完结</span>
-                <span style="float: right;" v-if="item.isProcessEnd == 'N'">{{item.userName}}</span>
+                <span style="float: right;">{{item.name}}</span>
               </div>
             </li>
             <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -40,7 +43,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "ScompanyLoanList",
+  name: "SserviceLoanList",
   data() {
     return {
       userInfoData: {}, //
@@ -76,7 +79,7 @@ export default {
       }
       if (!this.isData) return false;
       this.axios
-        .get(`wechatErp/expenseBorrowPlatform/getPlatformBorrowAlreadyDoneTask`, {params: data})
+        .get(`wechatErp/expenseBorrow/getExpenseBorrowMyStartProcess`, {params: data})
         .then(res => {
           // console.log(res)
           const {data} = res.data
@@ -105,7 +108,7 @@ export default {
     // 路由跳转
     routerLink(item) {
       this.$router.push({
-        path: '/PcompanyLoanItem',
+        path: '/SserviceLoanItem',
         query: {
           key: item.key,
           businessKey: item.businessKey,
@@ -132,27 +135,30 @@ export default {
   position: relative;
   z-index: 999;
   box-sizing: border-box;
+  padding: 0 10px;
   border-bottom: 1px solid #ccc;
   background-color: #fff;
 }
 .nav > div {
-  width: 25%;
+  /*width: 25%;*/
   float: left;
   text-align: center;
 }
 .nav > div:first-child {
-  width: 50%;
+  /*width: 50%;*/
 }
 /* 上拉加载 */
 .main {
   width: 100%;
   height: 100%;
+  /*padding-top: 0.8rem;*/
+  /*margin-top: -0.8rem;*/
   position: relative;
   box-sizing: border-box;
   z-index: 0;
 }
 .select {
-  width: 120px;
+  /*width: 60px;*/
   height: 24px;
   font-size: 12px;
   border-radius: 6px;
@@ -160,6 +166,7 @@ export default {
 }
 .nav > div > button {
   padding: 5px 16px;
+  margin-left: 4px;
   border-radius: 6px;
   background-color: #6ea6ff;
   font-size: 12px;

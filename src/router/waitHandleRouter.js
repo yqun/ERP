@@ -6,6 +6,7 @@ import reimbursementMonth from '@/router/waitHandle/reimbursementMonthRouter' //
 import initiationRouter from '@/router/waitHandle/initiationRouter'           // 项目管理
 import goodsReceive from '@/router/waitHandle/goodsReceiveRouter'             // 物品领用
 import companyLoan from '@/router/waitHandle/companyLoanRouter'             // 公司报销
+import serviceLoan from '@/router/waitHandle/serviceLoanRouter'             // 项目报销
 
 
 
@@ -18,6 +19,7 @@ const waitHandleRouter = [
   ...initiationRouter,
   ...goodsReceive,
   ...companyLoan,
+  ...serviceLoan,
 ]
 
 

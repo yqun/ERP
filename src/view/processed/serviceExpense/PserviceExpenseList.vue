@@ -1,12 +1,12 @@
 <template>
   <div class="serviceExpense">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0; z-index: 999;"
-              :left-options="{backText: ''}"
-              title="项目报销">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0; z-index: 999;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="项目报销">-->
+    <!--</x-header>-->
     <!-- nav导航 -->
-    <div class="nav">
+    <div class="nav" v-if="false">
       <ul class="nav-title">
         <li :class="{active: containerStyle[listIndex]}"
             v-for="(listItem,listIndex) in list"
@@ -233,6 +233,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../../../assets/css/list.css';
 .serviceExpense {
   width: 100%;
   height: 100%;
@@ -322,38 +323,8 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  margin-top: -87px;
   box-sizing: border-box;
-  padding: 86px 0px 0;
   z-index: 0;
-}
-.listItem {
-  font-size: 16px;
-  background-color: #fff;
-  border-bottom: 1px solid #e9e9e9;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0.25rem 10px 0.14rem 10px;
-}
-.listItem h4 {
-  font-size: 0.24rem;
-  color: #333;
-  width: 60%;
-  font-weight: 400;
-}
-.listItem button {
-  font-size: 0.22rem;
-  color: #fff;
-  background-color: #6ea6ff;
-  border: none;
-  padding: 4px 4px;
-  border-radius: 5px;
-  margin-right: 0.1rem;
-}
-.listItem span {
-  font-size: 0.24rem;
-  margin-right: 30px;
 }
 /* 遮罩层 */
 .zhezhao {

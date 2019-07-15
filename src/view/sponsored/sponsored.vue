@@ -1,18 +1,9 @@
 <template>
   <div class="waitHandle">
-    <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="我发起的">
-    </x-header>
     <!-- 主体内容  main -->
     <div class="main">
       <!-- 按钮 -->
       <ul class="clearfix">
-        <!--<li class="waitHandleItem" @click="$router.push('/SContractList')">-->
-          <!--<h3>{{ContractSum}}</h3>-->
-          <!--<p>合同审批</p>-->
-        <!--</li>-->
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push(item.path)">
           <h3>{{item.num}}</h3>
           <p>{{item.name}}</p>
@@ -38,6 +29,7 @@ export default {
         {name: '报销月计划', path: '/SmonthList', num: ''},
         {name: '项目启动', path: '/SinitiationList', num: ''},
         {name: '公司借款', path: '/ScompanyLoanList', num: ''},
+        {name: '项目借款', path: '/SserviceLoanList', num: ''},
       ]
     }
   },
@@ -61,6 +53,7 @@ export default {
         'wechatErp/costPlan/getCostPlantMyStartProcessCount',
         'wechatErp/projectStart/getProjectStartMyStartProcessCount',
         'wechatErp/expenseBorrowPlatform/getPlatformBorrowMyStartProcessCount',
+        'wechatErp/expenseBorrow/getExpenseBorrowMyStartProcessCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
@@ -84,7 +77,7 @@ export default {
 }
 /* 主体内容 */
 .main {
-  padding: 10px 12px;
+  padding: 0 12px;
   box-sizing: border-box;
   overflow: hidden;
 }

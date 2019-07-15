@@ -12,6 +12,8 @@ import reimbursementMonth from '@/router/sponsored/reimbursementMonthRouter'
 import initiation from '@/router/sponsored/initiationRouter'
 // 公司借款
 import companyLoan from '@/router/sponsored/companyLoanRouter'
+// 项目借款
+import serviceLoan from '@/router/sponsored/serviceLoanRouter'
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -22,6 +24,7 @@ const sponsoredRouter = [
   ...reimbursementMonth,
   ...initiation,
   ...companyLoan,
+  ...serviceLoan,
 ]
 
 

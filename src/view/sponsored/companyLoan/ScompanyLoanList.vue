@@ -2,7 +2,7 @@
   <!-- 公司借款 -->
   <div class="serviceExpense">
     <!-- nav导航 -->
-    <div class="nav">
+    <div class="nav" v-if="false">
       <div>
         <select placeholder="请选择" class="select">
           <option value ="审批状态">审批状态</option>
@@ -147,8 +147,8 @@ export default {
 .main {
   width: 100%;
   height: 100%;
-  padding-top: 0.8rem;
-  margin-top: -0.8rem;
+  /*padding-top: 0.8rem;*/
+  /*margin-top: -0.8rem;*/
   position: relative;
   box-sizing: border-box;
   z-index: 0;

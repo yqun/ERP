@@ -88,7 +88,7 @@ export default {
         .then(res => {
           this.$vux.loading.hide();
           const {data} = res.data
-          // console.log(data)
+          console.log(res)
           data.forEach(item => {
             item.dataFormat = dateFormat(item.createTime, 'YYYY-MM-DD')
           })

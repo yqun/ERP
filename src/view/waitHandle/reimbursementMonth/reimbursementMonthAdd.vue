@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0; z-index: 999;"
-              :left-options="{backText: ''}"
-              title="插入费用列表">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0; z-index: 999;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="插入费用列表">-->
+    <!--</x-header>-->
     <!-- main -->
     <group :gutter="0">
       <selector title="项目"

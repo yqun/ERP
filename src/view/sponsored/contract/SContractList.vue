@@ -1,18 +1,20 @@
 <template>
   <div class="waitHandleList">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="我发起的">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="我发起的">-->
+    <!--</x-header>-->
+
+    <!-- 搜索框 -->
+    <div class="search" v-if="false">
+      <input type="text" v-model="searchValue" placeholder="搜索" disabled>
+    </div>
+
     <!-- main -->
     <div class="main">
-      <!-- 搜索框 -->
-      <div class="search">
-        <input type="text" v-model="searchValue" placeholder="搜索" disabled>
-      </div>
       <!-- 上拉加载 -->
-      <scroller lock-x height="93%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+      <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
@@ -112,6 +114,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../../../assets/css/list.css';
 .waitHandleList {
   width: 100%;
   height: 100%;
@@ -136,34 +139,8 @@ export default {
 }
 .main {
   width: 100%;
-  height: 92%;
+  height: 100%;
   box-sizing: border-box;
   padding: 10px;
-}
-.listItem {
-  font-size: 16px;
-  border-bottom: 1px solid #e9e9e9;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0.25rem 4px 0.17rem 4px;
-}
-.listItem h4 {
-  font-size: 0.24rem;
-  color: #333;
-  width: 72%;
-  font-weight: 400;
-}
-.listItem button {
-  font-size: 0.24rem;
-  color: #fff;
-  background-color: #6ea6ff;
-  border: none;
-  padding: 4px 4px;
-  border-radius: 5px;
-  /*margin-right: 0.1rem;*/
-}
-.listItem span {
-  font-size: 0.24rem;
 }
 </style>

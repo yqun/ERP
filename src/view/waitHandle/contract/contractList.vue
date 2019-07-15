@@ -2,17 +2,18 @@
   <div class="waitHandleList">
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
+              v-if="false"
               :left-options="{backText: ''}"
               title="合同评审">
     </x-header>
     <!-- main -->
     <div class="main">
       <!-- 搜索框 -->
-      <div class="search">
+      <div class="search" v-if="false">
         <input type="text" v-model="searchValue" placeholder="搜索" disabled>
       </div>
       <!-- 上拉加载 -->
-      <scroller lock-x height="93%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+      <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
@@ -121,6 +122,8 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #fff;
+  /*box-sizing: border-box;*/
+  /*padding-top: 46px;*/
 }
 .search {
   height: 0.5rem;
@@ -141,7 +144,7 @@ export default {
 }
 .main {
   width: 100%;
-  height: 92%;
+  height: 100%;
   box-sizing: border-box;
   padding: 10px;
 }

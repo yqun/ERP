@@ -1,10 +1,10 @@
 <template>
   <div>
-    <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="ERP系统">
-    </x-header>
+    <!--&lt;!&ndash; 头部导航 &ndash;&gt;-->
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="ERP系统">-->
+    <!--</x-header>-->
     <!-- banner -->
     <div class="banner">
       <img src="../assets/images/banner.jpg" alt="banner">
@@ -70,6 +70,10 @@
               <grid-item link="/companyLoanList">
                 <img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">
                 <span slot="label">公司借款</span>
+              </grid-item>
+              <grid-item link="/serviceLoanList">
+                <img slot="icon" src="../assets/images/application/组33@2x.png">
+                <span slot="label">项目借款</span>
               </grid-item>
               <!-- 物品领用 -->
               <!--<grid-item link="/createGoodsReceive">-->
@@ -148,13 +152,13 @@ export default {
 @import '../assets/css/vux-grid.css';
 .banner {
   width: 100%;
-  height: 2.5rem;
+  height: 3rem;
   position: relative;
   overflow: hidden;
 }
 .banner img {
   display: block;
-  width: 100%;
+  height: 100%;
   position: absolute;
   margin: auto;
   left: 50%;

@@ -1,12 +1,12 @@
 <template>
   <div class="serviceExpense">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0; z-index: 999;"
-              :left-options="{backText: ''}"
-              title="公司报销">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0; z-index: 999;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="公司报销">-->
+    <!--</x-header>-->
     <!-- nav导航 -->
-    <div class="nav">
+    <div class="nav" v-if="false">
       <ul class="nav-title">
         <li :class="{active: containerStyle[listIndex]}"
             v-for="(listItem,listIndex) in list"
@@ -192,7 +192,7 @@ export default {
       this.axios
         .get(`wechatErp/expenseReimbursementPlatform/getPlatformBxtMyStartProcess`, {params: data})
         .then(res => {
-          // console.log(res)
+          console.log(res)
           const {data} = res.data
           data.forEach(item => {
             item.startTimeDate = dateFormat(item.startTime, 'YYYY-MM-DD HH:mm:ss')
@@ -322,9 +322,9 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  margin-top: -87px;
+  /*margin-top: -87px;*/
   box-sizing: border-box;
-  padding: 86px 0px 0px;
+  /*padding: 86px 0px 0px;*/
   z-index: 0;
 }
 /* 遮罩层 */

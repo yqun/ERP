@@ -1,10 +1,10 @@
 <template>
   <div class="contract-item">
     <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              :left-options="{backText: ''}"
-              title="公司报销">
-    </x-header>
+    <!--<x-header style="background-color:#4b77b0;"-->
+              <!--:left-options="{backText: ''}"-->
+              <!--title="公司报销">-->
+    <!--</x-header>-->
     <!-- 内容 -->
     <div class="main">
       <!-- 项目信息 -->
@@ -380,7 +380,7 @@ export default {
 .contract-item {
   width: 100%;
   box-sizing: border-box;
-  padding-top: 46px;
+  /*padding-top: 46px;*/
   font-size:16px;
   background-color: #f8f8f8;
 }
