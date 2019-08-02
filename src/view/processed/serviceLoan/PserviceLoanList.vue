@@ -29,7 +29,7 @@
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.startTimeDate}}</span>
-                <span style="float: right;">{{item.name}}</span>
+                <span style="float: right;">{{item.name || '已完成'}}</span>
               </div>
             </li>
             <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>

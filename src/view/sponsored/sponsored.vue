@@ -30,6 +30,7 @@ export default {
         {name: '项目启动', path: '/SinitiationList', num: ''},
         {name: '公司借款', path: '/ScompanyLoanList', num: ''},
         {name: '项目借款', path: '/SserviceLoanList', num: ''},
+        {name: '物品领用', path: '/SgoodsReceiveList', num: ''},
       ]
     }
   },
@@ -54,6 +55,7 @@ export default {
         'wechatErp/projectStart/getProjectStartMyStartProcessCount',
         'wechatErp/expenseBorrowPlatform/getPlatformBorrowMyStartProcessCount',
         'wechatErp/expenseBorrow/getExpenseBorrowMyStartProcessCount',
+        'wechatErp/wareHouse/getWareHouseMyStartProcessCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
@@ -77,6 +79,7 @@ export default {
 }
 /* 主体内容 */
 .main {
+  height: 100%;
   padding: 0 12px;
   box-sizing: border-box;
   overflow: hidden;

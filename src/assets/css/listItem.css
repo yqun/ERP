@@ -1,7 +1,7 @@
 /*
   * main 包含 div 为每一模块
-  * div 包含 h3(标头) ul.info-content(信息内容)
-  * 基础的 li包含  strong(字段名) span(值)
+  * div 包含 h3(标头) 和 ul.info-content(信息内容)
+  * 基础的 li包含  strong(字段名) 和 span(值)
   * 下载 li>strong(字段名)/div>p(循环)>span(值)/a(下载按钮)
   * 查看详情 div>h3>span(float:right), div>p/div>p(循环)
 */

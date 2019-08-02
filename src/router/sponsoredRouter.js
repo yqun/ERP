@@ -14,6 +14,8 @@ import initiation from '@/router/sponsored/initiationRouter'
 import companyLoan from '@/router/sponsored/companyLoanRouter'
 // 项目借款
 import serviceLoan from '@/router/sponsored/serviceLoanRouter'
+// 物品领用
+import goodsReceive from '@/router/sponsored/goodsReceiveRouter'
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -25,6 +27,7 @@ const sponsoredRouter = [
   ...initiation,
   ...companyLoan,
   ...serviceLoan,
+  ...goodsReceive,
 ]
 
 

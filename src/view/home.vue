@@ -32,7 +32,7 @@
       <!-- 常用应用 application -->
       <div class="application">
         <h3>常用应用</h3>
-        <swiper height="4.05rem" dots-position="center" :show-dots="false" class="swiperstyle">
+        <swiper height="4.05rem" dots-position="center" class="swiperstyle">
           <!-- 第一页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
@@ -75,14 +75,18 @@
                 <img slot="icon" src="../assets/images/application/组33@2x.png">
                 <span slot="label">项目借款</span>
               </grid-item>
-              <!-- 物品领用 -->
-              <!--<grid-item link="/createGoodsReceive">-->
-                <!--<img slot="icon" src="../assets/images/application/组38@2x.png">-->
-                <!--<span slot="label">物品领用</span>-->
-              <!--</grid-item>-->
             </grid>
           </swiper-item>
-          <!--<swiper-item></swiper-item>-->
+          <!-- 第二页 -->
+          <swiper-item class="applicationItem">
+            <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
+              <!-- 物品领用 -->
+              <grid-item link="/goodsReceiveList">
+                <img slot="icon" src="../assets/images/application/组38@2x.png">
+                <span slot="label">物品领用</span>
+              </grid-item>
+            </grid>
+          </swiper-item>
         </swiper>
       </div>
     </div>
@@ -253,7 +257,7 @@ export default {
   box-shadow: 5px 8px 15px rgba(49, 101, 166, 0.33);
 }
 .swiperstyle >>> .vux-indicator{
-  bottom: -16px;
+  bottom: 0px;
 }
 /* 点 */
 .swiperstyle >>> .vux-indicator i.vux-icon-dot {
