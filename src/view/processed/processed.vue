@@ -9,11 +9,6 @@
     <div class="main">
       <!-- 按钮 -->
       <ul class="clearfix">
-        <!--<li class="waitHandleItem" @click="$router.push({path: '/PContractList'})">-->
-          <!--<h3 :style="{'font-size': size}">{{ContractSum}}</h3>-->
-          <!--<i>({{ContractSum}})</i>-->
-          <!--<p>合同审批</p>-->
-        <!--</li>-->
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push({path: item.path})">
           <h3 :style="{'font-size': item.fontSize}">{{item.num}}</h3>
           <p>{{item.name}}</p>
@@ -42,6 +37,7 @@ export default {
         {name: '公司借款', path: '/PcompanyLoanList', fontSize: '0.55rem', num: ''},
         {name: '项目借款', path: '/PserviceLoanList', fontSize: '0.55rem', num: ''},
         {name: '物品领用', path: '/PgoodsReceiveList', fontSize: '0.55rem', num: ''},
+        {name: '采购追加', path: '/PpurchaseAppendList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -67,6 +63,7 @@ export default {
         'wechatErp/expenseBorrowPlatform/getPlatformBorrowAlreadyDoneTaskCount',
         'wechatErp/expenseBorrow/getExpenseBorrowAlreadyDoneTaskCount',
         'wechatErp/wareHouse/getWareHouseAlreadyDoneTaskCount',
+        'wechatErp/purchaseAppend/getPurchaseAppendAlreadyDoneTaskCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

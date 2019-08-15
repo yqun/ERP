@@ -15,6 +15,8 @@ import companyLoan from '@/router/processed/companyLoanRouter'
 import serviceLoan from '@/router/processed/serviceLoanRouter'
 // 物品领用
 import goodsReceive from '@/router/processed/goodsReceiveRouter'
+// 采购追加
+import purchaseAppend from '@/router/processed/purchaseAppendRouter'
 
 
 const ProcessedRouter = [
@@ -26,6 +28,7 @@ const ProcessedRouter = [
   ...companyLoan,
   ...serviceLoan,
   ...goodsReceive,
+  ...purchaseAppend,
 ]
 
 

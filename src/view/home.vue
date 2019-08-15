@@ -1,11 +1,5 @@
 <template>
   <div>
-    <!--&lt;!&ndash; 头部导航 &ndash;&gt;-->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="ERP系统">-->
-    <!--</x-header>-->
-    <!-- banner -->
     <div class="banner">
       <img src="../assets/images/banner.jpg" alt="banner">
     </div>
@@ -56,10 +50,10 @@
                 <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
                 <span slot="label">报销月计划</span>
               </grid-item>
-              <!-- 立项管理 -->
+              <!-- 机会管理 -->
               <grid-item link="/projectList">
                 <img slot="icon" src="../assets/images/application/组16@2x.png">
-                <span slot="label">立项管理</span>
+                <span slot="label">机会管理</span>
               </grid-item>
               <!-- 项目启动-->
               <grid-item link="/initiationList">
@@ -84,6 +78,16 @@
               <grid-item link="/goodsReceiveList">
                 <img slot="icon" src="../assets/images/application/组38@2x.png">
                 <span slot="label">物品领用</span>
+              </grid-item>
+              <!-- 采购变更 -->
+              <grid-item link="/purchaseAppendList">
+                <img slot="icon" src="../assets/images/application/组20@2x.png" style="height: 0.9rem;">
+                <span slot="label">采购追加</span>
+              </grid-item>
+              <!-- 采购流程 -->
+              <grid-item link="/purchaseProcessList">
+                <img slot="icon" src="../assets/images/application/组20@2x.png" style="height: 0.9rem;">
+                <span slot="label">采购流程</span>
               </grid-item>
             </grid>
           </swiper-item>

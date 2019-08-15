@@ -16,6 +16,8 @@ import companyLoan from '@/router/sponsored/companyLoanRouter'
 import serviceLoan from '@/router/sponsored/serviceLoanRouter'
 // 物品领用
 import goodsReceive from '@/router/sponsored/goodsReceiveRouter'
+// 采购追加
+import purchaseAppend from '@/router/sponsored/purchaseAppendRouter'
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -28,6 +30,7 @@ const sponsoredRouter = [
   ...companyLoan,
   ...serviceLoan,
   ...goodsReceive,
+  ...purchaseAppend,
 ]
 
 

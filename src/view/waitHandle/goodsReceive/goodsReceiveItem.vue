@@ -250,9 +250,12 @@ export default {
         .then(res => {
           // console.log(res)
           const {resultState, messageInfo} = res.data
-          this.$vux.toast.text('操作成功')
-          if (resultState == -1) return false;
-          setTimeout(() => {this.$router.go(-1)}, 800)
+          if (resultState == 0) {
+            this.$vux.toast.text('操作成功');
+            setTimeout(() => {this.$router.go(-1)}, 800)
+          } else {
+            this.$vux.toast.text(res.data.resultInfo);
+          }
         })
     }
   }

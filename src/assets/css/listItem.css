@@ -113,3 +113,28 @@ div.my-opation > h3 {
   border-radius: 10px;
   padding: 10px;
 }
+
+
+/* x-input */
+/deep/ .weui-cell__hd {
+  font-size: 14px;
+  font-weight: 700;
+}
+/deep/ .weui-cell__bd {
+  font-size: 14px;
+}
+.vux-selector.weui-cell_select-after {
+  padding-left: unset;
+}
+/deep/ .weui-select {
+  height: 40px;
+}
+.weui-cell {
+  padding: unset;
+}
+/deep/ .weui-input {
+  height: 40px;
+}
+.weui-cell:before {
+  border-top:0px solid transparent;
+}

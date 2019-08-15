@@ -7,10 +7,10 @@
       <span slot="right" style="color: #fff; font-size: 30px;" @click="$router.push('/createProject')">+</span>
     </x-header>
     <!-- 搜索框 -->
-    <div class="search">
-      <p style="float: left;">项目名称<i></i></p>
-      <p style="float: right;">创建时间 <input type="text"> 到 <input type="text"></p>
-    </div>
+    <!--<div class="search">-->
+      <!--<p style="float: left;">项目名称<i></i></p>-->
+      <!--<p style="float: right;">创建时间 <input type="text"> 到 <input type="text"></p>-->
+    <!--</div>-->
     <!-- 内容 -->
     <div class="main">
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
@@ -122,7 +122,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding-top: 86px;
+  padding-top: 46px;
   font-size:16px;
   background-color: #f8f8f8;
 }
@@ -157,7 +157,6 @@ div.vux-header {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 0;
   /*background-color: #fff;*/
 }
 </style>

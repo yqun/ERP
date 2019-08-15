@@ -6,10 +6,8 @@ Vue.use(vuex)
 const store = new vuex.Store({
 
   state: {
-    loginName: JSON.parse(window.sessionStorage.getItem('data'))? JSON.parse(window.sessionStorage.getItem('data')).loginName : '',
-    password: JSON.parse(window.sessionStorage.getItem('data'))? JSON.parse(window.sessionStorage.getItem('data')).password : '',
-    id: JSON.parse(window.sessionStorage.getItem('data'))? JSON.parse(window.sessionStorage.getItem('data')).id : '',
     monthCostList: [], // 报销月计划
+    purchase: [], // 采购追加的信息
   },
   mutations: {
     // 报销月计划
@@ -21,6 +19,11 @@ const store = new vuex.Store({
       }
       if (data instanceof Object) return state.monthCostList.push(data);
       if (data instanceof Array) return state.monthCostList = data;
+    },
+    // 采购追加的信息
+    addPurchase(state, {data, status=true}) {
+      if (status) return state.purchase.push(data);
+      state.purchase = [];
     }
   }
 })
