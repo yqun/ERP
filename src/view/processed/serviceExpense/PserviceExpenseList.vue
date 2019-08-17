@@ -49,8 +49,7 @@
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.startTimeDate}}</span>
-                <span style="float: right;" v-if="item.isProcessEnd == 'Y'">已完结</span>
-                <span style="float: right;" v-if="item.isProcessEnd == 'N'">{{item.userName}}</span>
+                <span style="float: right;">{{item.startUser}}</span>
               </div>
             </li>
             <li v-if="sponsoredList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>

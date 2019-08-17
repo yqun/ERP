@@ -19,12 +19,12 @@
               <div class="clearfix" style="margin-bottom: 0.17rem;">
                 <h4 style="float: left; width: 70%;">{{item.projectName}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">已处理的</button>
+                <button style="float: right;">我发起的</button>
                 <!--<span>{{item.chineseName}}</span>-->
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.dataFormat}}</span>
-                <span style="float: right;">{{item.taskName || '已结束'}}</span>
+                <span style="float: right;">{{item.taskName || '已完结'}}</span>
               </div>
             </li>
             <!-- 数据为空时显示 -->
@@ -157,7 +157,7 @@ div.vux-header {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 0;
+  /*padding: 10px 0;*/
   /*background-color: #fff;*/
 }
 </style>

@@ -86,7 +86,7 @@
               </grid-item>
               <!-- 采购流程 -->
               <grid-item link="/purchaseProcessList">
-                <img slot="icon" src="../assets/images/application/组20@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/组21@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购流程</span>
               </grid-item>
             </grid>

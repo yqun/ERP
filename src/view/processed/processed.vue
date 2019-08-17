@@ -38,6 +38,7 @@ export default {
         {name: '项目借款', path: '/PserviceLoanList', fontSize: '0.55rem', num: ''},
         {name: '物品领用', path: '/PgoodsReceiveList', fontSize: '0.55rem', num: ''},
         {name: '采购追加', path: '/PpurchaseAppendList', fontSize: '0.55rem', num: ''},
+        {name: '采购流程', path: '/PpurchaseProcessList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -64,6 +65,7 @@ export default {
         'wechatErp/expenseBorrow/getExpenseBorrowAlreadyDoneTaskCount',
         'wechatErp/wareHouse/getWareHouseAlreadyDoneTaskCount',
         'wechatErp/purchaseAppend/getPurchaseAppendAlreadyDoneTaskCount',
+        'wechatErp/purchaseFlow/getPurchaseFlowAlreadyDoneTaskCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

@@ -16,12 +16,6 @@
           <x-input disabled title="合同金额" v-model="contractInfo.contractMoney"></x-input>
           <x-input disabled title="客户名称" v-model="clientName"></x-input>
           <x-input disabled title="外包施工费" v-model="contractInfo.constructionMoney"></x-input>
-          <selector title="采购专员"
-                    v-if="activityID == 'sub2'"
-                    v-model="purchaseManId"
-                    placeholder="请选择采购专员"
-                    :options="buyer"
-                    :value-map="['id','chineseName']"></selector>
         </group>
       </div>
       <!-- 原货物清单 -->
@@ -64,20 +58,12 @@
           </tbody>
         </table>
       </div>
-      <!-- 审批意见 -->
-      <div>
-        <h3 style="border: none;">审批意见</h3>
-        <group :gutter="0">
-          <x-textarea v-model="message"></x-textarea>
-        </group>
-      </div>
       <!-- 弹框 -->
       <confirm v-model="confirmShow" title="货物清单" hide-on-blur :show-confirm-button="false" cancel-text="返回">
         <!--table表格-->
         <div class="table">
           <el-table :data="jsonProducts" height="500" style="width: 100%">
             <el-table-column type="index" label="序号"></el-table-column>
-            <!--<el-table-column label="子货单"></el-table-column>-->
             <el-table-column prop="name" label="货物名称"></el-table-column>
             <el-table-column prop="type" label="规格名称"></el-table-column>
             <el-table-column prop="count" label="数量"></el-table-column>
@@ -101,122 +87,42 @@
         </div>
       </confirm>
     </div>
-    <!-- 底部按钮 -->
-    <div class="footer">
-      <div v-if="adoptShow"><x-button style="background-color: #6ea6ff;" @click.native="confirm()">通过</x-button></div>
-      <div v-if="cancelShow"><x-button type="warn" @click.native="cancel()">拒绝</x-button></div>
-      <div v-if="!adoptShow"><x-button :style="{backgroundColor:backgroundColor, fontSize:fontSize}" @click.native="confirm()">合同已留存</x-button></div>
-      <div v-if="!adoptShow"><x-button :style="{fontSize:fontSize}" type="warn" @click.native="cancel()">合同未留存</x-button></div>
-      <div><x-button :style="{backgroundColor:backBgColor,fontSize:fontSize}" type="default" @click.native="$router.go(-1)">返回</x-button></div>
-    </div>
   </div>
 </template>
 
 <script>
-  /*
-    *"利润降低：事总审批 （salesManager）"
-    *"营销总经理审批（marketingGeneralManager）"
-    *"利润降低：总经理审批（gm1）"
-    *
-    * "商务专员审批采购单（businessAssistant）" // 只有通过
-    * "采购经理指派采购专员（sub2）"
-    *
-    * 合同存档员检查合同是否留存contractClerk // 合同留存
-    *
-    *  商务经理审批（businessManager) // 通过 拒绝
-    * 总经理审批（gm)
-    *
-    * 等待合同收回之后再发起采购流程(applyUpdate) // 只有通过
-  */
   import { dateFormat } from 'vux'
   export default {
-    name: "purchaseProcessItem",
+    name: "PpurchaseProcessItem",
     data() {
       return {
-        data: {},
         key: '',
-        taskId: '',
-        activityID: '',
         businessKey: '',
         processInstanceId: '',
         confirmShow: false,
         jsonProducts: [],
 
-        roleInfo: {}, // 代办事项
         projectInfo: {}, // 项目表单数据
         contractInfo: {}, // 合同信息
         contractType: '',
         clientName: '', //客户名称
         detailedTotal: {}, // 项目合计
-        buyer: [], //采购专员
-        purchaseManId: '', //选择的采购专员Id
         opinion: [], //意见
-        message: '', //审批意见
 
-        backgroundColor: '#6ea6ff',
-        backBgColor: '#bababa',
-        fontSize: '18px'
+
       }
     },
     mounted() {
-      this.getUserInfo()
       this.getQuery()
-      this.getRoleInfo()
       this.getModelId()
       this.getOpinion()
     },
-    computed: {
-      // 通过
-      adoptShow() {
-        var flag = true
-        if (this.activityID == 'contractClerk') {
-          flag = false
-        }
-        return flag;
-      },
-      // 拒绝
-      cancelShow() {
-        var flag = true
-        if (this.activityID == 'businessAssistant'
-          || this.activityID == 'applyUpdate'
-          || this.activityID == 'sub2'
-          || this.activityID == 'contractClerk') {
-          flag = false
-        }
-        return flag;
-      }
-      // 留存
-    },
     methods: {
-      // 获取 userInfo
-      getUserInfo() {
-        const user = JSON.parse(window.sessionStorage.getItem('data'))
-        this.data.loginName = user.loginName
-        this.data.currentUserId = user.id
-      },
       // 获取参数
       getQuery() {
         this.key = this.$route.query.key
-        this.taskId = this.$route.query.taskId
-        this.activityID = this.$route.query.activityID
         this.businessKey = this.$route.query.businessKey
         this.processInstanceId = this.$route.query.processInstanceId
-        if (this.activityID == 'contractClerk') {
-          this.fontSize = '14px '
-        }
-        if (this.activityID == 'sub2') {
-          this.getBuyer()
-        }
-      },
-      // 打开代办事项
-      getRoleInfo() {
-        const data =  {key: this.key, taskId: this.taskId, activityId: this.activityID}
-        this.axios
-          .get(`wechatErp/center/toTaskPage`, {params: data})
-          .then(res => {
-            // console.log(res)
-            this.roleInfo = res.data
-          })
       },
       // 获得采购流程实体
       getModelId() {
@@ -277,17 +183,7 @@
                 this.jsonProducts.push(item)
               }
             })
-            // this.jsonProducts = productList
             this.detailedTotal = profit
-          })
-      },
-      // 获取采购专员
-      getBuyer() {
-        this.axios
-          .post(`wechatErp/center/getListByRoleCode/BUYER`)
-          .then(res => {
-            // console.log(res)
-            this.buyer = res.data
           })
       },
       // 意见
@@ -300,66 +196,6 @@
             this.opinion = res.data
           })
       },
-      // 确定
-      confirm() {
-        if (!this.message.trim()) return this.$vux.toast.text('请填写审批意见')
-        const data = {
-          ...this.data,
-          businessKey: this.businessKey,
-          taskId: this.taskId,
-          processInstanceId: this.processInstanceId,
-          activityID: this.activityID,
-          roleName: this.roleInfo.roleName,
-          projectType: this.contractInfo.projectType,
-          projectId: this.contractInfo.projectId,
-          id: this.contractInfo.id,
-          isPass: 'Y',
-          message: this.message,
-        }
-        if (this.activityID == 'sub2') {
-          if (!this.purchaseManId) return this.$vux.toast.text('请选择采购专员')
-          data.purchaseManId = this.purchaseManId
-        }
-        else if (this.activityID == 'contractClerk') {
-          data.retired = 'Y'
-        }
-        this.sendData(data)
-      },
-      // 取消
-      cancel() {
-        if (!this.message.trim()) return this.$vux.toast.text('请填写审批意见')
-        const data = {
-          ...this.data,
-          businessKey: this.businessKey,
-          taskId: this.taskId,
-          processInstanceId: this.processInstanceId,
-          activityID: this.activityID,
-          roleName: this.roleInfo.roleName,
-          projectType: this.contractInfo.projectType,
-          projectId: this.contractInfo.projectId,
-          id: this.contractInfo.id,
-          isPass: 'N',
-          message: this.message,
-        }
-        if (this.activityID == 'contractClerk') {
-          data.retired = 'N'
-        }
-        this.sendData(data);
-      },
-      sendData(data) {
-        this.axios
-          .post(`wechatErp/purchaseFlow/flowToNextActivityForQueryOnly`, data)
-          .then(res => {
-            console.log(res)
-            const {resultState, messageInfo} = res.data
-            if (resultState == 0) {
-              this.$vux.toast.text('操作成功');
-              setTimeout(() => {this.$router.go(-1)}, 800)
-            } else {
-              this.$vux.toast.text(res.data.resultInfo);
-            }
-          })
-      }
     }
   }
 </script>

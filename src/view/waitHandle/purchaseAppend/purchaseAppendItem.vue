@@ -278,10 +278,18 @@ export default {
       this.axios.get(url)
         .then(res => {
           // console.log(res)
+          this.jsonProducts = [];
           res.data.forEach(item => {
             item.arrivalDateStr = dateFormat(item.arrivalDate, 'YYYY-MM-DD')
+            if (item.childProduct.length) {
+              item.childProduct.forEach(childrenItem => {
+                childrenItem.arrivalDateStr = dateFormat(childrenItem.arrivalDate, 'YYYY-MM-DD')
+              })
+              this.jsonProducts.push(...item.childProduct)
+            } else {
+              this.jsonProducts.push(item)
+            }
           })
-          this.jsonProducts = res.data
           this.confirmShow = true
         })
     },

@@ -27,9 +27,9 @@
           <li class="download clearfix total">
             <strong style="font-weight: 400;">合计：</strong>
             <div style="width: 80%;">
-              <p>项目预估利润:{{detailedTotal.forecastGrossProfit}}元;项目预估利率:{{detailedTotal.forecastInterestRate}}%;</p>
-              <p>项目预估毛利润:{{detailedTotal.totalGrossProfit}}元;项目预估毛利率:{{detailedTotal.forecastProfitRate}}%; </p>
-              <p>总税金:{{detailedTotal.totalTaxes}}元;总质保风险:{{detailedTotal.totalWarrantyPeriodWaring}}元;</p>
+              <p>项目预估利润:{{oldProfit.forecastGrossProfit}}元;项目预估利率:{{oldProfit.forecastInterestRate}}%;</p>
+              <p>项目预估毛利润:{{oldProfit.totalGrossProfit}}元;项目预估毛利率:{{oldProfit.forecastProfitRate}}%; </p>
+              <p>总税金:{{oldProfit.totalTaxes}}元;总质保风险:{{oldProfit.totalWarrantyPeriodWaring}}元;</p>
             </div>
           </li>
         </ul>
@@ -132,6 +132,9 @@ export default {
       salesmanInfo: {}, //业务员信息
       clientName: '', //客户名称
       detailedTotal: {}, // 项目合计
+      oldProfit: {},
+      appendProfit: {},
+      diffProfit: {},
       opinion: [], //意见
 
     }
@@ -159,6 +162,7 @@ export default {
 
           this.getProjectInfo(data.projectId)
           this.getBeforepurchase(data.contractId)
+          this.getProjectOverallSituation()
         })
     },
     // 项目信息
@@ -171,6 +175,22 @@ export default {
           this.projectInfo = project
           this.contractInfo = contract
           this.salesmanInfo = salesman
+        })
+    },
+    // 原货物清单合计
+    getProjectOverallSituation() {
+      const data = {
+        projectId: this.purchaseAppendInfo.projectId,
+        appendPurchaseId: this.purchaseAppendInfo.id,
+        contractId:this.purchaseAppendInfo.contractId,
+      }
+      this.axios
+        .get(`wechatErp/purchaseAppend/getProjectOverallSituation`, {params: data})
+        .then(res => {
+          console.log(res)
+          this.oldProfit = res.data.oldProfit
+          this.appendProfit = res.data.appendProfit
+          this.diffProfit = res.data.diffProfit
         })
     },
     // 获取项目收益，付款方式
@@ -193,10 +213,18 @@ export default {
       this.axios.get(url)
         .then(res => {
           // console.log(res)
+          this.jsonProducts = [];
           res.data.forEach(item => {
             item.arrivalDateStr = dateFormat(item.arrivalDate, 'YYYY-MM-DD')
+            if (item.childProduct.length) {
+              item.childProduct.forEach(childrenItem => {
+                childrenItem.arrivalDateStr = dateFormat(childrenItem.arrivalDate, 'YYYY-MM-DD')
+              })
+              this.jsonProducts.push(...item.childProduct)
+            } else {
+              this.jsonProducts.push(item)
+            }
           })
-          this.jsonProducts = res.data
           this.confirmShow = true
         })
     },
