@@ -47,7 +47,7 @@ function getUser(code, next) {
   this.axios
     .get(`wechatErp/center/initialAccreditation?code=${code}`)
     .then(res => {
-      console.log('router', res);
+      // console.log('router', res);
       const {data} = res
       if (data != null) {
         window.sessionStorage.setItem('data', JSON.stringify(data))

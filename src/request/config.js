@@ -18,6 +18,7 @@ const Http = axios.create({
 });
 
 Http.interceptors.request.use(function (config) {
+
   // 设置全局token
   const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
   if (!AUTH_TOKEN) return config;
@@ -32,6 +33,7 @@ Http.interceptors.request.use(function (config) {
 
 // 响应拦截器
 Http.interceptors.response.use(function (response) {
+
 
   return response;
 }, function (error) {

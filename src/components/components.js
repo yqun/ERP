@@ -20,6 +20,13 @@ import { Icon } from 'vux'
 import { Datetime } from 'vux'
 import { Checklist } from 'vux'
 import { CheckIcon } from 'vux'
+import { Tabbar, TabbarItem } from 'vux'
+import { Rater } from 'vux'
+import { Cell } from 'vux'
+import { Divider } from 'vux'
+import { XSwitch } from 'vux'
+import { Calendar } from 'vux'
+import { XAddress } from 'vux'
 
 import  { ToastPlugin } from 'vux'
 import  { LoadingPlugin } from 'vux'
@@ -51,6 +58,14 @@ Vue.component('icon', Icon)
 Vue.component('datetime', Datetime)
 Vue.component('checklist', Checklist)
 Vue.component('check-icon', CheckIcon)
+Vue.component('tabbar', Tabbar)
+Vue.component('tabbar-item', TabbarItem)
+Vue.component('rater', Rater)
+Vue.component('cell', Cell)
+Vue.component('divider', Divider)
+Vue.component('x-switch', XSwitch)
+Vue.component('calendar', Calendar)
+Vue.component('x-address', XAddress)
 
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin, {position: 'middle'})

@@ -8,7 +8,8 @@ import goodsReceive from '@/router/waitHandle/goodsReceiveRouter'             //
 import companyLoan from '@/router/waitHandle/companyLoanRouter'             // 公司报销
 import serviceLoan from '@/router/waitHandle/serviceLoanRouter'             // 项目报销
 import purchaseAppend from '@/router/waitHandle/purchaseAppendRouter'       // 采购追加
-import PurchaseProcess from '@/router/waitHandle/PurchaseProcessRouter'       // 采购流程
+import purchaseProcess from '@/router/waitHandle/PurchaseProcessRouter'       // 采购流程
+import customerExpense from './waitHandle/customerExpenseRouter'              // 客户报销
 
 
 
@@ -23,7 +24,8 @@ const waitHandleRouter = [
   ...companyLoan,
   ...serviceLoan,
   ...purchaseAppend,
-  ...PurchaseProcess,
+  ...purchaseProcess,
+  ...customerExpense,
 ]
 
 

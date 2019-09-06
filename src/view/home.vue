@@ -50,6 +50,11 @@
                 <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
                 <span slot="label">报销月计划</span>
               </grid-item>
+              <!-- 客户报销 -->
+              <!--<grid-item link="/customerExpenseList">-->
+                <!--<img slot="icon" src="../assets/images/application/组23@2x.png" style="height: 0.9rem;">-->
+                <!--<span slot="label">客户报销</span>-->
+              <!--</grid-item>-->
               <!-- 机会管理 -->
               <grid-item link="/projectList">
                 <img slot="icon" src="../assets/images/application/组16@2x.png">
@@ -65,6 +70,7 @@
                 <img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">
                 <span slot="label">公司借款</span>
               </grid-item>
+              <!-- 项目借款 -->
               <grid-item link="/serviceLoanList">
                 <img slot="icon" src="../assets/images/application/组33@2x.png">
                 <span slot="label">项目借款</span>
@@ -76,10 +82,10 @@
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
               <!-- 物品领用 -->
               <grid-item link="/goodsReceiveList">
-                <img slot="icon" src="../assets/images/application/组38@2x.png">
+                <img slot="icon" src="../assets/images/application/组38@2x.png" style="height: 0.9rem;">
                 <span slot="label">物品领用</span>
               </grid-item>
-              <!-- 采购变更 -->
+              <!-- 采购追加 -->
               <grid-item link="/purchaseAppendList">
                 <img slot="icon" src="../assets/images/application/组20@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购追加</span>
@@ -88,6 +94,11 @@
               <grid-item link="/purchaseProcessList">
                 <img slot="icon" src="../assets/images/application/组21@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购流程</span>
+              </grid-item>
+              <!-- 拜访记录 -->
+              <grid-item link="/customerList">
+                <img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">
+                <span slot="label">拜访记录</span>
               </grid-item>
             </grid>
           </swiper-item>
@@ -242,7 +253,7 @@ export default {
 }
 .applicationItem img {
   height: 1rem;
-  width: 1rem;
+  width: unset;
   margin: auto;
   position: absolute;
   bottom: 0;
