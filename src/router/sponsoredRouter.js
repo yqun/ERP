@@ -20,6 +20,8 @@ import goodsReceive from '@/router/sponsored/goodsReceiveRouter'
 import purchaseAppend from '@/router/sponsored/purchaseAppendRouter'
 // 采购流程
 import purchaseProcess from '@/router/sponsored/purchaseProcessRouter'
+// 客户报销
+import customerExpense from '@/router/sponsored/customerExpenseRouter'
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -34,6 +36,7 @@ const sponsoredRouter = [
   ...goodsReceive,
   ...purchaseAppend,
   ...purchaseProcess,
+  ...customerExpense,
 ]
 
 

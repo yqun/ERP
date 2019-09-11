@@ -9,11 +9,11 @@
             <div class="clearfix" style="margin-bottom: 0.17rem;">
               <h4 style="float: left;">{{item.startUser}}</h4>
               <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
-              <button style="float: right;">正在流转</button>
+              <button style="float: right;">我发起的</button>
             </div>
             <div class="clearfix p">
-              <span style="float: left;">{{item.createTime}}</span>
-              <span style="float: right;">{{item.name}}</span>
+              <span style="float: left;">{{item.startTimeDate}}</span>
+              <span style="float: right;">{{item.taskName || '已完结'}}</span>
             </div>
           </li>
           <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -24,8 +24,9 @@
 </template>
 
 <script>
+  import { dateFormat } from 'vux'
   export default {
-    name: "customerExpenseList",
+    name: "ScustomerExpenseList",
     data() {
       return {
         userInfoData: {}, //
@@ -61,10 +62,13 @@
         }
         if (!this.isData) return false;
         this.axios
-          .get(`wechatErp/expenseReimbursementClient/getToDoForClientBx`, {params: data})
+          .get(`wechatErp/expenseReimbursementClient/getClientBxtMyStartProcess`, {params: data})
           .then(res => {
-            // console.log(res)
+            console.log(res)
             const {data} = res.data
+            data.forEach(item => {
+              item.startTimeDate = dateFormat(item.startTime, 'YYYY-MM-DD')
+            })
             this.waitHandleList.push(...data)
             const page = Math.ceil(res.data.page.totalResult/10)
             if (page > (this.iDisplayStart/10 + 1)) {
@@ -88,11 +92,9 @@
       // 路由跳转
       routerLink(item) {
         this.$router.push({
-          path: '/customerExpenseItem',
+          path: '/ScustomerExpenseItem',
           query: {
             key: item.key,
-            taskId: item.id,
-            activityID: item.activityID,
             businessKey: item.businessKey,
             processInstanceId: item.processInstanceId
           }

@@ -1,5 +1,5 @@
 <template>
-  <div @click="show()" :style="styleNorol">
+  <div>
     <div class="main">
       <!-- 基本说明 -->
       <div>
@@ -8,27 +8,7 @@
           <li><strong>报销事由</strong> <span>{{reimbursementInfo.shortInfo}}</span></li>
           <li><strong>流水号　</strong> <span>{{reimbursementInfo.ticketNum}}</span></li>
           <li><strong>报销人员</strong> <span>{{reimbursementInfo.chineseName}}</span></li>
-          <li v-if="activityID !== 'businessMan'">
-            <strong>客户　　</strong> <span>{{reimbursementInfo.clientListStr}}</span>
-          </li>
-          <li v-if="activityID == 'businessMan'">
-            <strong>选择客户</strong>
-            <div class="chooseCustomer">
-              <el-select v-model="contacts"
-                         multiple
-                         placeholder="请选择客户"
-                         @visible-change="touchmoveEnd"
-                         class="contacts"
-                         ref="chooseCustomer">
-                <el-option
-                  v-for="item in allcontacts"
-                  :key="item.id"
-                  :label="item.companyName"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </div>
-          </li>
+          <li><strong>客户　　</strong> <span>{{reimbursementInfo.clientListStr}}</span></li>
           <li><strong>总金额　</strong> <span>{{reimbursementInfo.totalPrice}}</span></li>
           <li><strong>实报金额</strong> <span>{{reimbursementInfo.realTotalPrice}}</span></li>
           <li><strong>冲抵金额</strong> <span>{{reimbursementInfo.deductionTotalPrice}}</span></li>
@@ -67,21 +47,13 @@
                 </checker>
               </span>
           </li>
-          <li v-if="activityID == 'cwSecond'">
-            <strong>凭证号</strong>
-            <span>
-              <group :gutter="0">
-                <x-input v-model="voucherNum" placeholder="请填写凭证号"></x-input>
-              </group>
-            </span>
-          </li>
         </ul>
       </div>
       <!-- 报销单据 -->
       <div class="reimbursement">
         <h3>
           报销单据({{kindType}})
-          <span @click="$router.push({path: '/customerExpenseItemData', query:{businessKey:businessKey}})">查看详情>></span>
+          <span @click="$router.push({path: '/ScustomerExpenseItemData', query:{businessKey:businessKey}})">查看详情>></span>
         </h3>
         <ul class="info-content">
           <!-- 差旅费才有 -->
@@ -137,45 +109,18 @@
           </tbody>
         </x-table>
       </div>
-      <!-- 审批意见 -->
-      <div>
-        <h3 style="border: none;">审批意见</h3>
-        <group :gutter="0">
-          <x-textarea v-model="message"></x-textarea>
-        </group>
-      </div>
     </div>
-    <!-- 底部按钮 -->
-    <div class="footer">
-      <div v-if="refuseBtn">
-        <x-button style="backgroundColor: #dc4141; color: #fff;" @click.native="refuse()">拒绝</x-button>
-      </div>
-      <div v-if="regressionBtn">
-        <x-button style="backgroundColor: #dc4141; color: #fff;" @click.native="regression()">回退</x-button>
-      </div>
-      <div>
-        <x-button style="backgroundColor: #6ea6ff; color: #fff;" @click.native="approval()">流转</x-button>
-      </div>
-      </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "customerExpenseItem",
+  name: "PcustomerExpenseItem",
   data() {
     return {
-      styleNorol: {
-        overflow: 'hidden',
-        height: 'unset'
-      },
-      data: {},
       key: '',
-      taskId: '',
-      activityID: '',
       businessKey: '',
       processInstanceId: '',
-      roleInfo: {},
 
       reimbursementInfo: {}, // 报销信息
       deductionDetailList: [], // 抵扣
@@ -183,66 +128,20 @@ export default {
       kindType: '', // 报销类型
       tApp: {}, // 费用
       allcontacts: [], //
-      contacts: [], // 选择的客户所有客户
-      voucherNum: '', //财务填写凭证号
-      message: '', // 审批意见
     }
   },
   mounted() {
-    this.getUserInfo();
     this.getQuery();
-    this.getRoleInfo();
 
     this.getReimbursementInfo();
     this.getOpinion();
-    this.getAllContacts();
-  },
-  computed: {
-    regressionBtn () { // 回退按钮
-      let flag = false;
-      if (this.activityID == 'cwFirst' || this.activityID == 'cfo') flag = true
-      return flag
-    },
-    refuseBtn() { // 拒绝
-      let flag = true;
-      if (this.activityID == 'cwFirst' || this.activityID == 'cfo' ||
-        this.activityID == 'cwSecond' || this.activityID == 'cn') flag = false
-      return flag
-    }
   },
   methods: {
-    touchmoveEnd(bol) { // 禁止移动
-      if (bol) return this.styleNorol.height = '100%';
-      this.styleNorol.height = 'unset';
-    },
-    show() { // 关闭选择客户的下拉框
-      if (this.$refs.chooseCustomer) {
-        this.$refs.chooseCustomer.blur()
-      }
-    },
-    // 获取 userInfo
-    getUserInfo() {
-      const user = JSON.parse(window.sessionStorage.getItem('data'))
-      this.data.loginName = user.loginName
-      this.data.currentUserId = user.id
-    },
     // 获取参数
     getQuery() {
       this.key = this.$route.query.key
-      this.taskId = this.$route.query.taskId
-      this.activityID = this.$route.query.activityID
       this.businessKey = this.$route.query.businessKey
       this.processInstanceId = this.$route.query.processInstanceId
-    },
-    // 打开代办事项
-    getRoleInfo() {
-      const data =  {key: this.key, taskId: this.taskId, activityId: this.activityID}
-      this.axios
-        .get(`wechatErp/center/toTaskPage`, {params: data})
-        .then(res => {
-          // console.log(res)
-          this.roleInfo = res.data
-        })
     },
     // 获取报销信息
     getReimbursementInfo() {
@@ -264,14 +163,6 @@ export default {
           }
         })
     },
-    // 所有客户
-    getAllContacts() {
-      this.axios.get(`wechatErp/expenseReimbursementClient/getOneselfClientSelect2`)
-        .then(res => {
-          // console.log(res)
-          this.allcontacts = res.data
-        })
-    },
     // 意见
     getOpinion() {
       const data = {taskId: this.taskId, processInstanceId: this.processInstanceId,}
@@ -282,84 +173,6 @@ export default {
           this.opinion = res.data
         })
     },
-    // 流转
-    approval() {
-      const data = {
-        ...this.data,
-        businessKey: this.businessKey,
-        taskId: this.taskId,
-        processInstanceId: this.processInstanceId,
-        activityID: this.activityID,
-        roleName: this.roleInfo.roleName,
-        id: this.reimbursementInfo.id,
-        creatorId:this.reimbursementInfo.creatorId,
-        kind: this.reimbursementInfo.kind,
-        isPass: 'Y',
-        message: this.message
-      }
-      if (this.activityID === 'businessMan') {
-        if (!this.contacts.length) return this.$vux.toast.text('请选择客户');
-        data.clientStr = this.contacts.join(',')
-      } else if (this.activityID == 'cwSecond') {
-        if (!this.voucherNum) return this.$vux.toast.text('请填写凭证号');
-      }
-      if (!this.message) return this.$vux.toast.text('请填写意见');
-      console.log(data)
-
-      this.sendData(data)
-    },
-    // 拒绝
-    refuse() {
-      if (!this.message) return this.$vux.toast.text('请填写意见');
-      const data = {
-        ...this.data,
-        businessKey: this.businessKey,
-        taskId: this.taskId,
-        processInstanceId: this.processInstanceId,
-        activityID: this.activityID,
-        roleName: this.roleInfo.roleName,
-        id: this.reimbursementInfo.id,
-        creatorId:this.reimbursementInfo.creatorId,
-        kind: this.reimbursementInfo.kind,
-        isPass: 'N',
-        message: this.message
-      }
-
-      this.sendData(data)
-    },
-    // 回退
-    regression() {
-      if (!this.message) return this.$vux.toast.text('请填写意见');
-      const data = {
-        ...this.data,
-        businessKey: this.businessKey,
-        taskId: this.taskId,
-        processInstanceId: this.processInstanceId,
-        activityID: this.activityID,
-        roleName: this.roleInfo.roleName,
-        id: this.reimbursementInfo.id,
-        creatorId:this.reimbursementInfo.creatorId,
-        kind: this.reimbursementInfo.kind,
-        isPass: 'N',
-        message: this.message
-      }
-
-      this.sendData(data)
-    },
-    // 发送的请求
-    sendData(data) {
-      this.axios.post(`wechatErp/expenseReimbursementClient/flowToNextActivityForQueryOnly`, data)
-        .then(res => {
-          // console.log(res)
-          const {resultState, messageInfo} = res.data
-          if (resultState == 0) {
-            this.$vux.toast.text('操作成功');
-            setTimeout(() => {this.$router.go(-1)}, 800)
-          } else {
-            this.$vux.toast.text(res.data.resultInfo);
-          }
-        })
-    }
   }
 }
 </script>

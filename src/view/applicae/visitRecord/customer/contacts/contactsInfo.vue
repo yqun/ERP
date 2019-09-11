@@ -24,6 +24,12 @@ export default {
     return {
       stringValue: '1',
     }
+  },
+  mounted() {
+
+  },
+  methods: {
+
   }
 }
 </script>

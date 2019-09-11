@@ -19,7 +19,7 @@
               <div class="clearfix" style="margin-bottom: 0.17rem;">
                 <h4 style="float: left; width: 70%;">{{item.projectName}}</h4>
                 <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">已处理的</button>
+                <button style="float: right;">已处理</button>
                 <!--<span>{{item.chineseName}}</span>-->
               </div>
               <div class="clearfix p">

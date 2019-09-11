@@ -19,6 +19,8 @@ import goodsReceive from '@/router/processed/goodsReceiveRouter'
 import purchaseAppend from '@/router/processed/purchaseAppendRouter'
 // 采购流程
 import PurchaseProcess from '@/router/processed/PurchaseProcessRouter'
+// 客户报销
+import customerExpense from '@/router/processed/customerExpenseRouter'
 
 
 const ProcessedRouter = [
@@ -32,6 +34,7 @@ const ProcessedRouter = [
   ...goodsReceive,
   ...purchaseAppend,
   ...PurchaseProcess,
+  ...customerExpense,
 ]
 
 

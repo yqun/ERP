@@ -1,6 +1,6 @@
 <template>
   <div style="box-sizing: border-box;border-top: 1px solid transparent;">
-    <group title="拜访记录">
+    <group title="拜访记录" style="margin-bottom: 10px;">
       <cell title="开始时间" :value="startTime"></cell>
       <cell title="结束时间" :value="endTime"></cell>
       <cell title="时长(小时)" :value="duration"></cell>
@@ -122,7 +122,7 @@ export default {
       if (!this.visitRecordInfo.getInfo) return this.$vux.toast.text('请填写获得重要信息')
       if (!this.visitRecordInfo.undetermined) return this.$vux.toast.text('请填写未决定事项')
       if (!this.visitRecordInfo.plan) return this.$vux.toast.text('请填写下一步计划')
-      // this.visitRecordInfo // 发送后台的信息
+      // this.visitRecordInfo // 发送后台的信
 
       // this.axios.post(``, this.visitRecordInfo)
       //   .then(res=> {

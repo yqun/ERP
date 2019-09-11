@@ -25,7 +25,7 @@
                 <h4 style="float: left;" v-if="item.projectName">{{item.projectName}}</h4>
                 <h4 style="float: left;" v-if="!item.projectName">{{item.startUser}}</h4>
                 <x-icon type="ios-arrow-right" size="24"></x-icon>
-                <button style="float: right;">正在流转</button>
+                <button style="float: right;">我发起的</button>
               </div>
               <div class="clearfix p">
                 <span style="float: left;">{{item.startTimeDate}}</span>

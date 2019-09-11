@@ -45,16 +45,11 @@
                 <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
                 <span slot="label">公司报销</span>
               </grid-item>
-              <!-- 报销月计划 -->
-              <grid-item link="/reimbursementMonthList">
-                <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
-                <span slot="label">报销月计划</span>
-              </grid-item>
               <!-- 客户报销 -->
-              <!--<grid-item link="/customerExpenseList">-->
-                <!--<img slot="icon" src="../assets/images/application/组23@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">客户报销</span>-->
-              <!--</grid-item>-->
+              <grid-item link="/customerExpenseList">
+                <img slot="icon" src="../assets/images/application/组23@2x.png" style="height: 0.9rem;">
+                <span slot="label">客户报销</span>
+              </grid-item>
               <!-- 机会管理 -->
               <grid-item link="/projectList">
                 <img slot="icon" src="../assets/images/application/组16@2x.png">
@@ -80,6 +75,11 @@
           <!-- 第二页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
+              <!-- 报销月计划 -->
+              <grid-item link="/reimbursementMonthList">
+                <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
+                <span slot="label">报销月计划</span>
+              </grid-item>
               <!-- 物品领用 -->
               <grid-item link="/goodsReceiveList">
                 <img slot="icon" src="../assets/images/application/组38@2x.png" style="height: 0.9rem;">
@@ -95,11 +95,11 @@
                 <img slot="icon" src="../assets/images/application/组21@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购流程</span>
               </grid-item>
-              <!-- 拜访记录 -->
-              <grid-item link="/customerList">
-                <img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">
-                <span slot="label">拜访记录</span>
-              </grid-item>
+              <!--&lt;!&ndash; 拜访记录 &ndash;&gt;-->
+              <!--<grid-item link="/customerList">-->
+                <!--<img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">-->
+                <!--<span slot="label">拜访记录</span>-->
+              <!--</grid-item>-->
             </grid>
           </swiper-item>
         </swiper>
@@ -141,7 +141,7 @@ export default {
         this.axios
           .get(`wechatErp/center/initialAccreditation?code=${code}`)
           .then(res => {
-            console.log(res.data.loginName);
+            // console.log(res.data);
             const {data} = res
             if (data != null) {
               const dataStr = window.sessionStorage.setItem('data', JSON.stringify(data))
