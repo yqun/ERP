@@ -95,11 +95,11 @@
                 <img slot="icon" src="../assets/images/application/组21@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购流程</span>
               </grid-item>
-              <!--&lt;!&ndash; 拜访记录 &ndash;&gt;-->
-              <!--<grid-item link="/customerList">-->
-                <!--<img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">拜访记录</span>-->
-              <!--</grid-item>-->
+              <!-- 拜访记录 -->
+              <grid-item link="/customerList">
+                <img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">
+                <span slot="label">CRM</span>
+              </grid-item>
             </grid>
           </swiper-item>
         </swiper>

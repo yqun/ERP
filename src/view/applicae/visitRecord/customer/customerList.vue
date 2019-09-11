@@ -80,11 +80,8 @@ export default {
     },
     // 路由跳转
     routerLink(item) {
-      const data = {
-        name: '参数' + item.level
-      }
-      this.$store.commit('changeCustomer', data)
-      this.$router.push({path: '/customerItem',})
+      this.$store.commit('changeCustomer', {id: item.id})
+      this.$router.push({path: '/customerItem'})
     }
   }
 }

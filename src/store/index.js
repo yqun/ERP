@@ -8,8 +8,11 @@ const store = new vuex.Store({
   state: {
     monthCostList: [], // 报销月计划
     purchase: [], // 采购追加的信息
+    // CRM
     tabIndex: 0, // 拜访记录的tab栏
-    customer: {}, // 拜访记录 客户列表到客户信息的传参
+    customer: {}, // 客户列表到客户信息的传参
+    contactInfo: {}, // 查看联系人详细信息
+    visitInfo: {}, // 拜访记录到详细信息
   },
   mutations: {
     // 报销月计划
@@ -27,13 +30,18 @@ const store = new vuex.Store({
       if (status) return state.purchase.push(data);
       state.purchase = [];
     },
-    // 拜访记录的tab栏
-    getTabIndex(state, index) {
+    // CRM 拜访记录的tab栏
+    getTabIndex(state, index) { // 拜访记录的tab栏
       state.tabIndex = index
     },
-    // 拜访记录 客户列表到客户信息参数
-    changeCustomer(state, data) {
-      state.visitRecord = data
+    changeCustomer(state, data) { // 拜访记录 客户列表到客户信息参数
+      state.customer = data
+    },
+    changeContactInfo(state, data) { // 查看联系人详细信息
+      state.contactInfo = data
+    },
+    changeVisitInfo(state, data) { // 拜访记录到详细信息
+      state.visitInfo = data
     }
   }
 })

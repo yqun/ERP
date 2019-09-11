@@ -2,32 +2,18 @@
   <div style="height: 100%;">
     <!--上拉加载-->
     <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
-      <!--<div class="list">-->
-        <group :gutter="0">
-          <cell :title="item.companyName || '无'"
-                @click.native="routerLink(item)"
-                is-link
-                v-for="item in list"
-                :key="item.id">
-            <div slot="default" class="cell-content">
-              <p>{{item.reason}}</p>
-              <p>{{formatDate(item.start_time) + '-' + formatDateHm(item.end_time)}}</p>
-            </div>
-          </cell>
-        </group>
-        <!--<ul>-->
-          <!--<li class="listItem clearfix"@click="routerLink()">-->
-            <!--<div><p>名称</p></div>-->
-            <!--<div><x-icon type="ios-arrow-right" size="24"></x-icon></div>-->
-            <!--<div>-->
-              <!--<p>业务</p>-->
-              <!--<p>2019-99-99 99:99:99</p>-->
-            <!--</div>-->
-
-          <!--</li>-->
-          <!--&lt;!&ndash;<li v-if="list.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>&ndash;&gt;-->
-        <!--</ul>-->
-      <!--</div>-->
+      <group :gutter="0">
+        <cell :title="item.companyName || '无'"
+              @click.native="routerLink(item)"
+              is-link
+              v-for="item in list"
+              :key="item.id">
+          <div slot="default" class="cell-content">
+            <p>{{item.reason}}</p>
+            <p>{{formatDate(item.start_time) + '-' + formatDateHm(item.end_time)}}</p>
+          </div>
+        </cell>
+      </group>
     </scroller>
   </div>
 </template>
@@ -100,15 +86,8 @@ export default {
     },
     // 路由跳转
     routerLink(visitInfo) {
-      this.$router.push({
-        path: '/visitItem',
-        query: {
-          visitrecordId: visitInfo.visitrecordId,
-          start_time: visitInfo.start_time,
-          end_time: visitInfo.end_time,
-          duration: visitInfo.duration,
-        }
-      })
+      this.$store.commit('changeVisitInfo', visitInfo)
+      this.$router.push({path: '/visitItem'})
     }
   }
 }
