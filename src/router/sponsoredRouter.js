@@ -2,26 +2,19 @@
 import Sponsored from '@/view/sponsored/sponsored'
 import SContractList from '@/view/sponsored/contract/SContractList'
 import SContractItem from '@/view/sponsored/contract/SContractItem'
-// 项目报销
-import serviceExpense from '@/router/sponsored/serviceExpenseRouter'
-// 公司报销
-import companyExpense from '@/router/sponsored/companyExpenseRouter'
-// 报销月计划
-import reimbursementMonth from '@/router/sponsored/reimbursementMonthRouter'
-// 项目管理
-import initiation from '@/router/sponsored/initiationRouter'
-// 公司借款
-import companyLoan from '@/router/sponsored/companyLoanRouter'
-// 项目借款
-import serviceLoan from '@/router/sponsored/serviceLoanRouter'
-// 物品领用
-import goodsReceive from '@/router/sponsored/goodsReceiveRouter'
-// 采购追加
-import purchaseAppend from '@/router/sponsored/purchaseAppendRouter'
-// 采购流程
-import purchaseProcess from '@/router/sponsored/purchaseProcessRouter'
-// 客户报销
-import customerExpense from '@/router/sponsored/customerExpenseRouter'
+
+import serviceExpense from '@/router/sponsored/serviceExpenseRouter'// 项目报销
+import companyExpense from '@/router/sponsored/companyExpenseRouter'// 公司报销
+import reimbursementMonth from '@/router/sponsored/reimbursementMonthRouter'// 报销月计划
+import initiation from '@/router/sponsored/initiationRouter'// 项目管理
+import companyLoan from '@/router/sponsored/companyLoanRouter'// 公司借款
+import serviceLoan from '@/router/sponsored/serviceLoanRouter'// 项目借款
+import goodsReceive from '@/router/sponsored/goodsReceiveRouter'// 物品领用
+import purchaseAppend from '@/router/sponsored/purchaseAppendRouter'// 采购追加
+import purchaseProcess from '@/router/sponsored/purchaseProcessRouter'// 采购流程
+import customerExpense from '@/router/sponsored/customerExpenseRouter'// 客户报销
+import borrowChapter from '@/router/sponsored/borrowChapterRouter'// 公章借用
+
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -37,6 +30,7 @@ const sponsoredRouter = [
   ...purchaseAppend,
   ...purchaseProcess,
   ...customerExpense,
+  ...borrowChapter,
 ]
 
 

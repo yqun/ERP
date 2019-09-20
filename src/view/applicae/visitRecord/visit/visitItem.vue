@@ -8,7 +8,7 @@
                v-model="visitInfo.reason">
       </x-input>
       <selector title="客户" :readonly="isDisabled" direction="rtl" :options="customer"
-                :value-map="['id','companyName']" placeholder="请选择客户"
+                :value-map="['id','text']" placeholder="请选择客户"
                 v-model="visitRecordInfo.companyName" @on-change="getProject">
       </selector>
       <selector title="项目" :readonly="isDisabled" direction="rtl" :options="project"
@@ -67,7 +67,6 @@ export default {
   },
   created() {
     this.visitInfo = this.$store.state.visitInfo
-    console.log(this.visitInfo)
     this.visitInfo.startTime = dateFormat(this.visitInfo.start_time*1, 'YYYY-MM-DD HH:mm:ss')
     this.visitInfo.endTime = dateFormat(this.visitInfo.end_time*1, 'YYYY-MM-DD HH:mm:ss')
     this.visitInfo.duration = this.visitInfo.duration/60/60
@@ -80,9 +79,6 @@ export default {
 
     } else { // 填写
       const data = JSON.parse(window.sessionStorage.getItem('data'))
-      console.log(data.loginName)
-      console.log(this.visitInfo.apply_user_id)
-      console.log(data.loginName == this.visitInfo.apply_user_id)
       if (data.loginName == this.visitInfo.apply_user_id) { // 判断是否为本人
         this.isDisabled = false;
         this.getCustomer(); // 获取客户
@@ -94,7 +90,7 @@ export default {
     getVisitRecord() {
       this.axios.post(`wechatErp/crm/getModelByVisitrecordId/${this.visitInfo.visitrecordId}`)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           this.visitRecordInfo = res.data
         })
     },
@@ -135,7 +131,7 @@ export default {
       if (!this.visitRecordInfo.plan) return this.$vux.toast.text('请填写下一步计划')
       // this.visitRecordInfo // 发送后台的信
       const data = {
-        wechatApprovaldataId: this.$route.query.id,
+        wechatApprovaldataId: this.$store.state.visitInfo.id,
         clientId: this.visitRecordInfo.companyName,
         projectId: this.visitRecordInfo.projectName,
         contactsId: this.visitRecordInfo.contactsName,

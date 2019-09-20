@@ -69,3 +69,11 @@ Vue.component('x-address', XAddress)
 
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin, {position: 'middle'})
+
+// 时间过滤器
+import { dateFormat } from 'vux'
+
+Vue.filter('moment', function (value) {
+  if (!value) return ''
+  return dateFormat(value, 'YYYY-MM-DD HH:mm:ss')
+})

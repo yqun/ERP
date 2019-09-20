@@ -34,6 +34,7 @@ export default {
         {name: '采购追加', path: '/SpurchaseAppendList', num: ''},
         {name: '采购流程', path: '/SpurchaseProcessList', num: ''},
         {name: '客户报销', path: '/ScustomerExpenseList', num: ''},
+        {name: '公章借用', path: '/sponsored/borrowChapterList', num: ''},
       ]
     }
   },
@@ -62,6 +63,7 @@ export default {
         'wechatErp/purchaseAppend/getPurchaseAppendMyStartProcessCount',
         'wechatErp/purchaseFlow/getPurchaseFlowMyStartProcessCount',
         'wechatErp/expenseReimbursementClient/getClientBxtMyStartProcessCount',
+        'wechatErp/sealBorrow/getMyStartProcessCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

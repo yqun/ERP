@@ -24,7 +24,11 @@
 }
 .listItem span {
   font-size: 0.24rem;
+}
+.listItem span:last-child {
   margin-right: 30px;
+  max-width: 46%;
+  overflow: hidden;
 }
 svg[type="ios-arrow-right"] {
   float: right;

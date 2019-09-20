@@ -6,8 +6,18 @@ Vue.use(vuex)
 const store = new vuex.Store({
 
   state: {
+    // 获取data中的信息
+    data: {
+      loginName: window.sessionStorage.getItem('data')?JSON.parse(window.sessionStorage.getItem('data')).loginName:'',
+      password: window.sessionStorage.getItem('data')?JSON.parse(window.sessionStorage.getItem('data')).password:'',
+      currentUserId: window.sessionStorage.getItem('data')?JSON.parse(window.sessionStorage.getItem('data')).id:'',
+    },
+    listBtnText: '正在流转', // 列表的 正在流转，我发起的，已处理
+
+    // 报销月计划
     monthCostList: [], // 报销月计划
     purchase: [], // 采购追加的信息
+
     // CRM
     tabIndex: 0, // 拜访记录的tab栏
     customer: {}, // 客户列表到客户信息的传参
@@ -15,6 +25,8 @@ const store = new vuex.Store({
     visitInfo: {}, // 拜访记录到详细信息
   },
   mutations: {
+    changeListBtnText: (state, data) => state.listBtnText = data,
+
     // 报销月计划
     changeMonthCostList(state, {data, index}) {
       if (index >= 0) {
@@ -30,6 +42,7 @@ const store = new vuex.Store({
       if (status) return state.purchase.push(data);
       state.purchase = [];
     },
+
     // CRM 拜访记录的tab栏
     getTabIndex(state, index) { // 拜访记录的tab栏
       state.tabIndex = index

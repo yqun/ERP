@@ -55,6 +55,9 @@ li.download > div {
   float: left;
   width: 69%;
 }
+li.download > div p {
+  margin-bottom: 4px;
+}
 li.download > div p a {
   float: right;
   background-color: #6ea6ff;

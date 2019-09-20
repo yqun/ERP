@@ -10,6 +10,7 @@ import serviceLoan from '@/router/waitHandle/serviceLoanRouter'             // �
 import purchaseAppend from '@/router/waitHandle/purchaseAppendRouter'       // 采购追加
 import purchaseProcess from '@/router/waitHandle/PurchaseProcessRouter'       // 采购流程
 import customerExpense from './waitHandle/customerExpenseRouter'              // 客户报销
+import borrowChapter from './waitHandle/borrowChapterRouter'              // 公章借用
 
 
 
@@ -26,6 +27,7 @@ const waitHandleRouter = [
   ...purchaseAppend,
   ...purchaseProcess,
   ...customerExpense,
+  ...borrowChapter,
 ]
 
 

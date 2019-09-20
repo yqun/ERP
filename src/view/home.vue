@@ -8,16 +8,16 @@
       <!-- 三个按钮 -->
       <div class="status">
         <grid :show-lr-borders="false" :show-vertical-dividers="false">
-          <grid-item class="statusItem" link="sponsored">
+          <grid-item class="statusItem" @click.native="toSponsored()">
             <img slot="icon" src="../assets/images/697d11c73f391af74e3bc5b31ec433f.png">
             <span slot="label">我发起的</span>
           </grid-item>
-          <grid-item class="statusItem" link="waitHandle">
+          <grid-item class="statusItem" @click.native="toWaitHandle()">
             <i v-if="waitHandleNum">{{waitHandleNum}}</i>
             <img slot="icon" src="../assets/images/4cdb9e3da1522ef57d3c7c61c3cae54.png">
             <span slot="label">待处理</span>
           </grid-item>
-          <grid-item class="statusItem" link="processed">
+          <grid-item class="statusItem" @click.native="toProcessed()">
             <img slot="icon" src="../assets/images/606204896a7e1b053a0c88b601fceef.png">
             <span slot="label">已处理</span>
           </grid-item>
@@ -30,15 +30,15 @@
           <!-- 第一页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
+              <!-- 拜访记录 -->
+              <grid-item link="/customerList">
+                <img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">
+                <span slot="label">CRM</span>
+              </grid-item>
               <!-- 合同审批 -->
               <grid-item link="/contractList">
-                <img slot="icon" src="../assets/images/application/组18@2x.png">
+                <img slot="icon" src="../assets/images/application/组22@2x.png" style="height: 0.9rem;">
                 <span slot="label">合同审批</span>
-              </grid-item>
-              <!-- 业务报销 -->
-              <grid-item link="/serviceExpenseList">
-                <img slot="icon" src="../assets/images/application/组36@2x.png">
-                <span slot="label">项目报销</span>
               </grid-item>
               <!-- 公司报销 -->
               <grid-item link="/companyExpenseList">
@@ -47,8 +47,13 @@
               </grid-item>
               <!-- 客户报销 -->
               <grid-item link="/customerExpenseList">
-                <img slot="icon" src="../assets/images/application/组23@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/组36@2x.png" style="height: 0.9rem;">
                 <span slot="label">客户报销</span>
+              </grid-item>
+              <!-- 业务报销 -->
+              <grid-item link="/serviceExpenseList">
+                <img slot="icon" src="../assets/images/application/组39@2x.png" style="height: 0.9rem;">
+                <span slot="label">项目报销</span>
               </grid-item>
               <!-- 机会管理 -->
               <grid-item link="/projectList">
@@ -65,16 +70,16 @@
                 <img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">
                 <span slot="label">公司借款</span>
               </grid-item>
-              <!-- 项目借款 -->
-              <grid-item link="/serviceLoanList">
-                <img slot="icon" src="../assets/images/application/组33@2x.png">
-                <span slot="label">项目借款</span>
-              </grid-item>
             </grid>
           </swiper-item>
           <!-- 第二页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
+              <!-- 项目借款 -->
+              <grid-item link="/serviceLoanList">
+                <img slot="icon" src="../assets/images/application/组33@2x.png">
+                <span slot="label">项目借款</span>
+              </grid-item>
               <!-- 报销月计划 -->
               <grid-item link="/reimbursementMonthList">
                 <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
@@ -95,10 +100,10 @@
                 <img slot="icon" src="../assets/images/application/组21@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购流程</span>
               </grid-item>
-              <!-- 拜访记录 -->
-              <grid-item link="/customerList">
-                <img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">
-                <span slot="label">CRM</span>
+              <!-- 公章借用 -->
+              <grid-item link="/waithandle/borrowChapterList">
+                <img slot="icon" src="../assets/images/application/组18@2x.png" style="height: 0.9rem;">
+                <span slot="label">公章借用</span>
               </grid-item>
             </grid>
           </swiper-item>
@@ -152,17 +157,26 @@ export default {
     },
     // 获取待处理总数
     getWaitHandle({loginName, password}) {
-      const data = {
-        'loginName': loginName ,
-        'password': password,
-      }
+      const data = {'loginName': loginName , 'password': password,}
       this.axios
         .get('wechatErp/center/getBacklogCount', {params:data})
         .then(res => {
           // console.log(res)
           this.waitHandleNum = (res.data > 99)? '99+':res.data
         })
-    }
+    },
+    toSponsored() { // 跳转到我发起的
+      this.$router.push('/sponsored')
+      this.$store.commit('changeListBtnText', '我发起的')
+    },
+    toWaitHandle() { // 跳转到正在流转
+      this.$router.push('/waithandle')
+      this.$store.commit('changeListBtnText', '正在流转')
+    },
+    toProcessed() { // 跳转到已处理
+      this.$router.push('/processed')
+      this.$store.commit('changeListBtnText', '已处理')
+    },
   },
 }
 </script>
