@@ -77,3 +77,7 @@ Vue.filter('moment', function (value) {
   if (!value) return ''
   return dateFormat(value, 'YYYY-MM-DD HH:mm:ss')
 })
+Vue.filter('momentDay', function (value) {
+  if (!value) return ''
+  return dateFormat(value, 'YYYY-MM-DD')
+})

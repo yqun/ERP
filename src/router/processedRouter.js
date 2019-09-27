@@ -12,6 +12,7 @@ import purchaseAppend from '@/router/processed/purchaseAppendRouter'// 采购追
 import PurchaseProcess from '@/router/processed/PurchaseProcessRouter'// 采购流程
 import customerExpense from '@/router/processed/customerExpenseRouter'// 客户报销
 import borrowChapter from '@/router/processed/borrowChapterRouter'// 公章借用
+import customerManage from '@/router/processed/customerManageRouter'// 客户管理
 
 
 const ProcessedRouter = [
@@ -27,6 +28,7 @@ const ProcessedRouter = [
   ...PurchaseProcess,
   ...customerExpense,
   ...borrowChapter,
+  ...customerManage,
 ]
 
 

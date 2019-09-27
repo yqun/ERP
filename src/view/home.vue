@@ -105,6 +105,11 @@
                 <img slot="icon" src="../assets/images/application/组18@2x.png" style="height: 0.9rem;">
                 <span slot="label">公章借用</span>
               </grid-item>
+              <!-- 客户管理 -->
+              <grid-item link="/waithandle/customerManageList">
+                <img slot="icon" src="../assets/images/application/组40@2x.png" style="height: 0.9rem;">
+                <span slot="label">客户管理</span>
+              </grid-item>
             </grid>
           </swiper-item>
         </swiper>

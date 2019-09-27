@@ -14,6 +14,7 @@ import purchaseAppend from '@/router/sponsored/purchaseAppendRouter'// 采购追
 import purchaseProcess from '@/router/sponsored/purchaseProcessRouter'// 采购流程
 import customerExpense from '@/router/sponsored/customerExpenseRouter'// 客户报销
 import borrowChapter from '@/router/sponsored/borrowChapterRouter'// 公章借用
+import customerManage from '@/router/sponsored/customerManageRouter'// 客户管理
 
 
 const sponsoredRouter = [
@@ -31,6 +32,7 @@ const sponsoredRouter = [
   ...purchaseProcess,
   ...customerExpense,
   ...borrowChapter,
+  ...customerManage,
 ]
 
 

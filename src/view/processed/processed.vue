@@ -41,6 +41,7 @@ export default {
         {name: '采购流程', path: '/PpurchaseProcessList', fontSize: '0.55rem', num: ''},
         {name: '客户报销', path: '/PcustomerExpenseList', fontSize: '0.55rem', num: ''},
         {name: '公章借用', path: '/processed/borrowChapterList', fontSize: '0.55rem', num: ''},
+        {name: '客户管理', path: '/processed/customerManageList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -70,6 +71,7 @@ export default {
         'wechatErp/purchaseFlow/getPurchaseFlowAlreadyDoneTaskCount',
         'wechatErp/expenseReimbursementClient/getClientBxAlreadyDoneTaskCount',
         'wechatErp/sealBorrow/getAlreadyDoneTaskCount',
+        'wechatErp/client/getClientAlreadyDoneTaskCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

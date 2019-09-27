@@ -43,10 +43,11 @@ export default {
         {name: '采购流程', path: '/purchaseProcessList', num: ''},
         {name: '客户报销', path: '/customerExpenseList', num: ''},
         {name: '公章借用', path: '/waithandle/borrowChapterList', num: ''},
+        {name: '客户管理', path: '/waithandle/customerManageList', num: ''},
       ]
     }
   },
-  created() {
+  mounted() {
     this.getUserInfo();
     this.loopAddress();
   },
@@ -72,6 +73,7 @@ export default {
         'wechatErp/purchaseFlow/getToDoForPurchaseFlowCount',
         'wechatErp/expenseReimbursementClient/getToDoForClientBxCount',
         'wechatErp/sealBorrow/getToDoCount',
+        'wechatErp/client/getToDoForClientCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
