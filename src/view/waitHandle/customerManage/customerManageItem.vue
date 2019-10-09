@@ -77,9 +77,10 @@
       </group>
     </div>
     <div class="footer">
-      <div><x-button style="background-color: #6ea6ff;" @click.native="confirm()">通过</x-button></div>
-      <div><x-button type="warn" @click.native="refuse()">拒绝</x-button></div>
+      <div v-if="activityID !== 'sub_4'"><x-button style="background-color: #6ea6ff;" @click.native="confirm()">通过</x-button></div>
+      <div v-if="activityID !== 'sub_4'"><x-button type="warn" @click.native="refuse()">拒绝</x-button></div>
       <div v-if="activityID == 'sub_3'"><x-button type="warn" @click.native="regression()">回退</x-button></div>
+      <div v-if="activityID == 'sub_4'"><x-button style="background-color: #6ea6ff;" @click.native="edit()">编辑</x-button></div>
     </div>
   </div>
 </template>

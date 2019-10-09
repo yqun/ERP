@@ -12,12 +12,14 @@ import CompanyLoan from '@/view/applicae/companyLoan/companyLoan'
 import VisitRecordView from '@/view/applicae/visitRecord/visitRecordView'
 import CustomerList from '@/view/applicae/visitRecord/customer/customerList'
 import CustomerItem from '@/view/applicae/visitRecord/customer/customerItem'
-import CustomerAdd from '@/view/applicae/visitRecord/customer/customerAdd'
+// import CustomerAdd from '@/view/applicae/visitRecord/customer/customerAdd'
 import ContactsInfo from '@/view/applicae/visitRecord/customer/contacts/contactsInfo'
-import ContactsAdd from '@/view/applicae/visitRecord/customer/contacts/contactsAdd'
+// import ContactsAdd from '@/view/applicae/visitRecord/customer/contacts/contactsAdd'
  // 拜访
 import VisitList from '@/view/applicae/visitRecord/visit/visitList'
 import VisitItem from '@/view/applicae/visitRecord/visit/visitItem'
+
+import AddCustomer from '@/view/applicae/customerManage/addCustomer' // 添加客户
 
 
 const applicaeRouter = [
@@ -37,10 +39,11 @@ const applicaeRouter = [
     ]
   },
   {path: '/customerItem', name: 'CustomerItem', component:CustomerItem},
-  {path: '/customerAdd', name: 'CustomerAdd', component:CustomerAdd},
+  // {path: '/customerAdd', name: 'CustomerAdd', component:CustomerAdd},
   {path: '/contactsInfo', name: 'ContactsInfo', component:ContactsInfo},
-  {path: '/contactsAdd', name: 'ContactsAdd', component:ContactsAdd},
+  // {path: '/contactsAdd', name: 'ContactsAdd', component:ContactsAdd},
   {path: '/visitItem', name: 'VisitItem', component:VisitItem},
+  {path: '/addCustomer', name: 'addCustomer', component:AddCustomer},
 
 ];
 

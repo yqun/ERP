@@ -69,7 +69,7 @@
         if (!this.isData) return false;
         this.axios.get(`wechatErp/client/getToDoForClient`, {params: data})
           .then(res => {
-            // console.log(res)
+            console.log(res)
             const {data} = res.data
             this.list.push(...data)
             const page = Math.ceil(res.data.page.totalResult/10)
@@ -91,6 +91,16 @@
       },
       // 路由跳转
       routerLink(item) {
+        if (item.activityID === 'sub_4') {
+          return this.$router.push({
+            path: '/addCustomer',
+            query: {
+              businessKey: item.businessKey,
+              activityID: item.activityID,
+              taskId: item.id,
+            }
+          })
+        }
         this.$router.push({
           path: '/waithandle/customerManageItem',
           query: {
