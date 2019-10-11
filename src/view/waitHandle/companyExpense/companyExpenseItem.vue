@@ -1,11 +1,5 @@
 <template>
   <div class="contract-item">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="公司报销">-->
-    <!--</x-header>-->
-    <!-- 内容 -->
     <div class="main">
       <!-- 项目信息 -->
       <div class="project-info">
@@ -157,8 +151,6 @@
           </flexbox-item>
         </flexbox>
       </div>
-      <!-- 提示信息 -->
-      <toast v-model="toastShow" :text="toastVal" position="middle" type="text"></toast>
     </div>
   </div>
 </template>
@@ -187,17 +179,17 @@ export default {
       roleInfo: {}, // 代办事项
       opinion: [], // 意见
       message: '',
-      // 提示信息
-      toastShow: false,
-      toastVal: '',
     }
   },
   computed: {
     // 拒绝按钮显示隐藏
     refuseHide() {
       let flag = false
-      if (this.activityID == 'businessManager' || this.activityID == 'deptManager'
-        || this.activityID == 'gm' || this.activityID == 'marketGm' ) flag = true
+      if (
+        this.activityID == 'businessManager' || this.activityID == 'deptManager'
+        || this.activityID == 'gm' || this.activityID == 'marketGm'
+        || this.activityID == 'om' || this.activityID == 'calc'
+        || this.activityID == 'develop') flag = true
       return flag;
     },
     // 回退按钮显示隐藏
@@ -207,7 +199,7 @@ export default {
       return flag;
     },
   },
-  created() {
+  mounted() {
     this.getUserInfo();
     this.getQuery();
     this.getRoleInfo();      // 打开代办事项
@@ -289,7 +281,7 @@ export default {
       this.axios
         .get(`wechatErp/center/getBeforeTaskComment`, {params: data})
         .then(res => {
-          console.log(res)
+          // console.log(res)
           this.opinion = res.data
         })
     },
@@ -356,19 +348,16 @@ export default {
     },
     // 发送请求
     processSend(data) {
-      if (this.activityID == 'cwSecond' && !data.voucherNum.trim() && data.isPass == 'Y') return this.toastShow = true, this.toastVal = '请填写凭证号'
-      if (!this.message.trim()) return this.toastShow = true, this.toastVal = '请填写意见'
+      if (this.activityID == 'cwSecond' && !data.voucherNum.trim() && data.isPass == 'Y') return this.$vux.toast.text('请填写凭证号');
+      if (!this.message.trim()) return this.$vux.toast.text('请填写意见')
       this.axios
         .post(`wechatErp/expenseReimbursementPlatform/flowToNextActivityForQueryOnly`, data)
         .then(res => {
           // console.log(res)
           const {resultState, messageInfo} = res.data
-          this.toastShow = true
-          this.toastVal = messageInfo
+          this.$vux.toast.text(messageInfo)
           if (resultState == -1) return false;
-          setTimeout(() => {
-            this.$router.go(-1)
-          }, 800)
+          setTimeout(() => {this.$router.go(-1)}, 800)
         })
     }
   }
