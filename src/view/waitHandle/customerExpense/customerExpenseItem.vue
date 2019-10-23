@@ -23,7 +23,7 @@
                 <el-option
                   v-for="item in allcontacts"
                   :key="item.id"
-                  :label="item.companyName"
+                  :label="item.text"
                   :value="item.id">
                 </el-option>
               </el-select>
@@ -268,7 +268,7 @@ export default {
     getAllContacts() {
       this.axios.get(`wechatErp/expenseReimbursementClient/getOneselfClientSelect2`)
         .then(res => {
-          // console.log(res)
+          console.log(res)
           this.allcontacts = res.data
         })
     },

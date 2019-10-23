@@ -32,84 +32,89 @@
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
               <!-- 拜访记录 -->
               <grid-item link="/customerList">
-                <img slot="icon" src="../assets/images/application/组24@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/24@2x.png" style="height: 0.9rem;">
                 <span slot="label">CRM</span>
+              </grid-item>
+              <!-- 客户管理 -->
+              <grid-item link="/addCustomer">
+                <img slot="icon" src="../assets/images/application/40@2x.png" style="height: 0.9rem;">
+                <span slot="label">客户管理</span>
               </grid-item>
               <!-- 合同审批 -->
               <grid-item link="/contractList">
-                <img slot="icon" src="../assets/images/application/组22@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/22@2x.png" style="height: 0.9rem;">
                 <span slot="label">合同审批</span>
               </grid-item>
               <!-- 公司报销 -->
               <grid-item link="/companyExpenseList">
-                <img slot="icon" src="../assets/images/application/组37@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/37@2x.png" style="height: 0.9rem;">
                 <span slot="label">公司报销</span>
               </grid-item>
               <!-- 客户报销 -->
               <grid-item link="/customerExpenseList">
-                <img slot="icon" src="../assets/images/application/组36@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/36@2x.png" style="height: 0.9rem;">
                 <span slot="label">客户报销</span>
               </grid-item>
               <!-- 业务报销 -->
               <grid-item link="/serviceExpenseList">
-                <img slot="icon" src="../assets/images/application/组39@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/39@2x.png" style="height: 0.9rem;">
                 <span slot="label">项目报销</span>
               </grid-item>
               <!-- 机会管理 -->
               <grid-item link="/projectList">
-                <img slot="icon" src="../assets/images/application/组16@2x.png">
+                <img slot="icon" src="../assets/images/application/16@2x.png">
                 <span slot="label">机会管理</span>
               </grid-item>
               <!-- 项目启动-->
               <grid-item link="/initiationList">
-                <img slot="icon" src="../assets/images/application/组14@2x.png">
+                <img slot="icon" src="../assets/images/application/14@2x.png">
                 <span slot="label">项目启动</span>
-              </grid-item>
-              <!-- 借款 -->
-              <grid-item link="/companyLoanList">
-                <img slot="icon" src="../assets/images/application/组35@2x.png" style="height: 0.8rem;">
-                <span slot="label">公司借款</span>
               </grid-item>
             </grid>
           </swiper-item>
           <!-- 第二页 -->
           <swiper-item class="applicationItem">
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
+              <!-- 借款 -->
+              <grid-item link="/companyLoanList">
+                <img slot="icon" src="../assets/images/application/35@2x.png" style="height: 0.8rem;">
+                <span slot="label">公司借款</span>
+              </grid-item>
               <!-- 项目借款 -->
               <grid-item link="/serviceLoanList">
-                <img slot="icon" src="../assets/images/application/组33@2x.png">
+                <img slot="icon" src="../assets/images/application/33@2x.png">
                 <span slot="label">项目借款</span>
               </grid-item>
               <!-- 报销月计划 -->
               <grid-item link="/reimbursementMonthList">
-                <img slot="icon" src="../assets/images/application/组34@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/34@2x.png" style="height: 0.9rem;">
                 <span slot="label">报销月计划</span>
               </grid-item>
               <!-- 物品领用 -->
               <grid-item link="/goodsReceiveList">
-                <img slot="icon" src="../assets/images/application/组38@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/38@2x.png" style="height: 0.9rem;">
                 <span slot="label">物品领用</span>
               </grid-item>
               <!-- 采购追加 -->
               <grid-item link="/purchaseAppendList">
-                <img slot="icon" src="../assets/images/application/组20@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/20@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购追加</span>
               </grid-item>
               <!-- 采购流程 -->
               <grid-item link="/purchaseProcessList">
-                <img slot="icon" src="../assets/images/application/组21@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/21@2x.png" style="height: 0.9rem;">
                 <span slot="label">采购流程</span>
               </grid-item>
               <!-- 公章借用 -->
               <grid-item link="/waithandle/borrowChapterList">
-                <img slot="icon" src="../assets/images/application/组18@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/18@2x.png" style="height: 0.9rem;">
                 <span slot="label">公章借用</span>
               </grid-item>
-              <!-- 客户管理 -->
-              <grid-item link="/addCustomer">
-                <img slot="icon" src="../assets/images/application/组40@2x.png" style="height: 0.9rem;">
-                <span slot="label">客户管理</span>
-              </grid-item>
+              <!-- e服务 -->
+              <!--<grid-item @click.native="toEservice()">-->
+                <!--<img slot="icon" src="../assets/images/application/efuwu.png" style="height: 0.9rem;">-->
+                <!--<span slot="label">e服务</span>-->
+              <!--</grid-item>-->
             </grid>
           </swiper-item>
         </swiper>
@@ -181,6 +186,9 @@ export default {
     toProcessed() { // 跳转到已处理
       this.$router.push('/processed')
       this.$store.commit('changeListBtnText', '已处理')
+    },
+    toEservice () {
+      window.location.href = 'http://eService.kingtop.com.cn:7080/platform/system/toOAuth.do'
     },
   },
 }
