@@ -17,3 +17,13 @@ ul > li {
 }
 /* 阻止移动端页面滑动 */
 /** { touch-action: none; }*/
+
+button.impred {
+  background-color: #dc4141;
+}
+button.impblue {
+  background-color: #6ea6ff;
+}
+button.impdefault {
+  /*background-color: #6ea6ff;*/
+}

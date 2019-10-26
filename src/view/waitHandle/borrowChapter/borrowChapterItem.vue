@@ -80,31 +80,30 @@
     <!-- 底部按钮 -->
     <div class="footer">
       <div v-if="activityID !== 'om'">
-        {{activityID}}
-        <x-button style="background-color: #6ea6ff;" @click.native="confirm()">通过</x-button>
+        <x-button class="impblue" @click.native="confirm()">通过</x-button>
       </div>
       <div v-if="activityID === 'om'">
         <x-button :disabled="!!this.sealBorrow.actualBorrowTime || isDisabled"
-                  style="background-color: #6ea6ff;" @click.native="lend()">
+                  class="impblue" @click.native="lend()">
           借出
         </x-button>
       </div>
       <div v-if="activityID !== 'preserver'">
         <x-button :disabled="!!this.sealBorrow.actualBorrowTime || isDisabled"
-                  type="warn" @click.native="refuse()">
+                  class="impred" @click.native="refuse()">
           拒绝
         </x-button>
       </div>
       <div v-if="activityID !== 'preserver'">
         <x-button :disabled="!!this.sealBorrow.actualBorrowTime || isDisabled"
-                  type="warn" @click.native="regression()">
+                  class="impred" @click.native="regression()">
           回退
         </x-button>
       </div>
     </div>
     <!-- 底部按钮 -->
     <div class="footer" v-if="activityID === 'om' && sealBorrow.actualBorrowTime || actualBorrowTime">
-      <div><x-button style="background-color: #6ea6ff;" @click.native="confirm()">回收并流转</x-button></div>
+      <div><x-button class="impblue" @click.native="confirm()">回收并流转</x-button></div>
     </div>
   </div>
 </template>

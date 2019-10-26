@@ -17,3 +17,6 @@
 .footer > div button {
   color: #fff;
 }
+.footer .smallFont {
+  font-size: 14px;
+}

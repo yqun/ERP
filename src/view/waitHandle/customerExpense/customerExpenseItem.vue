@@ -148,13 +148,13 @@
     <!-- 底部按钮 -->
     <div class="footer">
       <div v-if="refuseBtn">
-        <x-button style="backgroundColor: #dc4141; color: #fff;" @click.native="refuse()">拒绝</x-button>
+        <x-button class="impred" @click.native="refuse()">拒绝</x-button>
       </div>
       <div v-if="regressionBtn">
-        <x-button style="backgroundColor: #dc4141; color: #fff;" @click.native="regression()">回退</x-button>
+        <x-button class="impred" @click.native="regression()">回退</x-button>
       </div>
       <div>
-        <x-button style="backgroundColor: #6ea6ff; color: #fff;" @click.native="approval()">流转</x-button>
+        <x-button class="impblue" @click.native="approval()">流转</x-button>
       </div>
       </div>
   </div>
