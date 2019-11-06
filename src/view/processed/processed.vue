@@ -43,6 +43,7 @@ export default {
         {name: '公章借用', path: '/processed/borrowChapterList', fontSize: '0.55rem', num: ''},
         {name: '客户管理', path: '/processed/customerManageList', fontSize: '0.55rem', num: ''},
         {name: '合同变更', path: '/processed/changeContractList', fontSize: '0.55rem', num: ''},
+        {name: '公章使用', path: '/processed/borrowUseList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -74,6 +75,7 @@ export default {
         'wechatErp/sealBorrow/getAlreadyDoneTaskCount',
         'wechatErp/client/getClientAlreadyDoneTaskCount',
         'wechatErp/contractChange/getContractChangeAlreadyDoneTaskCount',
+        'wechatErp/sealUse/getSealUseAlreadyDoneTaskCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

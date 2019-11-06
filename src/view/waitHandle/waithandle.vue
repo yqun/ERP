@@ -45,6 +45,7 @@ export default {
         {name: '公章借用', path: '/waithandle/borrowChapterList', num: ''},
         {name: '客户管理', path: '/waithandle/customerManageList', num: ''},
         {name: '合同变更', path: '/waithandle/changeContractList', num: ''},
+        {name: '公章使用', path: '/waithandle/borrowUseList', num: ''},
       ]
     }
   },
@@ -76,6 +77,7 @@ export default {
         'wechatErp/sealBorrow/getToDoCount',
         'wechatErp/client/getToDoForClientCount',
         'wechatErp/contractChange/getToDoForContractChangeCount',
+        'wechatErp/sealUse/getToDoForSealUseCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)

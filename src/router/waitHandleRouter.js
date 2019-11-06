@@ -13,6 +13,7 @@ import customerExpense from './waitHandle/customerExpenseRouter'              //
 import borrowChapter from './waitHandle/borrowChapterRouter'              // 公章借用
 import customerManage from './waitHandle/customerManageRouter'              // 客户管理
 import changeContract from './waitHandle/changeContractRouter'              // 合同变更
+import borrowUse from './waitHandle/borrowUseRouter'                        // 公章使用
 
 
 
@@ -32,6 +33,7 @@ const waitHandleRouter = [
   ...borrowChapter,
   ...customerManage,
   ...changeContract,
+  ...borrowUse,
 ]
 
 

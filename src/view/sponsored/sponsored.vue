@@ -37,6 +37,7 @@ export default {
         {name: '公章借用', path: '/sponsored/borrowChapterList', num: ''},
         {name: '客户管理', path: '/sponsored/customerManageList', num: ''},
         {name: '合同变更', path: '/sponsored/changeContractList', num: ''},
+        {name: '公章使用', path: '/sponsored/borrowUseList', num: ''},
       ]
     }
   },
@@ -68,6 +69,7 @@ export default {
         'wechatErp/sealBorrow/getMyStartProcessCount',
         'wechatErp/client/getClientMyStartProcessCount',
         'wechatErp/contractChange/getContractChangetMyStartProcessCount',
+        'wechatErp/sealUse/getSealUseMyStartProcessCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
