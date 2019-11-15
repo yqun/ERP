@@ -21,6 +21,11 @@ import VisitItem from '@/view/applicae/visitRecord/visit/visitItem'
 
 import AddCustomer from '@/view/applicae/customerManage/addCustomer' // 添加客户
 
+// imp评分
+import ScoreList from '@/view/applicae/score/scoreList'  //评分列表
+import ScoreItem from '@/view/applicae/score/scoreItem'  //评分列表
+import WriteScore from '@/view/applicae/score/writeScore'  //评分列表
+
 
 const applicaeRouter = [
   {path: '/createProject', name: 'createProject', component:CreateProject},
@@ -44,6 +49,10 @@ const applicaeRouter = [
   // {path: '/contactsAdd', name: 'ContactsAdd', component:ContactsAdd},
   {path: '/visitItem', name: 'VisitItem', component:VisitItem},
   {path: '/addCustomer', name: 'addCustomer', component:AddCustomer},
+
+  {path: '/applicae/scoreList', name: 'scoreList', component: ScoreList},
+  {path: '/applicae/scoreItem', name: 'scoreItem', component: ScoreItem},
+  {path: '/applicae/writeScore', name: 'writeScore', component: WriteScore},
 
 ];
 

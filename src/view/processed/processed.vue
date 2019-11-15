@@ -1,10 +1,5 @@
 <template>
   <div class="waitHandle">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="已处理">-->
-    <!--</x-header>-->
     <!-- 主体内容  main -->
     <div class="main">
       <!-- 按钮 -->
@@ -44,6 +39,7 @@ export default {
         {name: '客户管理', path: '/processed/customerManageList', fontSize: '0.55rem', num: ''},
         {name: '合同变更', path: '/processed/changeContractList', fontSize: '0.55rem', num: ''},
         {name: '公章使用', path: '/processed/borrowUseList', fontSize: '0.55rem', num: ''},
+        {name: '分摊报销', path: '/processed/shareExpenseList', fontSize: '0.55rem', num: ''},
       ],
     }
   },
@@ -76,6 +72,7 @@ export default {
         'wechatErp/client/getClientAlreadyDoneTaskCount',
         'wechatErp/contractChange/getContractChangeAlreadyDoneTaskCount',
         'wechatErp/sealUse/getSealUseAlreadyDoneTaskCount',
+        'wechatErp/expenseReimbursementDivide/getDivideBxAlreadyDoneTaskCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
@@ -99,7 +96,8 @@ export default {
 /* 页面背景 */
 .waitHandle {
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
+  padding-bottom: 0.26rem;
   background-color: #f8f8f8;
 }
 /* 主体内容 */

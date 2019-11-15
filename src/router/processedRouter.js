@@ -15,6 +15,7 @@ import borrowChapter from '@/router/processed/borrowChapterRouter'// 公章借�
 import customerManage from '@/router/processed/customerManageRouter'// 客户管理
 import changeContract from './processed/changeContractRouter' // 合同变更
 import borrowUse from './processed/borrowUseRouter' // 公章使用
+import shareExpense from './processed/shareExpenseRouter' // 公章使用
 
 
 const ProcessedRouter = [
@@ -33,6 +34,7 @@ const ProcessedRouter = [
   ...customerManage,
   ...changeContract,
   ...borrowUse,
+  ...shareExpense,
 ]
 
 

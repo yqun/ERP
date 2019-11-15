@@ -25,7 +25,7 @@
           <p><strong>到达地点</strong><span>{{item.arrivalPlace}}</span></p>
           <p><strong>人数　　</strong><span>{{item.travellerAmount}}人</span></p>
           <p><strong>交通　　</strong><span>{{item.trafficKind}}　￥{{item.trafficMoney}}</span></p>
-          <p><strong>出差补助</strong><span>{{item.days || 0}}天　{{item.standardSubsidy || 0}}元/天　<i>￥{{item.subsidyMoney || 0}}</i></span></p>
+          <p><strong>出差补助</strong><span>￥{{item.subsidyMoney || 0}}</span></p>
           <p><strong>住宿费用</strong><span><i>￥{{item.hotelMoney || 0}}</i></span></p>
           <p><strong>室内交通</strong><span><i>￥{{item.urbanTrafficMoney || 0}}</i></span></p>
           <p><strong>其他费用</strong><span><i>￥{{item.other1Money + item.other2Money + item.other3Money}}</i></span></p>

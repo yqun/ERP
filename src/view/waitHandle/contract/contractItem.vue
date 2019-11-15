@@ -466,7 +466,6 @@ export default {
         activityID : this.activityId
       }
       if (this.activityId == 'sub_3') {
-        data.processInstanceId = this.processInstanceId
         data.serviceMoney = this.serviceMoney
         //项目总利润 项目预估利润＝总毛利润 - 辅料费 - 项目经理人工成本
         data.forecastGrossProfit = this.forecastGrossProfit
@@ -476,11 +475,9 @@ export default {
         data.isPass = 'Y'
         data.contractVest = this.selectValue
       }  else if (this.activityId == 'sub_9') {
-        data.processInstanceId = this.processInstanceId
         data.roleCode = 'GENERAL_MANAGER'
         data.isPass = '1'
       } else if (this.activityId == 'marketingGeneralManager') {
-        data.processInstanceId = this.processInstanceId
         data.roleCode = 'MARKETING_GENERAL_MANAGER'
         data.accessoriesMoney = this.detailedTotal.accessoriesMoney || 0
         data.isPass = '1'
@@ -504,23 +501,22 @@ export default {
     refuse() {
       const data = {
         ...this.data,
+        projectId:this.projectInfo.id,
         taskId: this.taskId,
         businessKey: this.businessKey,
+        activityID: this.activityId,
         procInstId: this.processInstanceId,
+        processInstanceId: this.processInstanceId,
         message: this.message,
         role: this.roleInfo.roleName,
       }
       if (this.activityId == 'sub_9') {
-        data.processInstanceId = this.processInstanceId
         data.roleCode = 'GENERAL_MANAGER'
-        data.projectId = this.projectInfo.id
-        data.isPass = '3'
+        data.isPass = '2'
       } else if (this.activityId == 'marketingGeneralManager') {
         data.roleCode = 'MARKETING_GENERAL_MANAGER'
         data.accessoriesMoney = this.detailedTotal.accessoriesMoney || 0
-        data.processInstanceId = this.processInstanceId
-        data.projectId = this.projectInfo.id
-        data.isPass = '3'
+        data.isPass = '2'
       }
       this.managerSendData(data)
     },
@@ -528,13 +524,14 @@ export default {
     regression(fu) {
       const data = {
         ...this.data,
+        projectId:this.projectInfo.id,
         taskId: this.taskId,
         businessKey: this.businessKey,
+        activityID: this.activityId,
         procInstId: this.processInstanceId,
         processInstanceId: this.processInstanceId,
         message: this.message,
         role: this.roleInfo.roleName,
-        projectId:this.projectInfo.id
       }
       if (this.activityId == 'sub_4') {
         data.isPass = 'N'
@@ -542,12 +539,12 @@ export default {
       }  else if (this.activityId == 'sub_9') {
         data.roleCode = 'GENERAL_MANAGER'
         data.projectId = this.projectInfo.id
-        data.isPass = '2'
+        data.isPass = '3'
       } else if (this.activityId == 'marketingGeneralManager') {
         data.roleCode = 'MARKETING_GENERAL_MANAGER'
         data.accessoriesMoney = this.detailedTotal.accessoriesMoney || 0
         data.projectId = this.projectInfo.id
-        data.isPass = '2'
+        data.isPass = '3'
       }
       if (this.activityId == 'sub_7' && fu) {
         data.isPass = 'N'
@@ -569,7 +566,7 @@ export default {
         this.toastShow = true
         return this.toastMsg = '请填写合同归属'
       }
-      console.log(data)
+      // console.log(data)
       this.axios
         .post(`/wechatErp/contract/saveComment`, data)
         .then(res => {
@@ -627,7 +624,7 @@ export default {
 .contract-item {
   width: 100%;
   box-sizing: border-box;
-  padding-top: 46px;
+  /*padding-top: 46px;*/
   font-size:16px;
   background-color: #f8f8f8;
 }

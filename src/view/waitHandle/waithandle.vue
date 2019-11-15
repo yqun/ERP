@@ -1,10 +1,5 @@
 <template>
   <div class="waitHandle">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="待处理">-->
-    <!--</x-header>-->
     <!-- 主体内容  main -->
     <div class="main">
       <ul class="clearfix">
@@ -46,6 +41,7 @@ export default {
         {name: '客户管理', path: '/waithandle/customerManageList', num: ''},
         {name: '合同变更', path: '/waithandle/changeContractList', num: ''},
         {name: '公章使用', path: '/waithandle/borrowUseList', num: ''},
+        {name: '分摊报销', path: '/waithandle/shareExpenseList', num: ''},
       ]
     }
   },
@@ -78,6 +74,7 @@ export default {
         'wechatErp/client/getToDoForClientCount',
         'wechatErp/contractChange/getToDoForContractChangeCount',
         'wechatErp/sealUse/getToDoForSealUseCount',
+        'wechatErp/expenseReimbursementDivide/getToDoForDivideBxCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
@@ -97,8 +94,9 @@ export default {
 /* 页面背景 */
 .waitHandle {
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
   background-color: #f8f8f8;
+  padding-bottom: 0.26rem;
 }
 /* 主体内容 */
 .main {

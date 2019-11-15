@@ -1,9 +1,9 @@
 import BorrowChapterList from '@/view/waitHandle/borrowChapter/borrowChapterList'
 import BorrowChapterItem from '@/view/waitHandle/borrowChapter/borrowChapterItem'
 
-const borrowChapter = [
+export default [
   {path: '/waithandle/borrowChapterList', name: 'borrowChapterList', component: BorrowChapterList},
   {path: '/waithandle/borrowChapterItem', name: 'borrowChapterItem', component: BorrowChapterItem},
 ]
 
-export default borrowChapter;
+

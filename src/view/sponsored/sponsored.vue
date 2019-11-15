@@ -38,6 +38,7 @@ export default {
         {name: '客户管理', path: '/sponsored/customerManageList', num: ''},
         {name: '合同变更', path: '/sponsored/changeContractList', num: ''},
         {name: '公章使用', path: '/sponsored/borrowUseList', num: ''},
+        {name: '分摊报销', path: '/sponsored/shareExpenseList', num: ''},
       ]
     }
   },
@@ -70,6 +71,7 @@ export default {
         'wechatErp/client/getClientMyStartProcessCount',
         'wechatErp/contractChange/getContractChangetMyStartProcessCount',
         'wechatErp/sealUse/getSealUseMyStartProcessCount',
+        'wechatErp/expenseReimbursementDivide/getDivideBxtMyStartProcessCount',
       ]
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
@@ -88,7 +90,8 @@ export default {
 /* 页面背景 */
 .waitHandle {
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
+  padding-bottom: 0.26rem;
   background-color: #f8f8f8;
 }
 /* 主体内容 */

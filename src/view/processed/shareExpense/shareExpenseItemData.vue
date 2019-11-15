@@ -1,34 +1,16 @@
 <template>
   <div class="contract-item">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="公司报销">-->
-    <!--</x-header>-->
     <!-- 内容部分 -->
     <div class="main">
       <!-- 表头 -->
       <h3>{{title}}</h3>
       <ul>
-        <li class="info-content" v-for="item in reimbursementList" :key="item.id" v-if="projectInfo.kind == 1">
+        <li class="info-content" v-for="item in reimbursementList" :key="item.id">
           <p><strong>报销科目</strong><span>{{item.reasonInfo}}</span></p>
           <p><strong>替票科目</strong><span>{{item.replaceSubjectInfo}}</span></p>
           <p><strong>摘要　　</strong><span>{{item.content}}</span></p>
           <p><strong>金额　　</strong><span>{{item.singleTotalMoney}}</span></p>
-          <p><strong>附单据数</strong><span>{{item.invoiceNum}}</span></p>
-        </li>
-        <li class="info-content travel" v-for="item in reimbursementList" :key="item.id" v-if="projectInfo.kind == 2">
-          <p><strong>出发时间</strong><span>{{item.startTime | momentDay}}</span></p>
-          <p><strong>出发地点</strong><span>{{item.startPlace}}</span></p>
-          <p><strong>到达时间</strong><span>{{item.arrivalTime | momentDay}}</span></p>
-          <p><strong>到达地点</strong><span>{{item.arrivalPlace}}</span></p>
-          <p><strong>人数　　</strong><span>{{item.travellerAmount}}人</span></p>
-          <p><strong>交通　　</strong><span>{{item.trafficKind}}　￥{{item.trafficMoney}}</span></p>
-          <p><strong>出差补助</strong><span>￥{{item.subsidyMoney || 0}}</span></p>
-          <p><strong>住宿费用</strong><span><i>￥{{item.hotelMoney || 0}}</i></span></p>
-          <p><strong>室内交通</strong><span><i>￥{{item.urbanTrafficMoney || 0}}</i></span></p>
-          <p><strong>其他费用</strong><span><i>￥{{item.other1Money + item.other2Money + item.other3Money}}</i></span></p>
-          <p><strong>合计　　</strong><span><i>￥{{item.sumMoney}}</i></span></p>
+          <!--<p><strong>附单据数</strong><span>{{item.invoiceNum}}</span></p>-->
         </li>
       </ul>
     </div>
@@ -38,7 +20,7 @@
 <script>
 import { dateFormat } from 'vux'
 export default {
-  name: "customerExpenseItemData",
+  name: "PcustomerExpenseItemData",
   filters: {
     dateFormat
   },
@@ -63,21 +45,14 @@ export default {
     getProjectInfo() {
       this.businessKey = this.$route.query.businessKey;
       this.axios
-        .get(`wechatErp/expenseReimbursementPlatform/mobileQueryAllBxInfoById/${this.businessKey}`)
+        .get(`wechatErp/expenseReimbursementDivide/mobileQueryAllBxInfoById/${this.businessKey}`)
         .then(res => {
           // console.log(res)
           const {data} = res
           this.projectInfo = data
           // 普通费用
-          if (data.kind == 1) {
-            this.title = '普通费用'
-            this.reimbursementList = data.tAppCommonBx.commonDetailList
-          }
-          // 差旅费用
-          if (data.kind == 2) {
-            this.title = '差旅费用'
-            this.reimbursementList = data.tAppBusinessTrip.tripDetailList
-          }
+          this.title = '普通费用'
+          this.reimbursementList = data.tAppCommonBx.commonDetailList
         })
     },
   }
