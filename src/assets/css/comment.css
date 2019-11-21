@@ -20,9 +20,11 @@ ul > li {
 
 button.impred {
   background-color: #dc4141;
+  color: #fff;
 }
 button.impblue {
   background-color: #6ea6ff;
+  color: #fff;
 }
 button.impdefault {
   /*background-color: #6ea6ff;*/

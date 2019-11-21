@@ -32,12 +32,12 @@
             <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">
               <!-- 拜访记录 -->
               <grid-item link="/customerList">
-                <img slot="icon" src="../assets/images/application/24@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/24@2x.png">
                 <span slot="label">CRM</span>
               </grid-item>
               <!-- 客户管理 -->
               <grid-item link="/addCustomer">
-                <img slot="icon" src="../assets/images/application/40@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/40@2x.png">
                 <span slot="label">客户管理</span>
               </grid-item>
               <!-- 机会管理 -->
@@ -47,35 +47,16 @@
               </grid-item>
               <!-- 报销月计划 -->
               <grid-item link="/reimbursementMonthList">
-                <img slot="icon" src="../assets/images/application/34@2x.png" style="height: 0.9rem;">
+                <img slot="icon" src="../assets/images/application/34@2x.png">
                 <span slot="label">报销月计划</span>
               </grid-item>
+              <!-- 扫一扫 -->
+              <grid-item @click.native="wxScan()">
+                <img slot="icon" src="../assets/images/application/41@2x.png">
+                <span slot="label">扫一扫</span>
+              </grid-item>
 
-              <!-- 合同审批 -->
-              <!--<grid-item link="/contractList">-->
-                <!--<img slot="icon" src="../assets/images/application/22@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">合同审批</span>-->
-              <!--</grid-item>-->
-
-              <!-- 公司报销 -->
-              <!--<grid-item link="/companyExpenseList">-->
-                <!--<img slot="icon" src="../assets/images/application/37@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">公司报销</span>-->
-              <!--</grid-item>-->
-
-              <!-- 客户报销 -->
-              <!--<grid-item link="/customerExpenseList">-->
-                <!--<img slot="icon" src="../assets/images/application/36@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">客户报销</span>-->
-              <!--</grid-item>-->
-
-              <!-- 业务报销 -->
-              <!--<grid-item link="/serviceExpenseList">-->
-                <!--<img slot="icon" src="../assets/images/application/39@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">项目报销</span>-->
-              <!--</grid-item>-->
-
-              <!-- 项目启动-->
+              <!--项目启动-->
               <!--<grid-item link="/initiationList">-->
                 <!--<img slot="icon" src="../assets/images/application/14@2x.png">-->
                 <!--<span slot="label">项目启动</span>-->
@@ -85,43 +66,6 @@
           <!-- 第二页 -->
           <!--<swiper-item class="applicationItem">-->
             <!--<grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="4">-->
-              <!-- 借款 -->
-              <!--<grid-item link="/companyLoanList">-->
-                <!--<img slot="icon" src="../assets/images/application/35@2x.png" style="height: 0.8rem;">-->
-                <!--<span slot="label">公司借款</span>-->
-              <!--</grid-item>-->
-
-              <!-- 项目借款 -->
-              <!--<grid-item link="/serviceLoanList">-->
-                <!--<img slot="icon" src="../assets/images/application/33@2x.png">-->
-                <!--<span slot="label">项目借款</span>-->
-              <!--</grid-item>-->
-
-              <!-- 物品领用 -->
-              <!--<grid-item link="/goodsReceiveList">-->
-                <!--<img slot="icon" src="../assets/images/application/38@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">物品领用</span>-->
-              <!--</grid-item>-->
-
-              <!-- 采购追加 -->
-              <!--<grid-item link="/purchaseAppendList">-->
-                <!--<img slot="icon" src="../assets/images/application/20@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">采购追加</span>-->
-              <!--</grid-item>-->
-
-              <!-- 采购流程 -->
-              <!--<grid-item link="/purchaseProcessList">-->
-                <!--<img slot="icon" src="../assets/images/application/21@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">采购流程</span>-->
-              <!--</grid-item>-->
-
-              <!-- 公章借用 -->
-              <!--<grid-item link="/waithandle/borrowChapterList">-->
-                <!--<img slot="icon" src="../assets/images/application/18@2x.png" style="height: 0.9rem;">-->
-                <!--<span slot="label">公章借用</span>-->
-              <!--</grid-item>-->
-
-
               <!-- e服务 -->
               <!--<grid-item @click.native="toEservice()">-->
                 <!--<img slot="icon" src="../assets/images/application/efuwu.png" style="height: 0.9rem;">-->
@@ -142,6 +86,7 @@ export default {
   data() {
     return {
       waitHandleNum: 0,
+      isDepeName: false,
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -163,16 +108,22 @@ export default {
       if (user) {
         // console.log(user.loginName);
         this.getWaitHandle(user);
+        // if (user.deptList[0].name == '产品技术研发部') {
+        //   this.isDepeName = true
+        // }
       } else {
         const code = location.search.split('&')[0].split('=')[1];
         this.axios
           .get(`wechatErp/center/initialAccreditation?code=${code}`)
           .then(res => {
-            // console.log(res.data);
-            const {data} = res
+            // console.log(res);
+            const {data} = res;
             if (data != null) {
               const dataStr = window.sessionStorage.setItem('data', JSON.stringify(data))
-              this.getWaitHandle(data)
+              this.getWaitHandle(data);
+              // if (data.deptList[0].name == '产品技术研发部') {
+              //   this.isDepeName = true
+              // }
             }
           })
       }
@@ -198,6 +149,53 @@ export default {
     toProcessed() { // 跳转到已处理
       this.$router.push('/processed')
       this.$store.commit('changeListBtnText', '已处理')
+    },
+    wxScan() {
+      const url = location.href.split('#')[0];
+      // alert(url);
+      this.axios.post(`wechatErp/ssc/getPermissionsValidationParam`,{url: url})
+        .then(res => {
+          // console.log(res)
+          this.wxConfig(res.data)
+        })
+
+    },
+    wxConfig(config) {
+      const that = this
+      wx.config({
+        beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: config.appId, // 必填，企业微信的corpID
+        timestamp: config.timestamp, // 必填，生成签名的时间戳
+        nonceStr: config.nonceStr, // 必填，生成签名的随机串
+        signature: config.signature,// 必填，签名，见 附录-JS-SDK使用权限签名算法
+        jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+      });
+      wx.ready(function(){
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        that.routerPush()
+      });
+      wx.error(function(res){
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+      })
+    },
+    routerPush() {
+      const that = this;
+      wx.scanQRCode({
+        desc: 'scanQRCode desc',
+        needResult: 1, // 默认为0，扫描结果由企业微信处理，1则直接返回扫描结果，
+        scanType: ["qrCode"], // 可以指定扫二维码还是条形码（一维码），默认二者都有
+        success: function(res) {
+          // 回调
+          const id = res.resultStr;
+          that.$router.push({path: '/applicae/writeScore', query: {id: id}})
+        },
+        error: function(res) {
+          if (res.errMsg.indexOf('function_not_exist') > 0) {
+            alert('版本过低请升级')
+          }
+        }
+      });
     },
     toEservice () {
       window.location.href = 'http://eService.kingtop.com.cn:7080/platform/system/toOAuth.do'
