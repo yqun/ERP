@@ -5,7 +5,7 @@
       <!-- 按钮 -->
       <ul class="clearfix">
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push({path: item.path})">
-          <h3 :style="{'font-size': item.fontSize}">{{item.num}}</h3>
+          <h3><span>{{item.num}}</span></h3>
           <p>{{item.name}}</p>
         </li>
       </ul>
@@ -24,22 +24,22 @@ export default {
       ServiceExpenseSum: '',  // 业务报销总条数
       CompanyExpenseSum: '',  // 公司报销条数
       info: [
-        {name: '合同审批', path: '/PContractList', fontSize: '0.55rem', num: ''},
-        {name: '项目报销', path: '/PserviceExpenseList', fontSize: '0.55rem', num: ''},
-        {name: '公司报销', path: '/PcompanyExpenseList', fontSize: '0.55rem', num: ''},
-        {name: '报销月计划', path: '/PmonthList', fontSize: '0.55rem', num: ''},
-        {name: '项目启动', path: '/PinitiationList', fontSize: '0.55rem', num: ''},
-        {name: '公司借款', path: '/PcompanyLoanList', fontSize: '0.55rem', num: ''},
-        {name: '项目借款', path: '/PserviceLoanList', fontSize: '0.55rem', num: ''},
-        {name: '物品领用', path: '/PgoodsReceiveList', fontSize: '0.55rem', num: ''},
-        {name: '采购追加', path: '/PpurchaseAppendList', fontSize: '0.55rem', num: ''},
-        {name: '采购流程', path: '/PpurchaseProcessList', fontSize: '0.55rem', num: ''},
-        {name: '客户报销', path: '/PcustomerExpenseList', fontSize: '0.55rem', num: ''},
-        {name: '公章借用', path: '/processed/borrowChapterList', fontSize: '0.55rem', num: ''},
-        {name: '客户管理', path: '/processed/customerManageList', fontSize: '0.55rem', num: ''},
-        {name: '合同变更', path: '/processed/changeContractList', fontSize: '0.55rem', num: ''},
-        {name: '公章使用', path: '/processed/borrowUseList', fontSize: '0.55rem', num: ''},
-        {name: '分摊报销', path: '/processed/shareExpenseList', fontSize: '0.55rem', num: ''},
+        {name: '合同审批', path: '/PContractList', num: ''},
+        {name: '项目报销', path: '/PserviceExpenseList', num: ''},
+        {name: '公司报销', path: '/PcompanyExpenseList', num: ''},
+        {name: '报销月计划', path: '/PmonthList', num: ''},
+        {name: '项目启动', path: '/PinitiationList', num: ''},
+        {name: '公司借款', path: '/PcompanyLoanList', num: ''},
+        {name: '项目借款', path: '/PserviceLoanList', num: ''},
+        {name: '物品领用', path: '/PgoodsReceiveList', num: ''},
+        {name: '采购追加', path: '/PpurchaseAppendList', num: ''},
+        {name: '采购流程', path: '/PpurchaseProcessList', num: ''},
+        {name: '客户报销', path: '/PcustomerExpenseList', num: ''},
+        {name: '公章借用', path: '/processed/borrowChapterList', num: ''},
+        {name: '客户管理', path: '/processed/customerManageList', num: ''},
+        {name: '合同变更', path: '/processed/changeContractList', num: ''},
+        {name: '公章使用', path: '/processed/borrowUseList', num: ''},
+        {name: '分摊报销', path: '/processed/shareExpenseList', num: ''},
       ],
     }
   },
@@ -84,9 +84,10 @@ export default {
       // 判断url
       this.info[index].num = res.data || 0;
       // 根据数字长度判断 字体大小
-      if (this.info[index].num <= 99999) this.info[index].fontSize = '0.45rem'
-      if (this.info[index].num <= 9999)  this.info[index].fontSize = '0.5rem'
-      if (this.info[index].num <= 999)   this.info[index].fontSize = '0.55rem'
+      if (this.info[index].num > 99) this.info[index].num = '99+'
+      // if (this.info[index].num <= 99999) this.info[index].fontSize = '14px'
+      // if (this.info[index].num <= 9999)  this.info[index].fontSize = '16px'
+      // if (this.info[index].num <= 999)   this.info[index].fontSize = '18px'
     },
   }
 }
@@ -96,9 +97,9 @@ export default {
 /* 页面背景 */
 .waitHandle {
   width: 100%;
-  /*height: 100%;*/
-  padding-bottom: 0.26rem;
   background-color: #f8f8f8;
+  /*height: 100%;*/
+  /*padding-bottom: 0.26rem;*/
 }
 /* 主体内容 */
 .main {
@@ -108,32 +109,38 @@ export default {
   overflow: hidden;
 }
 .main > ul {
-  width: 110%;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+  margin: 10px 0;
+  width: 100%;
 }
 .waitHandleItem {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 25%;
+  height: 90px;
+  padding: 20px 0 10px;
   background-color: #fff;
   text-align: center;
   float: left;
-  border-radius: 10px;
-  box-shadow:4px 4px 14px rgba(202, 228, 251, 0.5);
-  margin-right: 0.3rem;
-  margin-top: 0.26rem;
-  padding-top: 0.3rem;
   box-sizing: border-box;
+  border-right: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
 }
 .waitHandleItem h3 {
-  font-size: 0.55rem;
-  color: #6ea6ff;
-  height: 0.8rem;
-  line-height: 0.8rem;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 6px;
 }
-.waitHandleItem i {
-  font-style: normal;
-  font-size: 0.21rem;
+.waitHandleItem h3 span{
+  display: block;
+  margin: 0 auto;
+  width: 30px;
+  line-height: 30px;
+  color:#fff;
+  border-radius: 4px;
+  background-color: skyblue;
 }
 .waitHandleItem p {
-  font-size: 0.273rem;
+  font-size: 14px;
 }
 </style>

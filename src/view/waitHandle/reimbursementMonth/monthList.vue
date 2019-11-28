@@ -1,29 +1,21 @@
 <template>
   <div class="waitHandleList">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="报销月计划">-->
-    <!--</x-header>-->
-    <!-- main -->
     <div class="main">
-      <!-- 搜索框 -->
-      <!--<div class="search">-->
-        <!--<input type="text" v-model="searchValue" placeholder="搜索" disabled>-->
-      <!--</div>-->
       <!-- 上拉加载 -->
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
-              <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.startUser}}</h4>
-                <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">{{item.status}}</button>
+              <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
+                <h4>{{item.projectName || '非项目流程'}}</h4>
+                <span>{{item.startUser}}</span>
               </div>
-              <div class="clearfix p">
-                <span style="float: left;">{{item.dataFormat}}</span>
-                <span style="float: right;">{{item.name}}</span>
+              <div class="clearfix listItem_bottom">
+                <span>{{item.dataFormat}}</span>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="icon">
+                <x-icon type="ios-arrow-right" size="24"></x-icon>
               </div>
             </li>
             <li v-if="list.length == 0"
@@ -125,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../assets/css/list.css';
+@import '../../../assets/css/waitHandleList.css';
 .waitHandleList {
    width: 100%;
    height: 100%;

@@ -159,6 +159,7 @@ export default {
         overflow: 'hidden',
         height: 'unset'
       },
+      data: {},
       key: '',
       taskId: '',
       activityID: '',
@@ -178,6 +179,11 @@ export default {
     }
   },
   mounted() {
+    const user = JSON.parse(window.sessionStorage.getItem('data'));
+    this.data.loginName = user.loginName;
+    this.data.password = user.password;
+    this.data.currentUserId = user.id;
+
     this.getQuery();
     this.getRoleInfo();
 
@@ -258,7 +264,7 @@ export default {
         if (!this.voucherNum) return this.$vux.toast.text('请填写凭证号');
       }
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -278,7 +284,7 @@ export default {
     refuse() {
       if (!this.message) return this.$vux.toast.text('请填写意见');
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -297,7 +303,7 @@ export default {
     regression() {
       if (!this.message) return this.$vux.toast.text('请填写意见');
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,

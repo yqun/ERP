@@ -1,11 +1,5 @@
 <template>
   <div class="waitHandleList">
-    <!-- 头部导航 -->
-    <x-header style="background-color:#4b77b0;"
-              v-if="false"
-              :left-options="{backText: ''}"
-              title="合同评审">
-    </x-header>
     <!-- main -->
     <div class="main">
       <!-- 搜索框 -->
@@ -17,20 +11,19 @@
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
-              <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.projectName}}</h4>
-                <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">{{item.status}}</button>
+              <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
+                <span>{{item.startUser}}</span>
+                <h4>{{item.projectName}}</h4>
               </div>
-              <div class="clearfix p">
-                <span style="float: left;">{{item.dataFormat}}</span>
-                <span style="float: right;">{{item.startUser}}</span>
+              <div class="clearfix listItem_bottom">
+                <span class="time">{{item.dataFormat}}</span>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="icon">
+                <x-icon type="ios-arrow-right" size="24"></x-icon>
               </div>
             </li>
-            <li v-if="list.length == 0"
-                style="text-align: center;">
-              数据为空
-            </li>
+            <li v-if="list.length == 0" style="text-align: center;">数据为空</li>
           </ul>
         </div>
       </scroller>
@@ -118,16 +111,14 @@ export default {
 </script>
 
 <style scoped>
+@import '../../../assets/css/waitHandleList.css';
 .waitHandleList {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  /*box-sizing: border-box;*/
-  /*padding-top: 46px;*/
 }
 .search {
   height: 0.5rem;
-  /*background-color: red;*/
   padding-bottom: 0.15rem;
 }
 .search input {
@@ -146,32 +137,5 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 10px;
-}
-.listItem {
-  font-size: 16px;
-  border-bottom: 1px solid #e9e9e9;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0.25rem 4px 0.17rem 4px;
-}
-.listItem h4 {
-  font-size: 0.24rem;
-  color: #333;
-  width: 75%;
-  font-weight: 400;
-}
-.listItem button {
-  font-size: 0.24rem;
-  color: #fff;
-  background-color: #6ea6ff;
-  border: none;
-  padding: 4px 4px;
-  border-radius: 5px;
-  margin-right: 0.1rem;
-}
-.listItem span {
-  font-size: 0.24rem;
 }
 </style>

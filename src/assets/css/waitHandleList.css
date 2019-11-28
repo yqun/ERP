@@ -1,0 +1,45 @@
+.listItem {
+  font-size: 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #e9e9e9;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0.25rem 36px 0.17rem 20px;
+  position: relative;
+}
+.listItem .listItem_top h4 {
+  float: right;
+  font-size: 0.24rem;
+  color: #333;
+  width: 80%;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: right;
+}
+.listItem .listItem_top span {
+  float: left;
+  font-size: 0.22rem;
+  color: #333;
+}
+.listItem .listItem_bottom span {
+  font-size: 0.22rem;
+  float: left;
+}
+.listItem .listItem_bottom span:last-child {
+  display: block;
+  max-width: 53%;
+  float: right;
+  text-align: right;
+}
+.listItem .icon {
+  width: 24px;
+  height: 24px;
+  margin: auto;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  top: 0;
+}

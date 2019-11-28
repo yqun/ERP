@@ -1,10 +1,5 @@
 <template>
   <div class="contract">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="项目启动">-->
-    <!--</x-header>-->
     <!-- 搜索框 -->
     <div class="search" v-if="false">
       <p style="float: left;">项目名称<i></i></p>
@@ -16,15 +11,16 @@
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
-              <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left; width: 75%;">{{item.projectName}}</h4>
-                <x-icon type="ios-arrow-right" size="24" style="float: right;"></x-icon>
-                <button style="float: right;">{{item.status}}</button>
-                <!--<span>{{item.chineseName}}</span>-->
+              <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
+                <span>{{item.startUser}}</span>
+                <h4>{{item.projectName}}</h4>
               </div>
-              <div class="clearfix p">
-                <span style="float: left;">{{item.createTime}}</span>
-                <span style="float: right;">{{item.startUser}}</span>
+              <div class="clearfix listItem_bottom">
+                <span>{{item.createTime}}</span>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="icon">
+                <x-icon type="ios-arrow-right" size="24"></x-icon>
               </div>
             </li>
             <!-- 数据为空时显示 -->
@@ -119,7 +115,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../assets/css/list.css';
+@import '../../../assets/css/waitHandleList.css';
 .contract {
   width: 100%;
   height: 100%;

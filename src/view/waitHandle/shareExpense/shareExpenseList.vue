@@ -6,14 +6,16 @@
       <div class="list">
         <ul>
           <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
-            <div class="clearfix" style="margin-bottom: 0.17rem;">
-              <h4 style="float: left;">{{item.startUser}}</h4>
-              <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
-              <button style="float: right;">正在流转</button>
+            <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
+              <span>{{item.startUser}}</span>
+              <h4>{{item.projectName || '非项目流程'}}</h4>
             </div>
-            <div class="clearfix p">
-              <span style="float: left;">{{item.createTime}}</span>
-              <span style="float: right;">{{item.name}}</span>
+            <div class="clearfix listItem_bottom">
+              <span>{{item.createTime}}</span>
+              <span>{{item.name}}</span>
+            </div>
+            <div class="icon">
+              <x-icon type="ios-arrow-right" size="24"></x-icon>
             </div>
           </li>
           <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -28,6 +30,7 @@
     name: "shareExpenseList",
     data() {
       return {
+        userInfoData: {},
         scrollBottom: true, // 上拉加载
         iDisplayStart: 0,
         iDisplayLength: 10,
@@ -40,14 +43,17 @@
       to.meta.keepAlive = false;
       next();
     },
-    created() {
-      this.getListData()
+    mounted() {
+      const user = JSON.parse(window.sessionStorage.getItem('data'));
+      this.userInfoData.loginName = user.loginName;
+      this.userInfoData.password = user.password;
+      this.getListData();
     },
     methods: {
       // 列表数据
       getListData() {
         const data = {
-          ...this.$store.state.data,
+          ...this.userInfoData,
           iDisplayStart: this.iDisplayStart,
           iDisplayLength: this.iDisplayLength
         }
@@ -95,7 +101,7 @@
 </script>
 
 <style scoped>
-@import '../../../assets/css/list.css';
+@import '../../../assets/css/waitHandleList.css';
 .main {
   width: 100%;
   height: 100%;

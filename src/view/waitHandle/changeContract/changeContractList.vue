@@ -7,14 +7,16 @@
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in list" :key="item.id" @click="routerLink(item)">
-              <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.projectName}}</h4>
-                <x-icon type="ios-arrow-right" size="24"></x-icon>
-                <button style="float: right;">{{$store.state.listBtnText}}</button>
+              <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
+                <h4>{{item.projectName}}</h4>
+                <span>{{item.startUser}}</span>
               </div>
-              <div class="clearfix p">
-                <span style="float: left;">{{item.createTime}}</span>
-                <span style="float: right;">{{item.name}}</span>
+              <div class="clearfix listItem_bottom">
+                <span class="time">{{item.createTime}}</span>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="icon">
+                <x-icon type="ios-arrow-right" size="24"></x-icon>
               </div>
             </li>
             <li v-if="list.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -39,13 +41,16 @@ export default {
     }
   },
   mounted() {
+    const user = JSON.parse(window.sessionStorage.getItem('data'));
+    this.userInfoData.loginName = user.loginName;
+    this.userInfoData.password = user.password;
     this.getListData()
   },
   methods: {
     // 列表数据
     getListData() {
       const data = {
-        ...this.$store.state.data,
+        ...this.userInfoData,
         iDisplayStart: this.iDisplayStart,
         iDisplayLength: this.iDisplayLength
       }
@@ -88,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../assets/css/list.css';
+@import '../../../assets/css/waitHandleList.css';
 .serviceExpense {
   width: 100%;
   height: 100%;

@@ -4,6 +4,7 @@
       基本说明
       <span style="float: right;color: #666;font-size:14px;font-weight: 400;">演讲人：{{speechmakerName}}</span>
     </h3>
+    <!-- 固定表头 -->
     <div style="height: 30px;overflow: hidden;">
       <x-table>
         <thead>
@@ -45,7 +46,7 @@
       </x-table>
     </div>
     <div class="footer">
-      <x-button class="impblue" @click.native="submitScore()">提交</x-button>
+      <x-button class="impblue" @click.native="submitScore()" :disabled="disBtn">提交</x-button>
     </div>
   </div>
 </template>
@@ -64,7 +65,8 @@ export default {
         backgroundColor: '#aacbff',
         color: '#333',
         width: '80px',
-      }
+      },
+      disBtn: false, // 禁用按钮
     }
   },
   computed:{
@@ -104,6 +106,7 @@ export default {
       });
     },
     submitScore() {
+      this.disBtn = true;
       const arr = [];
       this.evaluationStandardList.forEach(scoreItem => {
         scoreItem.childList.forEach(standard => {
@@ -119,9 +122,19 @@ export default {
       this.axios.post(`wechatErp/ssc/saveOrUpdateGrade`, {gradeJsonString: JSON.stringify(arr)})
         .then(res => {
           // console.log(res)
-          if(res.data == 0) return this.$vux.toast.text('评分失败');
-          this.$vux.toast.text('评分成功');
-          setTimeout(() => {this.$router.replace('/')}, 800)
+          const data = res.data;
+          if(data == 0) {
+            this.$vux.toast.text('评分失败');
+            this.disBtn = false;
+          }
+          else if(data == 1) {
+            this.$vux.toast.text('评分成功');
+            setTimeout(() => {this.$router.replace('/')}, 800)
+          }
+          else if(data == 2) {
+            this.$vux.toast.text('评分已关闭');
+            this.disBtn = false;
+          }
         })
     },
   }
@@ -190,5 +203,9 @@ table tbody td a {
   bottom: 0;
   width: 100%;
   z-index:999;
+}
+.weui-btn_disabled.weui-btn_default {
+  background-color: #3f89fd;
+  color: #fff;
 }
 </style>

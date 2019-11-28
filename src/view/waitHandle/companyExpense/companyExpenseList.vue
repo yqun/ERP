@@ -34,14 +34,16 @@
         <div class="list">
           <ul>
             <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
-              <div class="clearfix" style="margin-bottom: 0.17rem;">
-                <h4 style="float: left;">{{item.startUser}}</h4>
-                <x-icon type="ios-arrow-right" size="24" style="float: right;position: relative;top: 18px;"></x-icon>
-                <button style="float: right;">正在流转</button>
+              <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
+                <span>{{item.startUser}}</span>
+                <h4>{{item.projectName || '非项目流程'}}</h4>
               </div>
-              <div class="clearfix p">
-                <span style="float: left;">{{item.createTime}}</span>
-                <span style="float: right;">{{item.name}}</span>
+              <div class="clearfix listItem_bottom">
+                <span class="time">{{item.createTime}}</span>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="icon">
+                <x-icon type="ios-arrow-right" size="24"></x-icon>
               </div>
             </li>
             <li v-if="waitHandleList.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>
@@ -168,7 +170,7 @@ export default {
       this.sendData.forEach(item => {
         if (item.value) this.data[item.name] = item.value
       })
-      console.log(this.data)
+      // console.log(this.data)
     },
 
     // 列表数据
@@ -183,8 +185,8 @@ export default {
         .get(`wechatErp/expenseReimbursementPlatform/getToDoForPlatformBx`, {params: data})
         .then(res => {
           // console.log(res)
-          const {data} = res.data
-          this.waitHandleList.push(...data)
+          const {data} = res.data;
+          this.waitHandleList.push(...data);
           const page = Math.ceil(res.data.page.totalResult/10)
           if (page > (this.iDisplayStart/10 + 1)) {
             this.iDisplayStart+=10
@@ -220,6 +222,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../../../assets/css/waitHandleList.css';
 .serviceExpense {
   width: 100%;
   height: 100%;
@@ -313,34 +316,6 @@ export default {
   box-sizing: border-box;
   /*padding: 86px 0px 0;*/
   z-index: 0;
-}
-.listItem {
-  font-size: 16px;
-  background-color: #fff;
-  border-bottom: 1px solid #e9e9e9;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0.25rem 10px 0.14rem 10px;
-}
-.listItem h4 {
-  font-size: 0.24rem;
-  color: #333;
-  width: 60%;
-  font-weight: 400;
-}
-.listItem button {
-  font-size: 0.22rem;
-  color: #fff;
-  background-color: #6ea6ff;
-  border: none;
-  padding: 4px 4px;
-  border-radius: 5px;
-  margin-right: 0.1rem;
-}
-.listItem span {
-  font-size: 0.24rem;
-  margin-right: 30px;
 }
 /* 遮罩层 */
 .zhezhao {

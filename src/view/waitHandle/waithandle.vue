@@ -7,7 +7,7 @@
             v-for="item in info"
             :key="item.name"
             @click="$router.push(item.path)">
-          <h3>{{item.num}}</h3>
+          <h3><span>{{item.num}}</span></h3>
           <p>{{item.name}}</p>
         </li>
       </ul>
@@ -94,9 +94,9 @@ export default {
 /* 页面背景 */
 .waitHandle {
   width: 100%;
-  /*height: 100%;*/
   background-color: #f8f8f8;
-  padding-bottom: 0.26rem;
+  /*height: 100%;*/
+  /*overflow-y: auto;*/
 }
 /* 主体内容 */
 .main {
@@ -106,27 +106,38 @@ export default {
   overflow: hidden;
 }
 .main > ul {
-  width: 110%;
-  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+  margin: 10px 0;
+  width: 100%;
 }
 .waitHandleItem {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 25%;
+  height: 90px;
+  padding: 20px 0 10px;
   background-color: #fff;
   text-align: center;
   float: left;
-  border-radius: 10px;
-  box-shadow:4px 4px 14px rgba(202, 228, 251, 0.5);
-  margin-right: 0.3rem;
-  margin-top: 0.26rem;
-  padding-top: 0.3rem;
   box-sizing: border-box;
+  border-right: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
 }
 .waitHandleItem h3 {
-  font-size: 0.55rem;
-  color: #6ea6ff;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.waitHandleItem h3 span{
+  display: block;
+  margin: 0 auto;
+  width: 30px;
+  line-height: 30px;
+  color:#fff;
+  border-radius: 4px;
+  background-color: skyblue;
 }
 .waitHandleItem p {
-  font-size: 0.273rem;
+  font-size: 14px;
 }
 </style>

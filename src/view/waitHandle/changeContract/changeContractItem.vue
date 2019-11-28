@@ -180,6 +180,7 @@ export default {
   name: "changeContractItem",
   data() {
     return {
+      data: {},
       key: '',
       taskId: '',
       activityID: '',
@@ -228,6 +229,11 @@ export default {
     }
   },
   mounted() {
+    const user = JSON.parse(window.sessionStorage.getItem('data'));
+    this.data.loginName = user.loginName;
+    this.data.password = user.password;
+    this.data.currentUserId = user.id;
+
     this.getQuery();
     this.getRoleInfo();
     this.getProjectInfo();
@@ -330,7 +336,7 @@ export default {
     confirmBtn() {
       if (!this.message) return this.$vux.toast.text('请填写审批意见');
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -350,7 +356,7 @@ export default {
     regressionBtn(isPass) {
       if (!this.message) return this.$vux.toast.text('请填写审批意见');
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -374,7 +380,7 @@ export default {
     refuseBtn() {
       if (!this.message) return this.$vux.toast.text('请填写审批意见');
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,

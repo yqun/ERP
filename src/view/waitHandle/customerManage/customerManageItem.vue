@@ -90,6 +90,7 @@ export default {
   name: "customerManageItem",
   data() {
     return {
+      data: {},
       key: '',
       taskId: '',
       activityID: '',
@@ -106,6 +107,11 @@ export default {
   },
   created() {},
   mounted() {
+    const user = JSON.parse(window.sessionStorage.getItem('data'));
+    this.data.loginName = user.loginName;
+    this.data.password = user.password;
+    this.data.currentUserId = user.id;
+
     this.getQuery();// 获取参数
     this.getRoleInfo();// 打开代办事项
     this.getCustomerInfo(); // 获取客户信息
@@ -171,7 +177,7 @@ export default {
     confirm() {
       if (!this.message) return this.$vux.toast.text('请填写审批意见')
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -189,7 +195,7 @@ export default {
     refuse() {
       if (!this.message) return this.$vux.toast.text('请填写审批意见')
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -207,7 +213,7 @@ export default {
     regression() {
       if (!this.message) return this.$vux.toast.text('请填写审批意见')
       const data = {
-        ...this.$store.state.data,
+        ...this.data,
         businessKey: this.businessKey,
         taskId: this.taskId,
         processInstanceId: this.processInstanceId,
@@ -223,15 +229,15 @@ export default {
       this.sendData(data)
     },
     sendData(data) {
-      // console.log(data)
-      this.axios.post(`wechatErp/client/approval`, data)
-        .then(res => {
-          // console.log(res)
-          const {resultState} = res.data
-          if (resultState !== 0) return this.$vux.toast.text(res.data.resultInfo);
-          this.$vux.toast.text('操作成功');
-          setTimeout(() => {this.$router.go(-1)}, 800)
-        })
+      console.log(data)
+      // this.axios.post(`wechatErp/client/approval`, data)
+      //   .then(res => {
+      //     // console.log(res)
+      //     const {resultState} = res.data
+      //     if (resultState !== 0) return this.$vux.toast.text(res.data.resultInfo);
+      //     this.$vux.toast.text('操作成功');
+      //     setTimeout(() => {this.$router.go(-1)}, 800)
+      //   })
     },
   }
 }

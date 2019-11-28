@@ -56,13 +56,16 @@
       }
     },
     mounted() {
+      const user = JSON.parse(window.sessionStorage.getItem('data'));
+      this.userInfoData.loginName = user.loginName;
+      this.userInfoData.password = user.password;
       this.getListData()
     },
     methods: {
       // 列表数据
       getListData() {
         const data = {
-          ...this.$store.state.data,
+          ...this.userInfoData,
           iDisplayStart: this.iDisplayStart,
           iDisplayLength: this.iDisplayLength
         }
