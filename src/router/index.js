@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 
-})
+});
 
 function getUser(code, next) {
   this.axios

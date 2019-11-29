@@ -5,7 +5,7 @@
       <!-- 按钮 -->
       <ul class="clearfix">
         <li class="waitHandleItem" v-for="item in info" :key="item.name" @click="$router.push(item.path)">
-          <h3><span>{{item.num}}</span></h3>
+          <h3><span :style="{'backgroundColor': item.bgColor}">{{item.num}}</span></h3>
           <p>{{item.name}}</p>
         </li>
       </ul>
@@ -23,22 +23,22 @@ export default {
       ServiceExpenseSum: '', //业务报销条数
       CompanyExpenseSum: '', // 公司报销总条数
       info: [
-        {name: '合同审批', path: '/SContractList', num: ''},
-        {name: '项目报销', path: '/SserviceExpenseList', num: ''},
-        {name: '公司报销', path: '/ScompanyExpenseList', num: ''},
-        {name: '报销月计划', path: '/SmonthList', num: ''},
-        {name: '项目启动', path: '/SinitiationList', num: ''},
-        {name: '公司借款', path: '/ScompanyLoanList', num: ''},
-        {name: '项目借款', path: '/SserviceLoanList', num: ''},
-        {name: '物品领用', path: '/SgoodsReceiveList', num: ''},
-        {name: '采购追加', path: '/SpurchaseAppendList', num: ''},
-        {name: '采购流程', path: '/SpurchaseProcessList', num: ''},
-        {name: '客户报销', path: '/ScustomerExpenseList', num: ''},
-        {name: '公章借用', path: '/sponsored/borrowChapterList', num: ''},
-        {name: '客户管理', path: '/sponsored/customerManageList', num: ''},
-        {name: '合同变更', path: '/sponsored/changeContractList', num: ''},
-        {name: '公章使用', path: '/sponsored/borrowUseList', num: ''},
-        {name: '分摊报销', path: '/sponsored/shareExpenseList', num: ''},
+        {bgColor: '#feb206', name: '合同审批', path: '/SContractList', num: ''},
+        {bgColor: '#539cfa', name: '项目报销', path: '/SserviceExpenseList', num: ''},
+        {bgColor: '#539cfa', name: '公司报销', path: '/ScompanyExpenseList', num: ''},
+        {bgColor: '#3dcf52', name: '报销月计划', path: '/SmonthList', num: ''},
+        {bgColor: '#3dcf52', name: '项目启动', path: '/SinitiationList', num: ''},
+        {bgColor: '#539cfa', name: '公司借款', path: '/ScompanyLoanList', num: ''},
+        {bgColor: '#539cfa', name: '项目借款', path: '/SserviceLoanList', num: ''},
+        {bgColor: '#3dcf52', name: '物品领用', path: '/SgoodsReceiveList', num: ''},
+        {bgColor: '#47b3e1', name: '采购追加', path: '/SpurchaseAppendList', num: ''},
+        {bgColor: '#47b3e1', name: '采购流程', path: '/SpurchaseProcessList', num: ''},
+        {bgColor: '#539cfa', name: '客户报销', path: '/ScustomerExpenseList', num: ''},
+        {bgColor: '#3dcf52', name: '公章借用', path: '/sponsored/borrowChapterList', num: ''},
+        {bgColor: '#feb206', name: '客户管理', path: '/sponsored/customerManageList', num: ''},
+        {bgColor: '#feb206', name: '合同变更', path: '/sponsored/changeContractList', num: ''},
+        {bgColor: '#3dcf52', name: '公章使用', path: '/sponsored/borrowUseList', num: ''},
+        {bgColor: '#539cfa', name: '分摊报销', path: '/sponsored/shareExpenseList', num: ''},
       ]
     }
   },

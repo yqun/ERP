@@ -1,10 +1,5 @@
 <template>
   <div class="contract-item">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="已处理">-->
-    <!--</x-header>-->
     <!-- 内容 -->
     <div class="main">
       <!-- 项目信息 -->
@@ -73,24 +68,22 @@
       <!-- 合同付款方式 -->
       <div>
         <h3>合同付款方式</h3>
-        <ul class="info-content">
-          <li class="download clearfix">
-            <strong>回款时间</strong>
-            <div>
-              <p v-for="item in paymentMethod" :key="item.id">
-                {{item.dateFormat}}
-              </p>
-            </div>
-          </li>
-          <li class="download clearfix">
-            <strong>回款方式</strong>
-            <div>
-              <p v-for="item in paymentMethod" :key="item.id">
-                {{item.payKind}}
-              </p>
-            </div>
-          </li>
-        </ul>
+        <table>
+          <thead>
+          <tr>
+            <td>回款时间</td>
+            <td>回款方式</td>
+            <td>回款比例</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in paymentMethod" :key="item.id">
+            <td>{{item.payDate | momentDay}}</td>
+            <td>{{item.payKind}}</td>
+            <td>{{item.payPercentage || 0}}%</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
       <!-- 所需费用 -->
       <div>
@@ -234,10 +227,9 @@
           mainType: this.businessKey,
           subType:'attachments'
         }
-        this.axios
-          .post(`wechatErp/contract/getFiles`, data)
+        this.axios.post(`wechatErp/contract/getFiles`, data)
           .then(res => {
-            console.log(res)
+            // console.log(res)
             const {data} = res
             data.forEach(item => {
               // console.log(item)
@@ -295,10 +287,7 @@
           .then(res => {
             // console.log(res)
             const {data} = res
-            this.paymentMethod = JSON.parse(data.jsonPayKinds)
-            this.paymentMethod.forEach(item => {
-              item.dateFormat = dateFormat(item.payDate, 'YYYY-MM-DD')
-            })
+            this.paymentMethod = data.listPayKinds
             // 合同列表
             this.jsonProducts = JSON.parse(data.jsonProducts)
             // serviceMoney 预算金额
@@ -322,6 +311,7 @@
 </script>
 
 <style scoped>
+@import '../../../assets/css/x-table.css';
 /* 固定头部导航 */
 .contract-item {
   width: 100%;

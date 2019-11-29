@@ -89,12 +89,14 @@
           <tr>
             <td>回款时间</td>
             <td>回款方式</td>
+            <td>回款比例</td>
           </tr>
           </thead>
           <tbody>
           <tr v-for="item in paymentMethodList" :key="item.id">
             <td>{{item.payDate | momentDay}}</td>
             <td>{{item.payKind}}</td>
+            <td>{{item.payPercentage || 0}}%</td>
           </tr>
           </tbody>
         </table>
@@ -240,7 +242,7 @@ export default {
     paymentMethod() {
       this.axios.get(`wechatErp/contractChange/getPayKindListByContractId?contractId=${this.businessKey}`)
         .then(res => {
-          // console.log(res)
+          console.log(res)
           this.paymentMethodList = res.data
         })
     },

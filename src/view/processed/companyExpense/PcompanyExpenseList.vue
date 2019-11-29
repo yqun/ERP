@@ -1,10 +1,5 @@
 <template>
   <div class="serviceExpense">
-    <!-- 头部导航 -->
-    <!--<x-header style="background-color:#4b77b0; z-index: 999;"-->
-              <!--:left-options="{backText: ''}"-->
-              <!--title="公司报销">-->
-    <!--</x-header>-->
     <!-- nav导航 -->
     <div class="nav" v-if="false">
       <ul class="nav-title">

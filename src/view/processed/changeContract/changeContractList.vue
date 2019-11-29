@@ -13,8 +13,8 @@
                 <button style="float: right;">{{$store.state.listBtnText}}</button>
               </div>
               <div class="clearfix p">
-                <span style="float: left;">{{item.taskCreateTime | moment}}</span>
-                <span style="float: right;">{{item.name}}</span>
+                <span style="float: left;">{{item.startTime | moment}}</span>
+                <span style="float: right;">{{item.name || '已完结'}}</span>
               </div>
             </li>
             <li v-if="list.length == 0" style="text-align: center; margin-top: 10px;">暂无数据</li>

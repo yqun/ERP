@@ -25,6 +25,9 @@ import AddCustomer from '@/view/applicae/customerManage/addCustomer' // 添加�
 import WriteScore from '@/view/applicae/score/writeScore'  //评分
 
 
+// betterScroll 测试
+import BetterScroll from '@/view/applicae/test/betterScroll'
+
 const applicaeRouter = [
   {path: '/createProject', name: 'createProject', component:CreateProject},
   {path: '/projectList', name: 'projectList', component:ProjectList},
@@ -49,6 +52,11 @@ const applicaeRouter = [
   {path: '/addCustomer', name: 'addCustomer', component:AddCustomer},
 
   {path: '/applicae/writeScore', name: 'writeScore', component: WriteScore},
+
+
+
+
+  {path: '/betterScroll', name: 'betterScroll', component: BetterScroll},
 
 ];
 

@@ -7,7 +7,7 @@
             v-for="item in info"
             :key="item.name"
             @click="$router.push(item.path)">
-          <h3><span>{{item.num}}</span></h3>
+          <h3><span :style="{'backgroundColor': item.bgColor}">{{item.num}}</span></h3>
           <p>{{item.name}}</p>
         </li>
       </ul>
@@ -26,22 +26,22 @@ export default {
       CompanyExpenseSum: '', // 公司报销总条数
       reimbursementMonth:'', // 报销月计划
       info: [
-        {name: '合同审批', path: '/contractList', num: ''},
-        {name: '项目报销', path: '/serviceExpenseList', num: ''},
-        {name: '公司报销', path: '/companyExpenseList', num: ''},
-        {name: '报销月计划', path: '/monthList', num: ''},
-        {name: '项目启动', path: '/initiationList', num: ''},
-        {name: '公司借款', path: '/companyLoanList', num: ''},
-        {name: '项目借款', path: '/serviceLoanList', num: ''},
-        {name: '物品领用', path: '/goodsReceiveList', num: ''},
-        {name: '采购追加', path: '/purchaseAppendList', num: ''},
-        {name: '采购流程', path: '/purchaseProcessList', num: ''},
-        {name: '客户报销', path: '/customerExpenseList', num: ''},
-        {name: '公章借用', path: '/waithandle/borrowChapterList', num: ''},
-        {name: '客户管理', path: '/waithandle/customerManageList', num: ''},
-        {name: '合同变更', path: '/waithandle/changeContractList', num: ''},
-        {name: '公章使用', path: '/waithandle/borrowUseList', num: ''},
-        {name: '分摊报销', path: '/waithandle/shareExpenseList', num: ''},
+        {bgColor: '#feb206', name: '合同审批', path: '/contractList', num: ''},
+        {bgColor: '#539cfa', name: '项目报销', path: '/serviceExpenseList', num: ''},
+        {bgColor: '#539cfa', name: '公司报销', path: '/companyExpenseList', num: ''},
+        {bgColor: '#3dcf52', name: '报销月计划', path: '/monthList', num: ''},
+        {bgColor: '#3dcf52', name: '项目启动', path: '/initiationList', num: ''},
+        {bgColor: '#539cfa', name: '公司借款', path: '/companyLoanList', num: ''},
+        {bgColor: '#539cfa', name: '项目借款', path: '/serviceLoanList', num: ''},
+        {bgColor: '#3dcf52', name: '物品领用', path: '/goodsReceiveList', num: ''},
+        {bgColor: '#47b3e1', name: '采购追加', path: '/purchaseAppendList', num: ''},
+        {bgColor: '#47b3e1', name: '采购流程', path: '/purchaseProcessList', num: ''},
+        {bgColor: '#539cfa', name: '客户报销', path: '/customerExpenseList', num: ''},
+        {bgColor: '#3dcf52', name: '公章借用', path: '/waithandle/borrowChapterList', num: ''},
+        {bgColor: '#feb206', name: '客户管理', path: '/waithandle/customerManageList', num: ''},
+        {bgColor: '#feb206', name: '合同变更', path: '/waithandle/changeContractList', num: ''},
+        {bgColor: '#3dcf52', name: '公章使用', path: '/waithandle/borrowUseList', num: ''},
+        {bgColor: '#539cfa', name: '分摊报销', path: '/waithandle/shareExpenseList', num: ''},
       ]
     }
   },
@@ -52,8 +52,8 @@ export default {
   methods: {
     // 获取用户信息
     getUserInfo () {
-      const user = JSON.parse(window.sessionStorage.getItem('data'))
-      this.data.loginName = user.loginName
+      const user = JSON.parse(window.sessionStorage.getItem('data'));
+      this.data.loginName = user.loginName;
       this.data.password = user.password
     },
     // 根据地址发送请求
