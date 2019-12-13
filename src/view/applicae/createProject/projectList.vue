@@ -3,7 +3,7 @@
     <!-- 头部导航 -->
     <x-header style="background-color:#4b77b0;"
               :left-options="{backText: ''}"
-              title="立项管理">
+              title="商机管理">
       <span slot="right" style="color: #fff; font-size: 30px;" @click="$router.push('/createProject')">+</span>
     </x-header>
     <!-- 搜索框 -->
@@ -29,10 +29,7 @@
               </div>
             </li>
             <!-- 数据为空时显示 -->
-            <li v-if="list.length == 0"
-                style="text-align: center;">
-              数据为空
-            </li>
+            <li v-if="list.length == 0" style="text-align: center;">数据为空</li>
           </ul>
         </div>
       </scroller>

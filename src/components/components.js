@@ -15,10 +15,10 @@ import { Confirm } from 'vux'
 import { TransferDom } from 'vux'
 import { Toast } from 'vux'
 import { Selector } from 'vux'
+import { Checklist } from 'vux'
 import { Checker, CheckerItem } from 'vux'
 import { Icon } from 'vux'
 import { Datetime } from 'vux'
-import { Checklist } from 'vux'
 import { CheckIcon } from 'vux'
 import { Tabbar, TabbarItem } from 'vux'
 import { Rater } from 'vux'
@@ -27,6 +27,7 @@ import { Divider } from 'vux'
 import { XSwitch } from 'vux'
 import { Calendar } from 'vux'
 import { XAddress } from 'vux'
+import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
 import  { ToastPlugin } from 'vux'
 import  { LoadingPlugin } from 'vux'
@@ -66,6 +67,10 @@ Vue.component('divider', Divider)
 Vue.component('x-switch', XSwitch)
 Vue.component('calendar', Calendar)
 Vue.component('x-address', XAddress)
+Vue.component('swipeout', Swipeout)
+Vue.component('swipeout-item', SwipeoutItem)
+Vue.component('swipeout-button', SwipeoutButton)
+
 
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin, {position: 'middle'})

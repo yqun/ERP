@@ -42,6 +42,7 @@ export default {
         {bgColor: '#feb206', name: '合同变更', path: '/waithandle/changeContractList', num: ''},
         {bgColor: '#3dcf52', name: '公章使用', path: '/waithandle/borrowUseList', num: ''},
         {bgColor: '#539cfa', name: '分摊报销', path: '/waithandle/shareExpenseList', num: ''},
+        {bgColor: '#539cfa', name: '采购预审', path: '/waithandle/orderSheetList', num: ''},
       ]
     }
   },
@@ -75,7 +76,8 @@ export default {
         'wechatErp/contractChange/getToDoForContractChangeCount',
         'wechatErp/sealUse/getToDoForSealUseCount',
         'wechatErp/expenseReimbursementDivide/getToDoForDivideBxCount',
-      ]
+        'wechatErp/purchaseExamine/getToDoForPurchaseExamineCount',
+      ];
       addressArr.forEach((item, index) => {
         this.getSum(item, index)
       })

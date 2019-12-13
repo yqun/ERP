@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import vuex from 'vuex'
 
-Vue.use(vuex)
+Vue.use(vuex);
 
 const state = {
   // 获取data中的信息
@@ -11,6 +11,7 @@ const state = {
     currentUserId: window.sessionStorage.getItem('data')?JSON.parse(window.sessionStorage.getItem('data')).id:'',
   },
   listBtnText: '正在流转', // 列表的 正在流转，我发起的，已处理
+  listLinkText: '已完结',
 
   // 报销月计划
   monthCostList: [], // 报销月计划
@@ -23,7 +24,15 @@ const state = {
   visitInfo: {}, // 拜访记录到详细信息
 };
 
+const getters = {
+  sessionData() {
+    const data = JSON.parse(window.sessionStorage.getItem('data'));
+    return {loginName: data?data.loginName:'', password: data?data.password:'', currentUserId: data?data.id:'',}
+  },
+};
+
 const mutations = {
+  getSessionData: (state, data) => state.data = data,
   changeListBtnText: (state, data) => state.listBtnText = data,
   // 报销月计划
   changeMonthCostList(state, {data, index}) {
@@ -56,7 +65,15 @@ const mutations = {
   }
 };
 
+const actions =  {
+  getSessionData(content) {
+    console.log(content)
+  }
+};
+
 export default new vuex.Store({
   state: state,
+  getters: getters,
   mutations: mutations,
+  actions: actions,
 })

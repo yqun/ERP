@@ -43,7 +43,7 @@
               <!-- 机会管理 -->
               <grid-item link="/projectList">
                 <img slot="icon" src="../assets/images/application/16@2x.png">
-                <span slot="label">机会管理</span>
+                <span slot="label">商机管理</span>
               </grid-item>
               <!-- 报销月计划 -->
               <grid-item link="/reimbursementMonthList">

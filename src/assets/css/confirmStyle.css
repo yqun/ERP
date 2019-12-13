@@ -1,0 +1,21 @@
+/*
+  合同货物清单弹框样式（）
+*/
+/* 弹窗 */
+.vux-confirm .table {
+  margin: 0 10px;
+  overflow: scroll;
+  white-space:nowrap
+}
+.vux-confirm /deep/ .weui-dialog__hd {
+  background-color: #f2f2f2;
+}
+.vux-confirm /deep/ .weui-dialog__bd {
+  width: 300px;
+  padding: 0;
+  box-sizing: border-box;
+}
+.vux-confirm /deep/ .el-table td,
+.vux-confirm /deep/ .el-table th {
+  text-align: center;
+}

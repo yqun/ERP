@@ -18,14 +18,14 @@ ul > li {
 /* 阻止移动端页面滑动 */
 /** { touch-action: none; }*/
 
-button.impred {
-  background-color: #dc4141;
-  color: #fff;
+.impred {
+  background-color: #dc4141 !important;
+  color: #fff !important;
 }
-button.impblue {
-  background-color: #6ea6ff;
-  color: #fff;
+.impblue {
+  background-color: #6ea6ff !important;
+  color: #fff !important;
 }
-button.impdefault {
+.impdefault {
   /*background-color: #6ea6ff;*/
 }

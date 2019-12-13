@@ -21,7 +21,11 @@
           <x-input disabled title="借用事由" v-model="projectInfo.useReasonText"></x-input>
           <x-input disabled title="使用时间" :value="sealUse.estimatedUseTime | moment"></x-input>
           <x-input disabled title="使用说明" v-model="sealUse.useExplain"></x-input>
-
+        </group>
+        <group :gutter="0" class="choosePersonal" v-if="activityID == 'om'">
+          <selector title="指定领导审批" :options="approvalPerson"
+                    v-model="chooseApprovalPerson" placeholder="请选择需要协助审批的领导">
+          </selector>
         </group>
         <ul class="info-content" v-if="applicant.length">
           <li class="download clearfix">
@@ -134,6 +138,12 @@ export default {
       businessKey: '',
       processInstanceId: '',
 
+      approvalPerson: [
+        {value: '总经理', key: 'GENERAL_MANAGER'},
+        {value: '营销中心总经理', key: 'MARKETING_GENERAL_MANAGER'},
+        {value: '技术研发总经理', key: 'RESEARCH_DEVELOPMENT_MANAGER'},
+      ],
+      chooseApprovalPerson: '',
       roleInfo: {},    // 代办事项
       projectInfo: {}, // 公章借用信息
       project: {},     // 项目
@@ -215,8 +225,9 @@ export default {
           this.opinion = res.data
         })
     },
-    // 确定
+    // 审批
     confirm() {
+      if (this.activityID == 'om' && !this.chooseApprovalPerson) return this.$vux.toast.text('请选择指定领导审批');
       if (!this.message) return this.$vux.toast.text('请填写审批意见');
       const data = {
         ...this.data,
@@ -229,6 +240,9 @@ export default {
         useReason: this.sealUse.useReason,
         isPass: 1,
         message: this.message
+      };
+      if(this.activityID == 'om') {
+        data.specifiedLeader = this.chooseApprovalPerson// 选择的审批领导
       }
       this.sendData(data)
     },
@@ -246,7 +260,7 @@ export default {
         id: this.sealUse.id,
         isPass: 3,
         message: this.message
-      }
+      };
       this.sendData(data)
     },
     // 回退
@@ -314,5 +328,8 @@ export default {
 }
 li.download > div {
   width: 59%;
+}
+.choosePersonal /deep/ .weui-select{
+  line-height: 40px;
 }
 </style>

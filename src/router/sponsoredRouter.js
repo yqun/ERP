@@ -18,6 +18,7 @@ import customerManage from '@/router/sponsored/customerManageRouter'// 客户管
 import changeContract from './sponsored/changeContractRouter'              // 合同变更
 import borrowUse from './sponsored/borrowUseRouter' //公章使用
 import shareExpense from './sponsored/shareExpenseRouter' // 分摊报销
+import orderSheet from './sponsored/orderSheetRouter' // 采购预审
 
 const sponsoredRouter = [
   {path: '/sponsored', name: 'sponsored', component: Sponsored},
@@ -38,6 +39,7 @@ const sponsoredRouter = [
   ...changeContract,
   ...borrowUse,
   ...shareExpense,
+  ...orderSheet,
 ]
 
 

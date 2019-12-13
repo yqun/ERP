@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
       // window.sessionStorage.setItem('data', JSON.stringify(data))
     } else {
       Vue.$vux.toast.text('用户信息获取失败')
-      // return router.push('/')
+      return router.push('/')
     }
     next()
   }

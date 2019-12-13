@@ -187,7 +187,7 @@ export default {
       this.axios
         .get(`wechatErp/expenseReimbursement/getToDoForBusinessBx`, {params: data})
         .then(res => {
-          // console.log(res)
+          console.log(res);
           const {data} = res.data
           this.waitHandleList.push(...data)
           const page = Math.ceil(res.data.page.totalResult/10)

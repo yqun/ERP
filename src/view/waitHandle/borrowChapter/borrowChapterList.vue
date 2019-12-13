@@ -1,5 +1,5 @@
 <template>
-  <div class="serviceExpense">
+  <div class="serviceExpense" :style="{paddingBottom: paddingBottom}">
     <!-- nav导航 -->
     <div class="nav" v-if="false">
       <div>
@@ -16,14 +16,20 @@
       <div><button>重置</button></div>
     </div>
     <!-- nav -->
-
+    <div class="batchEdit" v-if="false">
+      <span @click="batchEdit">编辑</span>
+      <span @click="chooseAll()" v-if="isbatch">全部选择</span>
+    </div>
     <!-- 报销业务信息 -->
     <div class="main">
       <!--上拉加载-->
       <scroller lock-x height="100%" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
         <div class="list">
           <ul>
-            <li class="listItem clearfix" v-for="item in waitHandleList" :key="item.id" @click="routerLink(item)">
+            <li class="listItem clearfix"
+                v-for="item in waitHandleList" :key="item.id"
+                @click="routerLink(item)" :style="liStyle">
+
               <div class="clearfix listItem_top" style="margin-bottom: 0.17rem;">
                 <h4>{{item.projectName}}</h4>
                 <span>{{item.startUser}}</span>
@@ -32,7 +38,11 @@
                 <span class="time">{{item.createTime}}</span>
                 <span>{{item.name}}</span>
               </div>
-              <div class="icon">
+
+              <div class="batchBtn" v-if="isbatch" @click.stop="chooseBatchState()">
+                <check-icon :value.sync="item.batchState" ></check-icon>
+              </div>
+              <div class="icon" v-if="!isbatch">
                 <x-icon type="ios-arrow-right" size="24"></x-icon>
               </div>
             </li>
@@ -40,6 +50,10 @@
           </ul>
         </div>
       </scroller>
+    </div>
+    <div class="batchFooter" v-if="isbatch">
+      <span class="impred" @click="cancelChoose()">取消</span>
+      <span class="impblue">提交</span>
     </div>
   </div>
 </template>
@@ -55,10 +69,12 @@
         iDisplayLength: 10,
         isData: true, // 判断是否还有数据
         waitHandleList: [], // 代办列表
+        isbatch: false, // 批量审批
+        paddingBottom: 0,
+        liStyle: {},
       }
     },
     mounted() {
-      console.log()
       this.getUserInfo()
       this.getListData()
     },
@@ -75,13 +91,13 @@
           ...this.userInfoData,
           iDisplayStart: this.iDisplayStart,
           iDisplayLength: this.iDisplayLength
-        }
+        };
         if (!this.isData) return false;
         this.axios
           .get(`wechatErp/sealBorrow/getToDoList`, {params: data})
           .then(res => {
-            console.log(res)
-            const {data} = res.data
+            console.log(res);
+            const {data} = res.data;
             this.waitHandleList.push(...data)
             const page = Math.ceil(res.data.page.totalResult/10)
             if (page > (this.iDisplayStart/10 + 1)) {
@@ -100,6 +116,29 @@
             this.scrollBottom = true
           }, 2000)
         }
+      },
+      batchEdit() {
+        this.isbatch = true;
+        this.paddingBottom = '40px';
+        this.liStyle.paddingRight = '10px';
+        this.liStyle.paddingLeft = '46px';
+
+      },
+      chooseAll() {
+        this.waitHandleList.forEach(item => {
+          this.$set(item, 'batchState', true)
+        })
+      },
+      cancelChoose() {
+        this.isbatch = false;
+        this.liStyle = {};
+        this.waitHandleList.forEach(item => {
+          this.$set(item, 'batchState', false)
+        })
+      },
+      chooseBatchState() {
+        console.log(this.waitHandleList)
+
       },
       // 路由跳转
       routerLink(item) {
@@ -123,6 +162,9 @@
 .serviceExpense {
   width: 100%;
   height: 100%;
+  /*padding-top: 40px;*/
+  /*box-sizing: border-box;*/
+  position: relative;
 }
 /* 上拉加载 */
 .main {
@@ -130,12 +172,12 @@
   box-sizing: border-box;
   z-index: 0;
 }
-
 .nav {
   width: 100%;
-  height: 0.8rem;
-  line-height: 0.8rem;
-  position: relative;
+  height: 40px;
+  line-height: 40px;
+  position: absolute;
+  top: 0;
   z-index: 999;
   box-sizing: border-box;
 }
