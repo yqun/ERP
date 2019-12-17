@@ -76,15 +76,15 @@
         <table>
           <thead>
           <tr>
-            <td>回款时间</td>
-            <td>回款方式</td>
+            <td>项目时间节点</td>
+            <td>天数(项目时间节点后多少天)</td>
             <td>回款比例</td>
           </tr>
           </thead>
           <tbody>
           <tr v-for="item in paymentMethod" :key="item.id">
-            <td>{{item.payDate | momentDay}}</td>
-            <td>{{item.payKind}}</td>
+            <td>{{item.projectDateNodeText}}</td>
+            <td>{{item.days}}天</td>
             <td>{{item.payPercentage || 0}}%</td>
           </tr>
           </tbody>
