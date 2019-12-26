@@ -94,25 +94,32 @@ export default {
     if (to.name == 'reimbursementMonthList') to.meta.keepAlive = false
     next();
   },
-  created() {
-    // const state = location.search.split('&')[1].split('=')[1];
-    // if (state) return this.$router.push(`/${state}`)
-  },
   mounted() {
     this.getUserInfo()
   },
   methods: {
     // 获取 用户认证信息
     getUserInfo() {
-      const user = JSON.parse(window.sessionStorage.getItem('data'))
+      const user = JSON.parse(window.sessionStorage.getItem('data'));
       if (user) {
-        // console.log(user.loginName);
         this.getWaitHandle(user);
         // if (user.deptList[0].name == '产品技术研发部') {
         //   this.isDepeName = true
         // }
       } else {
         const code = location.search.split('&')[0].split('=')[1];
+        // 获取参数
+        const queryStr = location.search.substr(1);
+        const queryArr = queryStr.split('&');
+        let queryObj = {};
+        queryArr.forEach(item => {
+          const arr = item.split('=');
+          queryObj[arr[0]] = arr[1]
+        });
+        let stateArr = [];
+        if (queryObj.state) {
+          stateArr = decodeURIComponent(queryObj.state).split('/');
+        }
         this.axios
           .get(`wechatErp/center/initialAccreditation?code=${code}`)
           .then(res => {
@@ -124,6 +131,13 @@ export default {
               // if (data.deptList[0].name == '产品技术研发部') {
               //   this.isDepeName = true
               // }
+              if (stateArr[0] && stateArr[0] == 'evaluation') {
+                this.$router.push({
+                  path: '/applicae/salesmanScoreList',
+                  query: {id: stateArr[1]}
+                })
+              }
+
             }
           })
       }
@@ -152,7 +166,6 @@ export default {
     },
     wxScan() {
       const url = location.href.split('#')[0];
-      // alert(url);
       this.axios.post(`wechatErp/ssc/getPermissionsValidationParam`,{url: url})
         .then(res => {
           // console.log(res)

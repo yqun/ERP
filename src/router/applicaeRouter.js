@@ -23,6 +23,8 @@ import AddCustomer from '@/view/applicae/customerManage/addCustomer' // 添加�
 
 // imp评分
 import WriteScore from '@/view/applicae/score/writeScore'  //评分
+import SalesmanScoreList from '@/view/applicae/score/salesmanScore/salesmanScoreList'  //评分
+import SalesmanScoreItem from '@/view/applicae/score/salesmanScore/salesmanScoreItem'  //评分
 
 
 // betterScroll 测试
@@ -52,6 +54,8 @@ const applicaeRouter = [
   {path: '/addCustomer', name: 'addCustomer', component:AddCustomer},
 
   {path: '/applicae/writeScore', name: 'writeScore', component: WriteScore},
+  {path: '/applicae/salesmanScoreList', name: 'salesmanScoreList', component: SalesmanScoreList},
+  {path: '/applicae/SalesmanScoreItem', name: 'salesmanScoreItem', component: SalesmanScoreItem},
 
 
 

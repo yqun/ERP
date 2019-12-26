@@ -229,15 +229,15 @@ export default {
       this.sendData(data)
     },
     sendData(data) {
-      console.log(data)
-      // this.axios.post(`wechatErp/client/approval`, data)
-      //   .then(res => {
-      //     // console.log(res)
-      //     const {resultState} = res.data
-      //     if (resultState !== 0) return this.$vux.toast.text(res.data.resultInfo);
-      //     this.$vux.toast.text('操作成功');
-      //     setTimeout(() => {this.$router.go(-1)}, 800)
-      //   })
+      // console.log(data);
+      this.axios.post(`wechatErp/client/approval`, data)
+        .then(res => {
+          // console.log(res)
+          const {resultState} = res.data;
+          if (resultState !== 0) return this.$vux.toast.text(res.data.resultInfo);
+          this.$vux.toast.text('操作成功');
+          setTimeout(() => {this.$router.go(-1)}, 800)
+        })
     },
   }
 }
