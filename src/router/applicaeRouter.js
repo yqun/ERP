@@ -26,6 +26,9 @@ import WriteScore from '@/view/applicae/score/writeScore'  //评分
 import SalesmanScoreList from '@/view/applicae/score/salesmanScore/salesmanScoreList'  //评分
 import SalesmanScoreItem from '@/view/applicae/score/salesmanScore/salesmanScoreItem'  //评分
 
+// 参与抽奖
+import Authentication from '@/view/applicae/luckDraw/authentication'
+
 
 // betterScroll 测试
 import BetterScroll from '@/view/applicae/test/betterScroll'
@@ -56,6 +59,8 @@ const applicaeRouter = [
   {path: '/applicae/writeScore', name: 'writeScore', component: WriteScore},
   {path: '/applicae/salesmanScoreList', name: 'salesmanScoreList', component: SalesmanScoreList},
   {path: '/applicae/SalesmanScoreItem', name: 'salesmanScoreItem', component: SalesmanScoreItem},
+
+  {path: '/applicae/authentication', name: 'authentication', component: Authentication},
 
 
 

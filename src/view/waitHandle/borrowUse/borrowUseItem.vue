@@ -51,15 +51,15 @@
         </ul>
       </div>
       <!-- 公章借用台账 -->
-      <div class="cargo">
-        <h3>货物信息 <span style="float: right;" @click="confirmShow = true">查看详情>></span></h3>
+      <div class="cargo" v-if="activityID == 'om'">
+        <h3>公章借用台账 <span style="float: right;" @click="confirmShow = true">查看详情>></span></h3>
         <!-- 弹窗 -->
         <confirm v-model="confirmShow" title="项目收益" hide-on-blur :show-confirm-button="false" cancel-text="返回">
           <!--table表格-->
           <div class="table">
             <el-table :data="jsonProducts" height="500" style="width: 100%">
               <el-table-column prop="applicantName" label="申请人"></el-table-column>
-              <el-table-column prop="projectName" label="项目名称"></el-table-column>
+              <el-table-column prop="projectName" label="项目名称" width="200"></el-table-column>
               <el-table-column prop="projectCode" label="项目编码"></el-table-column>
               <el-table-column prop="sealTypeText" label="公章类型"></el-table-column>
               <el-table-column prop="borrowReasonText" label="借用理由"></el-table-column>
@@ -281,7 +281,7 @@ export default {
       this.sendData(data)
     },
     sendData(data) {
-      console.log(data)
+      // console.log(data)
       this.axios
         .post(`wechatErp/sealUse/flowToNextActivityForQueryOnly`, data)
         .then(res => {

@@ -103,9 +103,6 @@ export default {
       const user = JSON.parse(window.sessionStorage.getItem('data'));
       if (user) {
         this.getWaitHandle(user);
-        // if (user.deptList[0].name == '产品技术研发部') {
-        //   this.isDepeName = true
-        // }
       } else {
         const code = location.search.split('&')[0].split('=')[1];
         // 获取参数
@@ -116,26 +113,26 @@ export default {
           const arr = item.split('=');
           queryObj[arr[0]] = arr[1]
         });
+        // console.log(queryObj);
         let stateArr = [];
-        if (queryObj.state) {
-          stateArr = decodeURIComponent(queryObj.state).split('/');
+        if (queryObj.state && queryObj.state != 'index') {
+          stateArr = JSON.parse(decodeURIComponent(queryObj.state))
         }
-        this.axios
-          .get(`wechatErp/center/initialAccreditation?code=${code}`)
+        this.axios.get(`wechatErp/center/initialAccreditation?code=${code}`)
           .then(res => {
             // console.log(res);
             const {data} = res;
             if (data != null) {
               const dataStr = window.sessionStorage.setItem('data', JSON.stringify(data))
               this.getWaitHandle(data);
-              // if (data.deptList[0].name == '产品技术研发部') {
-              //   this.isDepeName = true
-              // }
-              if (stateArr[0] && stateArr[0] == 'evaluation') {
+
+              if (stateArr.jumpKind && stateArr.jumpKind == 'evaluation') {
                 this.$router.push({
                   path: '/applicae/salesmanScoreList',
-                  query: {id: stateArr[1]}
+                  query: {id: stateArr.businessKey}
                 })
+              } else if (stateArr.jumpKind && stateArr.jumpKind == 'toDoMessage'){
+                this.getRoleInfo(stateArr);
               }
 
             }
@@ -166,6 +163,8 @@ export default {
     },
     wxScan() {
       const url = location.href.split('#')[0];
+      // const url = 'http://imp.kingtop.com.cn:8080/wechatErp/?code=JybDAbQogHJvMfTSJ-eOWn-WEggvzF0lYKaxA8mpeGI&state=%7B%22activityID%22%3A%22gm%22%2C%22businessKey%22%3A%229018a14c-3509-407f-9d36-cd32360f8883%22%2C%22jumpKind%22%3A%22toDoMessage%22%2C%22processDefinekey%22%3A%22system.process.expenseReimbursementPlatform%22%2C%22processInstanceId%22%3A%221960053%22%2C%22taskId%22%3A%221960063%22%7D'
+      // console.log(url)
       this.axios.post(`wechatErp/ssc/getPermissionsValidationParam`,{url: url})
         .then(res => {
           // console.log(res)
@@ -174,7 +173,7 @@ export default {
 
     },
     wxConfig(config) {
-      const that = this
+      const that = this;
       wx.config({
         beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -200,8 +199,20 @@ export default {
         scanType: ["qrCode"], // 可以指定扫二维码还是条形码（一维码），默认二者都有
         success: function(res) {
           // 回调
-          const id = res.resultStr;
-          that.$router.push({path: '/applicae/writeScore', query: {id: id}})
+          // const id = res.resultStr;
+          const jsonStr = res.resultStr;
+          const index = jsonStr.indexOf('{');
+          if (index == -1 || index != 0) return this.$vux.toast.text('二维码格式不正确');
+          const obj = JSON.parse(jsonStr);
+          switch(obj.jumpKind) {
+            case 'ssc':
+              that.$router.push({path: '/applicae/writeScore', query: {id: obj.businessKey}});
+              break;
+            case 'personSign':
+              that.$router.push('/applicae/authentication');
+              break;
+          }
+
         },
         error: function(res) {
           if (res.errMsg.indexOf('function_not_exist') > 0) {
@@ -210,9 +221,97 @@ export default {
         }
       });
     },
+
     toEservice () {
       window.location.href = 'http://eService.kingtop.com.cn:7080/platform/system/toOAuth.do'
     },
+    getRoleInfo(stateArr) { // 打开代办事项
+      console.log(stateArr)
+      const data =  {
+        key: stateArr.key,
+        taskId: stateArr.taskId,
+        activityId: stateArr.activityID
+      };
+      this.axios.get(`wechatErp/center/toTaskPage`, {params: data})
+        .then(res => {
+          console.log(res);
+          if (!res.data) return this.$vux.toast.text('已处理完毕');
+          const link = this.linkJudge(stateArr.key);
+          this.$router.push({
+            path: `/${link}`,
+            query: {
+              "activityID":stateArr.activityID,
+              "businessKey":stateArr.businessKey,
+              "key":stateArr.key,
+              "processInstanceId":stateArr.processInstanceId,
+              "taskId":stateArr.taskId
+            }
+          })
+        })
+    },
+    linkJudge(key) {
+      let link = '';
+      switch(key) {
+        case 'system.process.contract':
+          link = 'contractItem'; // 合同审批
+          break;
+        case 'system.process.expenseReimbursement':
+          link = 'serviceExpenseItem'; // 项目报销
+          break;
+        case 'system.process.expenseReimbursementPlatform':
+          link = 'companyExpenseItem'; // 公司报销
+          break;
+        case 'system.process.costPlan':
+          link = 'monthItem'; // 报销月计划
+          break;
+
+        case 'system.process.projectStart':
+          link = 'initiationItem'; // 项目启动
+          break;
+        case 'system.process.expenseBorrowPlatform':
+          link = 'companyLoanItem'; // 公司借款
+          break;
+        case 'system.process.expenseBorrow':
+          link = 'serviceLoanItem'; // 项目借款
+          break;
+        case 'system.process.warehouseApply':
+          link = 'goodsReceiveItem'; // 物品领用
+          break;
+
+        case 'system.process.purchaseAppend':
+          link = 'purchaseAppendItem'; // 采购追加
+          break;
+        case 'system.process.purchaseFlow':
+          link = 'purchaseProcessItem'; // 采购流程
+          break;
+        case 'system.process.expenseReimbursementClient':
+          link = 'customerExpenseItem'; // 客户报销
+          break;
+        case 'system.process.sealBorrow':
+          link = 'waithandle/borrowChapterItem'; // 公章借用
+          break;
+
+        case 'system.process.client':
+          link = 'waithandle/customerManageItem'; // 客户管理
+          break;
+        case 'system.process.contractChange':
+          link = 'waithandle/changeContractItem'; // 合同变更
+          break;
+        case 'system.process.sealUse':
+          link = 'waithandle/borrowUseItem'; // 公章使用
+          break;
+        case 'system.process.expenseReimbursementDivide':
+          link = 'waithandle/shareExpenseItem'; // 分摊报销
+          break;
+
+        case 'system.process.purchaseExamine':
+          link = 'waithandle/orderSheetItem'; // 采购预审
+          break;
+
+      }
+      return link;
+    },
+
   },
 }
 </script>
