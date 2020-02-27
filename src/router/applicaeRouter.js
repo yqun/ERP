@@ -29,6 +29,12 @@ import SalesmanScoreItem from '@/view/applicae/score/salesmanScore/salesmanScore
 // 参与抽奖
 import Authentication from '@/view/applicae/luckDraw/authentication'
 
+// 调查评测
+import Question from '@/view/applicae/question/Question' // 答题页面
+import Query from '@/view/applicae/question/Query' // 领导选择答卷页面
+import Statistics from '@/view/applicae/question/Statistics' // 查询页面
+import AllData from '@/view/applicae/question/AllData' // 数据统计
+import DataInfo from '@/view/applicae/question/DataInfo' // 单个人信息
 
 // betterScroll 测试
 import BetterScroll from '@/view/applicae/test/betterScroll'
@@ -50,9 +56,7 @@ const applicaeRouter = [
     ]
   },
   {path: '/customerItem', name: 'CustomerItem', component:CustomerItem},
-  // {path: '/customerAdd', name: 'CustomerAdd', component:CustomerAdd},
   {path: '/contactsInfo', name: 'ContactsInfo', component:ContactsInfo},
-  // {path: '/contactsAdd', name: 'ContactsAdd', component:ContactsAdd},
   {path: '/visitItem', name: 'VisitItem', component:VisitItem},
   {path: '/addCustomer', name: 'addCustomer', component:AddCustomer},
 
@@ -62,7 +66,17 @@ const applicaeRouter = [
 
   {path: '/applicae/authentication', name: 'authentication', component: Authentication},
 
-
+  {path: '/applicae/question', name: 'Question', component: Question },
+  {path: '/applicae/query', name: 'Query', component: Query },
+  {
+    path: 'applicae/statistics',
+    name: 'Statistics',
+    component: Statistics,
+    children: [
+      { path: '/applicae/statistics/allData', name: 'AllData', component: AllData },
+      { path: '/applicae/statistics/dataInfo', name: 'DataInfo', component: DataInfo },
+    ]
+  },
 
 
   {path: '/betterScroll', name: 'betterScroll', component: BetterScroll},

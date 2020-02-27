@@ -55,7 +55,11 @@
                 <img slot="icon" src="../assets/images/application/41@2x.png">
                 <span slot="label">扫一扫</span>
               </grid-item>
-
+              <!-- 调查问卷 -->
+              <grid-item link="/applicae/query">s
+                <img slot="icon" src="../assets/images/application/14@2x.png">
+                <span slot="label">调查问卷</span>
+              </grid-item>
               <!--项目启动-->
               <!--<grid-item link="/initiationList">-->
                 <!--<img slot="icon" src="../assets/images/application/14@2x.png">-->
@@ -87,6 +91,7 @@ export default {
     return {
       waitHandleNum: 0,
       isDepeName: false,
+      user: null,
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -101,6 +106,7 @@ export default {
     // 获取 用户认证信息
     getUserInfo() {
       const user = JSON.parse(window.sessionStorage.getItem('data'));
+      this.user = user;
       if (user) {
         this.getWaitHandle(user);
       } else {
@@ -221,7 +227,6 @@ export default {
         }
       });
     },
-
     toEservice () {
       window.location.href = 'http://eService.kingtop.com.cn:7080/platform/system/toOAuth.do'
     },
