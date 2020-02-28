@@ -33,7 +33,9 @@ export default {
   },
   methods: {
     getlist() {
-      const arr = ['CHAIRMANOFTHEBOARD', 'GENERAL_MANAGER', 'MARKETING_GENERAL_MANAGER'];
+      const arr = ['PRE_SALES_MANAGER', 'RESEARCH_DEVELOPMENT_MANAGER',
+        'PROGRAMMER', 'CHAIRMANOFTHEBOARD',
+        'MARKETING_GENERAL_MANAGER', 'GENERAL_MANAGER'];
       if (this.data.roleList) {
         this.data.roleList.forEach(item => {
           if (arr.indexOf(item.code) >= 0) {
@@ -57,6 +59,7 @@ export default {
       })
     },
     goToQuestion(item) {
+      console.log(this.seeData)
       let path = '';
       if (this.role) {
         path = '/applicae/statistics/allData'

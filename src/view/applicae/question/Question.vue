@@ -7,15 +7,16 @@
     <div class="main">
 
       <group :gutter="-1" 
-        v-for="item of subjectArr" :key="item.id">
+        v-for="(item, index) of subjectArr" :key="item.id">
         <div slot="title" class="problem">第{{item.number}}题　{{item.question}}<span>({{item.questionType=='1'?'单选':item.questionType=='2'?'多选':'选填'}})</span></div>
         <checklist
+          :ref="'checklist'+index"
           v-if="item.questionType == '1' || item.questionType == '2'"
           :class="{has_choose_write: item.canSupplement == 'Y'}"
           :options="item.questionOptionList"
           :max="item.questionType=='1'?1:item.questionOptionList.length" 
+          @on-change="changeOption"
           v-model="item.answer">
-          <!-- @on-change="changeOption" -->
         </checklist>
         <x-textarea  
           v-if="item.questionType == '3' || (item.canSupplement && item.canSupplement == 'Y')"
@@ -26,7 +27,7 @@
     </div>
     <!-- 底部按钮 -->
     <div class="footer">
-      <x-button style="background: skyblue; color: #fff;" @click.native="jude()">提交</x-button>
+      <x-button style="background: skyblue; color: #fff;" @click.native="jude()" :disabled="isDisabled">提交</x-button>
     </div>
   </div>
 </template>
@@ -37,17 +38,19 @@ export default {
   name: 'Question',
   components: { Checklist, Group, XButton, XTextarea, XInput, Cell, },
   data () {
-    const cqId = this.$route.query.id
-    const data = JSON.parse(window.sessionStorage.getItem('data'))
+    const cqId = this.$route.query.id;
+    const data = JSON.parse(window.sessionStorage.getItem('data'));
     return {
       cqId,
       data,
-      isNo: false,
+
       company: '', // 客户单位
       userName: '', // 客户姓名
       isnv: 1, // 0 女生， 1男生
 
       subjectArr: null,
+
+      isDisabled: false,
     }
   },
   mounted() {
@@ -58,7 +61,7 @@ export default {
     getAllSubject() {
       this.axios.get(`/wechatErp/cq/getSelectQuestionByCqId?cqId=${this.cqId}`)
       .then(res => {
-        console.log(res)
+        // console.log(res)
         const {questionList} = res.data
         questionList.forEach(item => {
           item.answer = []; // 选择的答案
@@ -66,33 +69,22 @@ export default {
           item.questionOptionList.forEach(option => {
             option.key = option.id
             option.value = option.option
-            if (option.canSupplement == 'Y') {
-              // console.log(option)
-              item.canSupplement = 'Y'
-            }
           })
         })
         this.subjectArr = questionList
       })
     },
     changeOption(value, label) {
-      console.log(value, label)
       this.subjectArr.forEach(ques => {
-        ques.questionOptionList.forEach(opt => {
-          // console.log(ques, opt)
-          if (!value.length) {
+        const lastopt = ques.questionOptionList[ques.questionOptionList.length - 1];
+        if (lastopt) {
+          if (ques.answer.indexOf(lastopt.id) >= 0 && lastopt.canSupplement == 'Y') {
+            ques.canSupplement = 'Y'
+          } else if (ques.answer.indexOf(lastopt.id) < 0) {
             ques.canSupplement = 'N'
-          } else{
-            if (value.indexOf(opt.id) >= 0  && opt.canSupplement == 'Y') {
-              ques.canSupplement = 'Y'
-            } else {
-              ques.canSupplement = 'N'
-            }
           }
-          
-        })
-      })
-
+        }
+      });
     },
     // 提交填写的信息
     submitAllSubject () {
@@ -103,21 +95,20 @@ export default {
           if (item.questionOptionList.length) {
             const id =  item.questionOptionList[item.questionOptionList.length - 1].id
             const answerindex = item.answer.indexOf(id)
-            if (answerindex < 0 && item.supplement) {
-              item.answer.push(id)
-            } else if (answerindex != item.answer.length  && item.supplement){
+            if (answerindex >= 0 && answerindex != item.answer.length -1 && item.supplement){
               item.answer.splice(answerindex, 1);
               item.answer.push(id)
             }
           }
-          // if (item.answer.length == 0 && !item.supplement) throw(`请选择第${index+1}题!`)
+          if ((item.answer.length == 0 && item.questionType != '3') || (item.questionType == '3' && !item.supplement)) {
+            throw(`请选择第${index+1}题!`)
+          }
           option.push({
             questionId: item.id, // 题目id
             questionType: item.questionType,
             optionIds: item.answer, // 选项id（数组）
             supplementContent: (item.canSupplement == 'Y' || item.questionType == 3)?item.supplement || '':'', // 选填
-          })
-          console.log(option)
+          });
         }) // End forEach
       } catch(e) {
         return this.$vux.toast.text(e)
@@ -131,28 +122,30 @@ export default {
         optionJsonString: JSON.stringify(option) //JSON.stringify(option),
       }
       console.log(data);
-
+      this.sendData(data)
+    },
+    sendData(data) {
+      this.isDisabled = true;
       this.axios.post(`/wechatErp/cq/saveCqResult`, data)
-      .then(res => {
-        console.log(res)
-        if (res.data == 1) {
-          this.$vux.toast.text('提交成功');
-          this.$router.go(-1)
-          this.subjectArr.forEach(question => {
-            question.answer = [];
-            question.supplement = '';
-          })
-        }
-      })
-      // console.log(this.subjectArr)
+        .then(res => {
+          this.isDisabled = false;
+          // console.log(res)
+          if (res.data == 1) {
+            this.$vux.toast.text('提交成功');
+            this.$router.go(-1);
+            this.subjectArr.forEach(question => {
+              question.answer = [];
+              question.supplement = '';
+            })
+          }
+        })
     },
     // 判断
     jude() {
       const data = {
         cqId: this.cqId,
         userId:this.data.id
-      }
-      // console.log(data)
+      };
       this.axios.get(`/wechatErp/cq/getIsCqed`, {params: data})
         .then(res => {
           console.log(res);

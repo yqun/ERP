@@ -82,7 +82,7 @@ export default {
             question.questionOptionList.forEach(option => {
               option.value = option.option
               option.key = option.id
-              if (option.canSupplement == 'Y') {
+              if (option.canSupplement == 'Y' && option.supplementContent) {
                 question.supplement = option.supplementContent
                 question.canSupplement = 'Y'
               } // 补充的答案

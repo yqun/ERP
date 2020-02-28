@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="statistics">
     <div class="header">
       <search
         class="search"
-        @on-result-click="resultClick"
-        @on-focus="pt = '46px'"
-        @on-blur="pt = '0px'"
+        @result-click="resultClick"
+        @on-focus="onFocus"
+        @on-blur="onBlur"
         @on-change="getResult"
         @on-cancel="$route.path == '/applicae/statistics/dataInfo'?$router.go(-1):''"
         :results="results"
@@ -46,6 +46,18 @@ export default {
 
   },
   methods: {
+    onFocus() {
+      this.pt = '46px'
+      if (!this.searchFlag) return false;
+      if (this.search != '') {
+        this.searchFlag = false;
+        this.results = [];
+        this.getUserAnswerInfo(this.search);
+      }
+    },
+    onBlur() {
+      this.pt = '0px';
+    },
     // 输入文字变化时触发
     getResult (val) {
       console.log(val)
@@ -59,12 +71,10 @@ export default {
     },
     //点击结果条目时触发
     resultClick(value) {
-      console.log(value);
       this.user = value;
       if (this.$route.path != '/applicae/statistics/dataInfo') {
         this.$router.push({path: '/applicae/statistics/dataInfo'});
       }
-      
     },
     getUserAnswerInfo(name) {
       const data = {
@@ -98,6 +108,7 @@ export default {
   max-height: 300px;
   text-align: center;
   border-bottom: 1px solid #ccc;
+  font-size: 16px;
 }
 
 </style>

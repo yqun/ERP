@@ -56,7 +56,7 @@
                 <span slot="label">扫一扫</span>
               </grid-item>
               <!-- 调查问卷 -->
-              <grid-item link="/applicae/query">s
+              <grid-item link="/applicae/query">
                 <img slot="icon" src="../assets/images/application/14@2x.png">
                 <span slot="label">调查问卷</span>
               </grid-item>
@@ -92,6 +92,9 @@ export default {
       waitHandleNum: 0,
       isDepeName: false,
       user: null,
+
+      test: false,
+      arr111: ["jiangjiaxin", "yangqun", "wangchunlei"],
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -106,9 +109,16 @@ export default {
     // 获取 用户认证信息
     getUserInfo() {
       const user = JSON.parse(window.sessionStorage.getItem('data'));
+
       this.user = user;
       if (user) {
         this.getWaitHandle(user);
+
+        // 测试用
+        // if (this.arr111.indexOf(user.loginName) >= 0) {
+        //   this.test = true;
+        // }
+
       } else {
         const code = location.search.split('&')[0].split('=')[1];
         // 获取参数
@@ -129,6 +139,12 @@ export default {
             // console.log(res);
             const {data} = res;
             if (data != null) {
+
+              // 测试用
+              // if (this.arr111.indexOf(data.loginName) >= 0) {
+              //   this.test = true;
+              // }
+
               const dataStr = window.sessionStorage.setItem('data', JSON.stringify(data))
               this.getWaitHandle(data);
 
