@@ -44,7 +44,15 @@ registerComponentController('gesture', Gestrue);
 export default {
   name: "statisticsData",
   data() {
+    const {loginName, password} = JSON.parse(sessionStorage.getItem('data'));
+    // console.log(loginName, password);
+    const yyyy = 2019;
+    const sendData = {loginName, password, yyyy};
     return {
+      loginName,
+      password,
+      yyyy,
+      sendData,
       chart: null,
       chartFinished: false,
       userId: [
@@ -52,7 +60,6 @@ export default {
         {name: '部门', active: false},
         {name: '个人', active: false},
       ],
-      yyyy: 2019,
       chartData: [],
       chartDataColor: ['#2c8de4','#ff735a','#ec4d9c','#ef9b3d','#20c387'],
     }
@@ -60,13 +67,13 @@ export default {
   mounted() {
     this.getAllDataShowChart();
   },
-  computed: {
-    getTotalMoneyData() {
-      return {
-        ...this.$store.state.data,
-        yyyy: this.yyyy
-      }
+  watch: {
+    yyyy(newVal, oldVal) {
+      console.log(newVal, oldVal)
     }
+  },
+  computed: {
+
   },
   methods: {
     chooseUserId(user) {
@@ -78,24 +85,25 @@ export default {
       })
     },
     getContractTotalMoney() {
-      return this.axios.get(`wechatErp/indexData/getBxTotalMoney`, {params: this.getTotalMoneyData})
+      return this.axios.get(`wechatErp/indexData/getContractTotalMoney`, {params: this.sendData})
     },
     getKpTotalMoney() {
-      return this.axios.get(`wechatErp/indexData/getKpTotalMoney`, {params: this.getTotalMoneyData})
+      return this.axios.get(`wechatErp/indexData/getKpTotalMoney`, {params: this.sendData})
     },
     getBxTotalMoney() {
-      return this.axios.get(`wechatErp/indexData/getBxTotalMoney`, {params: this.getTotalMoneyData})
+      return this.axios.get(`wechatErp/indexData/getBxTotalMoney`, {params: this.sendData})
     },
     getHkTotalMoney() {
-      return this.axios.get(`wechatErp/indexData/getHkTotalMoney`, {params: this.getTotalMoneyData})
+      return this.axios.get(`wechatErp/indexData/getHkTotalMoney`, {params: this.sendData})
     },
     getLrTotalMoney() {
-      return this.axios.get(`wechatErp/indexData/getLrTotalMoney`, {params: this.getTotalMoneyData})
+      return this.axios.get(`wechatErp/indexData/getLrTotalMoney`, {params: this.sendData})
     },
     chooseDateChangeChart() {
-      if (!this.chartFinished) return this.$vux.toast.text('请图标加载完成之后再点击');
+      if (!this.chartFinished) return this.$vux.toast.text('请图表加载完成之后再点击');
       this.chartFinished = false;
       this.yyyy = this.yyyy === 2019?2020:2019;
+      this.sendData.yyyy = this.yyyy;
       this.chart && this.chart.destroy();
       this.getAllDataShowChart()
     },
