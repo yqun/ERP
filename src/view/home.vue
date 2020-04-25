@@ -60,6 +60,11 @@
                 <img slot="icon" src="../assets/images/application/14@2x.png">
                 <span slot="label">调查问卷</span>
               </grid-item>
+              <!-- 数据统计 -->
+              <grid-item link="/applicae/statisticsData" v-if="isDepeName">
+                <img slot="icon" src="../assets/images/application/21@2x.png">
+                <span slot="label" style="font-size: 12px;">数据统计(测试)</span>
+              </grid-item>
               <!--项目启动-->
               <!--<grid-item link="/initiationList">-->
                 <!--<img slot="icon" src="../assets/images/application/14@2x.png">-->
@@ -103,16 +108,17 @@ export default {
     next();
   },
   mounted() {
+    // console.log(data);
     this.getUserInfo()
   },
   methods: {
     // 获取 用户认证信息
     getUserInfo() {
       const user = JSON.parse(window.sessionStorage.getItem('data'));
-
       this.user = user;
       if (user) {
         this.getWaitHandle(user);
+        this.judgeRoleInfo();
 
         // 测试用
         // if (this.arr111.indexOf(user.loginName) >= 0) {
@@ -147,7 +153,7 @@ export default {
 
               const dataStr = window.sessionStorage.setItem('data', JSON.stringify(data))
               this.getWaitHandle(data);
-
+              this.judgeRoleInfo();
               if (stateArr.jumpKind && stateArr.jumpKind == 'evaluation') {
                 this.$router.push({
                   path: '/applicae/salesmanScoreList',
@@ -332,6 +338,15 @@ export default {
       }
       return link;
     },
+    judgeRoleInfo() {
+      const rolelist = JSON.parse(sessionStorage.getItem('data')).roleList;
+      rolelist.forEach(item => {
+        // console.log(item.code)
+        if (item.code === 'MAX_VIEW') {
+          this.isDepeName = true
+        }
+      })
+    }
 
   },
 }

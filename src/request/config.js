@@ -4,6 +4,7 @@ import queryString from 'querystring'
 
 // const urlStr = 'http://10.1.1.27:8080/platformServer/';
 // const urlStr = 'http://10.1.0.225:8081/platformServer/';
+// const urlStr = 'http://127.0.0.1:8080/platformServer/';
 // const urlStr = 'http://10.1.0.71:8080/platformServer/';
 // const urlStr = 'http://10.1.1.27:8080/platformServer/';
 const urlStr = 'http://imp.kingtop.com.cn:8080/platformServer/';
@@ -18,7 +19,8 @@ const Http = axios.create({
     return queryString.stringify(data);
   }],
 });
-
+Http.all = axios.all;
+Http.spread = axios.spread;
 Http.interceptors.request.use(function (config) {
 
   // 设置全局token

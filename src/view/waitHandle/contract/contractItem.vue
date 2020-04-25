@@ -482,7 +482,7 @@ export default {
         data.type = this.projectInfo.contractType
         data.contractVest = this.selectValue
       }
-      console.log(data)
+      console.log(data);
       // 发送请求
       if (this.activityId == 'sub_9' || this.activityId == 'sub_4'
         || this.activityId == 'sub_5' || this.activityId == 'sub_6'

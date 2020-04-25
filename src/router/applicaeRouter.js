@@ -36,6 +36,9 @@ import Statistics from '@/view/applicae/question/Statistics' // 查询页面
 import AllData from '@/view/applicae/question/AllData' // 数据统计
 import DataInfo from '@/view/applicae/question/DataInfo' // 单个人信息
 
+// 数据统计
+import StatisticsData from '@/view/applicae/statisticsData/statisticsData'
+
 // betterScroll 测试
 import BetterScroll from '@/view/applicae/test/betterScroll'
 
@@ -78,6 +81,7 @@ const applicaeRouter = [
     ]
   },
 
+  {path: '/applicae/statisticsData', name: 'statisticsData', component: StatisticsData},
 
   {path: '/betterScroll', name: 'betterScroll', component: BetterScroll},
 
