@@ -15,6 +15,7 @@ import '@/assets/js/flexible.js'
 // 全局组件样式
 import '@/assets/css/componentStyle.css'
 import '@/assets/css/comment.css'
+import '@/assets/font/iconfont.css'
 
 
 

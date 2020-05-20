@@ -3,7 +3,7 @@ import axios from 'axios'
 import queryString from 'querystring'
 
 // const urlStr = 'http://10.1.1.27:8080/platformServer/';
-// const urlStr = 'http://10.1.0.225:8081/platformServer/';
+// const urlStr = 'http://10.1.0.245:8081/platformServer/';
 const urlStr = 'http://127.0.0.1:8080/platformServer/';
 // const urlStr = 'http://10.1.0.71:8080/platformServer/';
 // const urlStr = 'http://10.1.1.27:8080/platformServer/';
@@ -22,7 +22,7 @@ const Http = axios.create({
 Http.all = axios.all;
 Http.spread = axios.spread;
 Http.interceptors.request.use(function (config) {
-
+  Vue.$vux.loading.show({text: 'Loading'});
   // 设置全局token
   const AUTH_TOKEN = JSON.parse(window.sessionStorage.getItem('data'))
   if (!AUTH_TOKEN) return config;
@@ -37,7 +37,7 @@ Http.interceptors.request.use(function (config) {
 
 // 响应拦截器
 Http.interceptors.response.use(function (response) {
-
+  Vue.$vux.loading.hide();
 
   return response;
 }, function (error) {

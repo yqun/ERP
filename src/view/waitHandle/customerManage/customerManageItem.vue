@@ -175,7 +175,7 @@ export default {
         })
     },
     confirm() {
-      if (!this.message) return this.$vux.toast.text('请填写审批意见')
+      if (!this.message) return this.$vux.toast.text('请填写审批意见');
       const data = {
         ...this.data,
         businessKey: this.businessKey,
@@ -189,11 +189,11 @@ export default {
         isPass: 'Y',
         state: 'Y',
         message:  this.message
-      }
+      };
       this.sendData(data)
     },
     refuse() {
-      if (!this.message) return this.$vux.toast.text('请填写审批意见')
+      if (!this.message) return this.$vux.toast.text('请填写审批意见');
       const data = {
         ...this.data,
         businessKey: this.businessKey,
@@ -207,7 +207,7 @@ export default {
         isPass: 'N',
         state: 'N',
         message:  this.message
-      }
+      };
       this.sendData(data)
     },
     regression() {
@@ -225,7 +225,7 @@ export default {
         isPass: 'R',
         state: 'R',
         message:  this.message
-      }
+      };
       this.sendData(data)
     },
     sendData(data) {
